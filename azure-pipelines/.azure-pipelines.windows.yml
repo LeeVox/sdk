@@ -1,10 +1,3 @@
-resources:
-  repositories:
-  - repository: sdk
-    type: github
-    name: LeeVox/sdk
-    fetchDepth: 5
-
 variables:
   SDK1_0: '1.1.11'
   SDK1_1: '1.1.11'
