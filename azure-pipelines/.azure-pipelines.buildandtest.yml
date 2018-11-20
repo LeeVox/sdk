@@ -52,6 +52,6 @@ jobs:
       projects: LeeVox.Sdk.Test/LeeVox.Sdk.Test.csproj
       arguments: '-f $(TEST_TARGET) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=TestResult/Coverage/'
       publishTestResults: $(PUBLISH_TEST_RESULT)
-  - bash: 'bash <(curl -s https://codecov.io/bash)' -n "$(OS) - sdk ${{ parameters.sdk }} - target $(TEST_TARGET)"
+  - bash: 'bash <(curl -s https://codecov.io/bash) -n "$(OS) - sdk ${{ parameters.sdk }} - target $(TEST_TARGET)"'
     displayName: 'publish codecov'
     condition: ne(variables['TEST_TARGET'], '')
