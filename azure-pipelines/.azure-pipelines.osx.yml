@@ -1,8 +1,8 @@
 resources:
   repositories:
   - repository: sdk
-    type: git
-    name: test
+    type: github
+    name: LeeVox/sdk
     fetchDepth: 5
 
 variables:
