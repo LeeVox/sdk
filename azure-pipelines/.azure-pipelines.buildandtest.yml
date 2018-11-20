@@ -1,0 +1,57 @@
+parameters:
+  name: ''
+  sdk: ''
+  variables:
+    PUBLISH_TEST_RESULT: true
+  targets:
+
+jobs:
+- job: ${{ parameters.name }}
+  variables: ${{ parameters.variables }}
+  strategy:
+    matrix: ${{ parameters.targets }}
+  steps:
+  - task: DotNetCoreInstaller@0
+    displayName: get sdk
+    inputs:
+      packageType: 'sdk'
+      version: ${{ parameters.sdk }}
+  - script: |
+      echo dotnet info
+      dotnet --info
+      echo git log
+      git log -n 5
+      echo TEST_TARGET = '$(TEST_TARGET)'
+      echo BUILD_TARGET = '$(BUILD_TARGET)'
+    displayName: info
+  - task: DotNetCoreCLI@2
+    displayName: restore
+    inputs:
+      command: restore
+      projects: |
+        LeeVox.Sdk
+        LeeVox.Sdk.Test
+  - task: DotNetCoreCLI@2
+    displayName: build sdk
+    inputs:
+      command: build
+      projects: LeeVox.Sdk
+      arguments: '-f $(BUILD_TARGET)'
+  - task: DotNetCoreCLI@2
+    displayName: build test
+    condition: ne(variables['TEST_TARGET'], '')
+    inputs:
+      command: build
+      projects: LeeVox.Sdk.Test
+      arguments: '-f $(TEST_TARGET)'
+  - task: DotNetCoreCLI@2
+    displayName: test
+    condition: ne(variables['TEST_TARGET'], '')
+    inputs:
+      command: test
+      projects: LeeVox.Sdk.Test/LeeVox.Sdk.Test.csproj
+      arguments: '-f $(TEST_TARGET) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=TestResult/Coverage/'
+      publishTestResults: $(PUBLISH_TEST_RESULT)
+  - bash: 'bash <(curl -s https://codecov.io/bash) -n "$(OS) - sdk ${{ parameters.sdk }} - target $(TEST_TARGET)"'
+    displayName: 'publish codecov'
+    condition: ne(variables['TEST_TARGET'], '')
