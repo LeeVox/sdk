@@ -1,4 +1,6 @@
 variables:
+  OS: 'windows'
+
   SDK1_0: '1.1.11'
   SDK1_1: '1.1.11'
   SDK2_0: '2.1.300'

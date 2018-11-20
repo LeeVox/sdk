@@ -1,4 +1,6 @@
 variables:
+  OS: 'osx'
+
   SDK1_0: '1.1.11'
   SDK1_1: '1.1.11'
   SDK2_0: '2.1.300'
@@ -66,15 +68,15 @@ jobs:
       netcoreapp2_1:
         TEST_TARGET: $(NETCOREAPP2_1)
         BUILD_TARGET: $(NETCOREAPP2_1)
-      # netcoreapp2_0:
-      #   TEST_TARGET: $(NETCOREAPP2_0)
-      #   BUILD_TARGET: $(NETCOREAPP2_0)
+      netcoreapp2_0:
+        TEST_TARGET: $(NETCOREAPP2_0)
+        BUILD_TARGET: $(NETCOREAPP2_0)
       # netcoreapp1_1:
       #   TEST_TARGET: $(NETCOREAPP1_1)
       #   BUILD_TARGET: $(NETCOREAPP1_1)
-      netcoreapp1_0:
-        TEST_TARGET: $(NETCOREAPP1_0)
-        BUILD_TARGET: $(NETCOREAPP1_0)
+      # netcoreapp1_0:
+      #   TEST_TARGET: $(NETCOREAPP1_0)
+      #   BUILD_TARGET: $(NETCOREAPP1_0)
       netstandard2_0:
         BUILD_TARGET: $(NETSTANDARD2_0)
       netstandard1_0:
