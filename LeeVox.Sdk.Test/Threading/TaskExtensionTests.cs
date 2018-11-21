@@ -23,13 +23,13 @@ namespace LeeVox.Sdk.Test
             actual = "";
             expected = secondsToWait.ToString();
             actual = NewTask(secondsToWait).WaitAndReturn();
-            Assert.AreEqual(expected, actual, $"should block the thread for ${secondsToWait} seconds then return ${expected}.");
+            Assert.AreEqual(expected, actual, $"should block the thread for {secondsToWait} seconds then return {expected}.");
 
             actual = "";
             timeout = 99 * SECONDS;
             expected = secondsToWait.ToString();
             actual = NewTask(secondsToWait).WaitAndReturn(timeout);
-            Assert.AreEqual(expected, actual, $"should block the thread for ${secondsToWait} seconds then return ${expected} with no timeout.");
+            Assert.AreEqual(expected, actual, $"should block the thread for {secondsToWait} seconds then return {expected} with no timeout.");
 
             actual = "";
             timeout = 1 * SECONDS;
@@ -47,7 +47,7 @@ namespace LeeVox.Sdk.Test
             time = TimeSpan.FromSeconds(99);
             expected = secondsToWait.ToString();
             actual = NewTask(secondsToWait).WaitAndReturn(time);
-            Assert.AreEqual(expected, actual, $"should block the thread for ${secondsToWait} then return ${expected} within a timepsan.");
+            Assert.AreEqual(expected, actual, $"should block the thread for {secondsToWait} then return {expected} within a timepsan.");
 
             actual = "";
             time = TimeSpan.FromSeconds(1);
@@ -76,7 +76,7 @@ namespace LeeVox.Sdk.Test
             tokenSource.CancelAfter(99 * SECONDS);
             expected = secondsToWait.ToString();
             actual = NewTask(secondsToWait).WaitAndReturn(tokenSource.Token);
-            Assert.AreEqual(expected, actual, $"should block the thread for ${secondsToWait} then return ${expected}.");
+            Assert.AreEqual(expected, actual, $"should block the thread for {secondsToWait} then return {expected}.");
 
             actual = "";
             tokenSource = new CancellationTokenSource();
@@ -98,7 +98,7 @@ namespace LeeVox.Sdk.Test
             tokenSource.CancelAfter(99 * SECONDS);
             expected = secondsToWait.ToString();
             actual = NewTask(secondsToWait).WaitAndReturn(timeout, tokenSource.Token);
-            Assert.AreEqual(expected, actual, $"should block the thread for ${secondsToWait} then return ${expected}.");
+            Assert.AreEqual(expected, actual, $"should block the thread for {secondsToWait} then return {expected}.");
 
             actual = "";
             timeout = 1 * SECONDS;
@@ -114,7 +114,7 @@ namespace LeeVox.Sdk.Test
             tokenSource.CancelAfter(99 * SECONDS);
             expected = "timeout";
             actual = NewTask(secondsToWait).WaitAndReturn(timeout, tokenSource.Token, expected);
-            Assert.AreEqual(expected, actual, $"should return ${expected} if timeout but not canceled.");
+            Assert.AreEqual(expected, actual, $"should return {expected} if timeout but not canceled.");
 
             actual = "";
             timeout = 99 * SECONDS;
@@ -130,7 +130,7 @@ namespace LeeVox.Sdk.Test
             tokenSource.CancelAfter(1 * SECONDS);
             expected = "canceled";
             actual = NewTask(secondsToWait).WaitAndReturn(timeout, tokenSource.Token, expected);
-            Assert.AreEqual(expected, actual, $"should return ${expected} if no timeout but canceled.");
+            Assert.AreEqual(expected, actual, $"should return {expected} if no timeout but canceled.");
         }
 
         private Task<string> NewTask(int secondsToWait)
