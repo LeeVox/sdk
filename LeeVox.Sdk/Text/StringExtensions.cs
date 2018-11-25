@@ -71,36 +71,29 @@ namespace LeeVox.Sdk
         /// <summary>
         /// Determines whether a <c>string</c> contains another <c>string</c> using <c>StringComparison.CurrentCulture</c>
         /// </summary>
-        /// <remarks>return <c>false</c> if search string is <c>null</c></returns>
-        public static bool Contains(this string text, string search)
-            => Contains(text, search, StringComparison.CurrentCulture);
-
-        /// <summary>
-        /// Determines whether a <c>string</c> contains another <c>string</c> using <c>StringComparison.CurrentCulture</c>
-        /// </summary>
-        /// <remarks>return <c>false</c> if search string is <c>null</c></returns>
+        /// <exception cref="System.ArgumentNullException">search string is null</exception>
         public static bool Contains(this string text, string search, bool ignoreCase)
             => Contains(text, search, ignoreCase ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture);
 
         /// <summary>
         /// Determines whether a <c>string</c> contains another <c>string</c> using a specified <c>StringComparison</c>
         /// </summary>
-        /// <remarks>return <c>false</c> if search string is <c>null</c></returns>
+        /// <exception cref="System.ArgumentNullException">search string is null</exception>
         public static bool Contains(this string text, string search, StringComparison stringComparison)
-            => search != null && text?.IndexOf(search, stringComparison) >= 0;
+            => text.IndexOf(search, stringComparison) >= 0;
 
         /// <summary>
         /// Determines whether a <c>string</c> contains another <c>string</c> using <c>StringComparison.Ordinal</c>
         /// </summary>
-        /// <remarks>return <c>false</c> if search string is <c>null</c></returns>
+        /// <exception cref="System.ArgumentNullException">search string is null</exception>
         public static bool OrdinalContains(this string text, string search)
             => OrdinalContains(text, search, false);
 
         /// <summary>
         /// Determines whether a <c>string</c> contains another <c>string</c> using <c>StringComparison.Ordinal</c>
         /// </summary>
-        /// <remarks>return <c>false</c> if search string is <c>null</c></returns>
+        /// <exception cref="System.ArgumentNullException">search string is null</exception>
         public static bool OrdinalContains(this string text, string search, bool ignoreCase)
-            => search != null && text?.IndexOf(search, ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal) >= 0;
+            => text.IndexOf(search, ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal) >= 0;
     }
 }

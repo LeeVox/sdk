@@ -25,7 +25,8 @@ namespace LeeVox.Sdk.Test
         const string STRING_2_SPACES_LOWER = "\r\n encyclopaedia\t ";
 
         static readonly char[] ALL_WHITESPACES = Enumerable.Range(0, ushort.MaxValue)
-            .Where(c => {
+            .Where(c =>
+            {
                 var unicodeCategory = CharUnicodeInfo.GetUnicodeCategory((char)c);
                 return unicodeCategory == UnicodeCategory.SpaceSeparator
                     || unicodeCategory == UnicodeCategory.LineSeparator
@@ -40,7 +41,7 @@ namespace LeeVox.Sdk.Test
             string UNICODE_STRING = "\t Đây là Unicode.\r\n ";
             string ALL_WHITESPACES_STRING = String.Join("", ALL_WHITESPACES);
             string SAMPLE_STRING = "# Markdown header\r\n  ## xxyyyzzz";
-            char[] TRIM_CHARS = new [] {'#', ' ', '\r', '\n', 'x', 'y', 'z'};
+            char[] TRIM_CHARS = new[] { '#', ' ', '\r', '\n', 'x', 'y', 'z' };
 
             expected = string.Empty;
             actual = NULL_STRING.SafeTrim();
@@ -73,7 +74,7 @@ namespace LeeVox.Sdk.Test
         [DataRow(US, STRING_2_SPACES, STRING_1_UPPER)]
         [DataRow(US, STRING_2_LOWER, STRING_1_SPACES_UPPER)]
         [DataRow(US, STRING_2_SPACES_LOWER, STRING_1_SPACES_UPPER)]
-        
+
         [DataRow(SE, STRING_1, STRING_1_UPPER)]
         [DataRow(SE, STRING_1, STRING_1_SPACES)]
         [DataRow(SE, STRING_1, STRING_1_SPACES_UPPER)]
@@ -86,7 +87,7 @@ namespace LeeVox.Sdk.Test
         {
             var currentCultureName = CultureInfo.CurrentCulture.Name;
             CultureInfo.CurrentCulture = new CultureInfo(cultureName);
-            
+
             Assert.AreEqual(string.Equals(a, b, StringComparison.Ordinal), a.OrdinalEquals(b));
             Assert.AreEqual(string.Equals(a, b, StringComparison.Ordinal), a.OrdinalEquals(b, false));
             Assert.AreEqual(string.Equals(a.ToUpper(), b.ToLower(), StringComparison.OrdinalIgnoreCase), a.OrdinalEquals(b, true));
@@ -123,7 +124,7 @@ namespace LeeVox.Sdk.Test
         {
             var currentCultureName = CultureInfo.CurrentCulture.Name;
             CultureInfo.CurrentCulture = new CultureInfo(cultureName);
-            
+
             Assert.AreEqual(string.Equals(a, b, StringComparison.Ordinal), a.OrdinalEquals(b));
             Assert.AreEqual(string.Equals(a, b, StringComparison.Ordinal), a.OrdinalEquals(b, false));
             Assert.AreEqual(string.Equals(a, b, StringComparison.OrdinalIgnoreCase), a.OrdinalEquals(b, true));
@@ -141,6 +142,62 @@ namespace LeeVox.Sdk.Test
             Assert.AreEqual(string.Equals(a, b, StringComparison.OrdinalIgnoreCase), a.OrdinalEqualsIgnoreSpaces(b, false));
 
             CultureInfo.CurrentCulture = new CultureInfo(currentCultureName);
+        }
+
+        [TestMethod]
+        public void ContainsTests()
+        {
+            var currentCultureName = CultureInfo.CurrentCulture.Name;
+            CultureInfo.CurrentCulture = new CultureInfo(US);
+
+            Assert.IsTrue(STRING_1_SPACES.Contains(STRING_1));
+            Assert.IsFalse(STRING_1_SPACES.Contains(STRING_1_UPPER, false));
+            Assert.AreEqual(STRING_1_SPACES.IndexOf(STRING_1_UPPER, StringComparison.CurrentCultureIgnoreCase) >= 0, STRING_1_SPACES.Contains(STRING_1_UPPER, StringComparison.CurrentCultureIgnoreCase));
+#if NETCOREAPP2_0_OR_ABOVE || NETSTANDARD2_0_OR_ABOVE
+            Assert.AreEqual(STRING_2_SPACES.IndexOf(STRING_2_LOWER, StringComparison.InvariantCulture) >= 0, STRING_2_SPACES.Contains(STRING_2_LOWER, StringComparison.InvariantCulture));
+#endif
+            Assert.IsTrue(STRING_2_SPACES.Contains(STRING_2_LOWER, true));
+
+            Assert.IsTrue(STRING_1_SPACES.OrdinalContains(STRING_1));
+            Assert.IsFalse(STRING_1_SPACES.OrdinalContains(STRING_1_UPPER, false));
+            Assert.IsTrue(STRING_2_SPACES.OrdinalContains(STRING_2_LOWER, true));
+
+            CultureInfo.CurrentCulture = new CultureInfo(SE);
+
+            Assert.IsTrue(STRING_1_SPACES.Contains(STRING_1));
+            Assert.IsFalse(STRING_1_SPACES.Contains(STRING_1_UPPER, false));
+            Assert.AreEqual(STRING_2_SPACES.IndexOf(STRING_2_LOWER, StringComparison.CurrentCultureIgnoreCase) >= 0, STRING_2_SPACES.Contains(STRING_2_LOWER, StringComparison.CurrentCultureIgnoreCase));
+            #if NETCOREAPP2_0_OR_ABOVE || NETSTANDARD2_0_OR_ABOVE
+            Assert.AreEqual(STRING_1_SPACES.IndexOf(STRING_1_UPPER, StringComparison.InvariantCultureIgnoreCase) >= 0, STRING_1_SPACES.Contains(STRING_1_UPPER, StringComparison.InvariantCultureIgnoreCase));
+#endif
+            Assert.IsTrue(STRING_2_SPACES.Contains(STRING_2_LOWER, true));
+
+            Assert.IsTrue(STRING_1_SPACES.OrdinalContains(STRING_1));
+            Assert.IsFalse(STRING_1_SPACES.OrdinalContains(STRING_1_UPPER, false));
+            Assert.IsTrue(STRING_2_SPACES.OrdinalContains(STRING_2_LOWER, true));
+
+            CultureInfo.CurrentCulture = new CultureInfo(currentCultureName);
+        }
+
+        [TestMethod]
+        public void ContainsTests_WithNull()
+        {
+            Assert.ThrowsException<NullReferenceException>(() => NULL_STRING_1.Contains(STRING_1));
+            Assert.ThrowsException<NullReferenceException>(() => NULL_STRING_1.Contains(STRING_2, false));
+            Assert.ThrowsException<NullReferenceException>(() => NULL_STRING_2.Contains(STRING_1, StringComparison.CurrentCulture));
+            Assert.ThrowsException<NullReferenceException>(() => NULL_STRING_1.Contains(NULL_STRING_2));
+            Assert.ThrowsException<NullReferenceException>(() => NULL_STRING_2.Contains(NULL_STRING_1, false));
+            Assert.ThrowsException<NullReferenceException>(() => NULL_STRING_2.Contains(NULL_STRING_1, StringComparison.CurrentCultureIgnoreCase));
+            Assert.ThrowsException<ArgumentNullException>(() => STRING_2.Contains(NULL_STRING_1));
+            Assert.ThrowsException<ArgumentNullException>(() => STRING_1.Contains(NULL_STRING_2, true));
+            Assert.ThrowsException<ArgumentNullException>(() => STRING_2.Contains(NULL_STRING_2, StringComparison.CurrentCulture));
+
+            Assert.ThrowsException<NullReferenceException>(() => NULL_STRING_1.OrdinalContains(STRING_1));
+            Assert.ThrowsException<NullReferenceException>(() => NULL_STRING_1.OrdinalContains(STRING_2, false));
+            Assert.ThrowsException<NullReferenceException>(() => NULL_STRING_1.OrdinalContains(NULL_STRING_2));
+            Assert.ThrowsException<NullReferenceException>(() => NULL_STRING_2.OrdinalContains(NULL_STRING_1, false));
+            Assert.ThrowsException<ArgumentNullException>(() => STRING_2.OrdinalContains(NULL_STRING_1));
+            Assert.ThrowsException<ArgumentNullException>(() => STRING_1.OrdinalContains(NULL_STRING_2, true));
         }
     }
 }
