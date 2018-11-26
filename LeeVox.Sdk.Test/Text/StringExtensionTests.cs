@@ -88,26 +88,30 @@ namespace LeeVox.Sdk.Test
             var currentCultureName = CultureInfo.CurrentCulture.Name;
             CultureInfo.CurrentCulture = new CultureInfo(cultureName);
 
-            Assert.AreEqual(string.Equals(a, b, StringComparison.Ordinal), a.OrdinalEquals(b));
-            Assert.AreEqual(string.Equals(a, b, StringComparison.Ordinal), a.OrdinalEquals(b, false));
-            Assert.AreEqual(string.Equals(a.ToUpper(), b.ToLower(), StringComparison.OrdinalIgnoreCase), a.OrdinalEquals(b, true));
+            Assert.AreEqual(string.Equals(a, b, StringComparison.CurrentCulture), a.IsEqual(b));
+            Assert.AreEqual(string.Equals(a, b, StringComparison.CurrentCulture), a.IsEqual(b, false));
+            Assert.AreEqual(string.Equals(a.ToUpper(), b.ToLower(), StringComparison.CurrentCultureIgnoreCase), a.IsEqual(b, true));
 
-            Assert.AreEqual(string.Equals(a.Trim(), b.Trim(), StringComparison.CurrentCulture), a.EqualsIgnoreSpaces(b));
-            Assert.AreEqual(string.Equals(a.Trim(), b.Trim(), StringComparison.CurrentCulture), a.EqualsIgnoreSpaces(b, false));
-            Assert.AreEqual(string.Equals(a.ToUpper().Trim(), b.Trim(), StringComparison.CurrentCultureIgnoreCase), a.EqualsIgnoreSpaces(b, true));
-            Assert.AreEqual(string.Equals(a.Trim(), b.ToLower().Trim(), StringComparison.CurrentCultureIgnoreCase), a.EqualsIgnoreSpaces(b, true));
+            Assert.AreEqual(string.Equals(a, b, StringComparison.Ordinal), a.IsOrdinalEqual(b));
+            Assert.AreEqual(string.Equals(a, b, StringComparison.Ordinal), a.IsOrdinalEqual(b, false));
+            Assert.AreEqual(string.Equals(a.ToUpper(), b.ToLower(), StringComparison.OrdinalIgnoreCase), a.IsOrdinalEqual(b, true));
 
-            Assert.AreEqual(string.Equals(a.Trim(), b.Trim(), StringComparison.CurrentCulture), a.EqualsIgnoreSpaces(b, StringComparison.CurrentCulture));
-            Assert.AreEqual(string.Equals(a.ToUpper().Trim(), b.ToLower().Trim(), StringComparison.CurrentCultureIgnoreCase), a.EqualsIgnoreSpaces(b, StringComparison.CurrentCultureIgnoreCase));
+            Assert.AreEqual(string.Equals(a.Trim(), b.Trim(), StringComparison.CurrentCulture), a.IsEqualIgnoreSpaces(b));
+            Assert.AreEqual(string.Equals(a.Trim(), b.Trim(), StringComparison.CurrentCulture), a.IsEqualIgnoreSpaces(b, false));
+            Assert.AreEqual(string.Equals(a.ToUpper().Trim(), b.Trim(), StringComparison.CurrentCultureIgnoreCase), a.IsEqualIgnoreSpaces(b, true));
+            Assert.AreEqual(string.Equals(a.Trim(), b.ToLower().Trim(), StringComparison.CurrentCultureIgnoreCase), a.IsEqualIgnoreSpaces(b, true));
+
+            Assert.AreEqual(string.Equals(a.Trim(), b.Trim(), StringComparison.CurrentCulture), a.IsEqualIgnoreSpaces(b, StringComparison.CurrentCulture));
+            Assert.AreEqual(string.Equals(a.ToUpper().Trim(), b.ToLower().Trim(), StringComparison.CurrentCultureIgnoreCase), a.IsEqualIgnoreSpaces(b, StringComparison.CurrentCultureIgnoreCase));
 #if NETCOREAPP2_0_OR_ABOVE || NETSTANDARD2_0_OR_ABOVE
-            Assert.AreEqual(string.Equals(a.Trim(), b.Trim(), StringComparison.InvariantCulture), a.EqualsIgnoreSpaces(b, StringComparison.InvariantCulture));
-            Assert.AreEqual(string.Equals(a.ToUpper().Trim(), b.ToLower().Trim(), StringComparison.InvariantCultureIgnoreCase), a.EqualsIgnoreSpaces(b, StringComparison.InvariantCultureIgnoreCase));
+            Assert.AreEqual(string.Equals(a.Trim(), b.Trim(), StringComparison.InvariantCulture), a.IsEqualIgnoreSpaces(b, StringComparison.InvariantCulture));
+            Assert.AreEqual(string.Equals(a.ToUpper().Trim(), b.ToLower().Trim(), StringComparison.InvariantCultureIgnoreCase), a.IsEqualIgnoreSpaces(b, StringComparison.InvariantCultureIgnoreCase));
 #endif
 
-            Assert.AreEqual(string.Equals(a.Trim(), b.Trim(), StringComparison.Ordinal), a.OrdinalEqualsIgnoreSpaces(b));
-            Assert.AreEqual(string.Equals(a.Trim(), b.Trim(), StringComparison.Ordinal), a.OrdinalEqualsIgnoreSpaces(b, false));
-            Assert.AreEqual(string.Equals(a.ToUpper().Trim(), b.Trim(), StringComparison.OrdinalIgnoreCase), a.OrdinalEqualsIgnoreSpaces(b, true));
-            Assert.AreEqual(string.Equals(a.Trim(), b.ToLower().Trim(), StringComparison.OrdinalIgnoreCase), a.OrdinalEqualsIgnoreSpaces(b, true));
+            Assert.AreEqual(string.Equals(a.Trim(), b.Trim(), StringComparison.Ordinal), a.IsOrdinalEqualIgnoreSpaces(b));
+            Assert.AreEqual(string.Equals(a.Trim(), b.Trim(), StringComparison.Ordinal), a.IsOrdinalEqualIgnoreSpaces(b, false));
+            Assert.AreEqual(string.Equals(a.ToUpper().Trim(), b.Trim(), StringComparison.OrdinalIgnoreCase), a.IsOrdinalEqualIgnoreSpaces(b, true));
+            Assert.AreEqual(string.Equals(a.Trim(), b.ToLower().Trim(), StringComparison.OrdinalIgnoreCase), a.IsOrdinalEqualIgnoreSpaces(b, true));
 
             CultureInfo.CurrentCulture = new CultureInfo(currentCultureName);
         }
@@ -125,21 +129,25 @@ namespace LeeVox.Sdk.Test
             var currentCultureName = CultureInfo.CurrentCulture.Name;
             CultureInfo.CurrentCulture = new CultureInfo(cultureName);
 
-            Assert.AreEqual(string.Equals(a, b, StringComparison.Ordinal), a.OrdinalEquals(b));
-            Assert.AreEqual(string.Equals(a, b, StringComparison.Ordinal), a.OrdinalEquals(b, false));
-            Assert.AreEqual(string.Equals(a, b, StringComparison.OrdinalIgnoreCase), a.OrdinalEquals(b, true));
+            Assert.AreEqual(string.Equals(a, b, StringComparison.CurrentCulture), a.IsEqual(b));
+            Assert.AreEqual(string.Equals(a, b, StringComparison.CurrentCulture), a.IsEqual(b, false));
+            Assert.AreEqual(string.Equals(a, b, StringComparison.CurrentCultureIgnoreCase), a.IsEqual(b, true));
 
-            Assert.AreEqual(string.Equals(a, b, StringComparison.CurrentCulture), a.EqualsIgnoreSpaces(b));
-            Assert.AreEqual(string.Equals(a, b, StringComparison.CurrentCulture), a.EqualsIgnoreSpaces(b, false));
-            Assert.AreEqual(string.Equals(a, b, StringComparison.CurrentCulture), a.EqualsIgnoreSpaces(b, StringComparison.CurrentCulture));
-            Assert.AreEqual(string.Equals(a, b, StringComparison.CurrentCultureIgnoreCase), a.EqualsIgnoreSpaces(b, StringComparison.CurrentCultureIgnoreCase));
+            Assert.AreEqual(string.Equals(a, b, StringComparison.Ordinal), a.IsOrdinalEqual(b));
+            Assert.AreEqual(string.Equals(a, b, StringComparison.Ordinal), a.IsOrdinalEqual(b, false));
+            Assert.AreEqual(string.Equals(a, b, StringComparison.OrdinalIgnoreCase), a.IsOrdinalEqual(b, true));
+
+            Assert.AreEqual(string.Equals(a, b, StringComparison.CurrentCulture), a.IsEqualIgnoreSpaces(b));
+            Assert.AreEqual(string.Equals(a, b, StringComparison.CurrentCulture), a.IsEqualIgnoreSpaces(b, false));
+            Assert.AreEqual(string.Equals(a, b, StringComparison.CurrentCulture), a.IsEqualIgnoreSpaces(b, StringComparison.CurrentCulture));
+            Assert.AreEqual(string.Equals(a, b, StringComparison.CurrentCultureIgnoreCase), a.IsEqualIgnoreSpaces(b, StringComparison.CurrentCultureIgnoreCase));
 #if NETCOREAPP2_0_OR_ABOVE || NETSTANDARD2_0_OR_ABOVE
-            Assert.AreEqual(string.Equals(a, b, StringComparison.InvariantCulture), a.EqualsIgnoreSpaces(b, StringComparison.InvariantCulture));
-            Assert.AreEqual(string.Equals(a, b, StringComparison.InvariantCultureIgnoreCase), a.EqualsIgnoreSpaces(b, StringComparison.InvariantCultureIgnoreCase));
+            Assert.AreEqual(string.Equals(a, b, StringComparison.InvariantCulture), a.IsEqualIgnoreSpaces(b, StringComparison.InvariantCulture));
+            Assert.AreEqual(string.Equals(a, b, StringComparison.InvariantCultureIgnoreCase), a.IsEqualIgnoreSpaces(b, StringComparison.InvariantCultureIgnoreCase));
 #endif
 
-            Assert.AreEqual(string.Equals(a, b, StringComparison.Ordinal), a.OrdinalEqualsIgnoreSpaces(b));
-            Assert.AreEqual(string.Equals(a, b, StringComparison.OrdinalIgnoreCase), a.OrdinalEqualsIgnoreSpaces(b, false));
+            Assert.AreEqual(string.Equals(a, b, StringComparison.Ordinal), a.IsOrdinalEqualIgnoreSpaces(b));
+            Assert.AreEqual(string.Equals(a, b, StringComparison.OrdinalIgnoreCase), a.IsOrdinalEqualIgnoreSpaces(b, false));
 
             CultureInfo.CurrentCulture = new CultureInfo(currentCultureName);
         }
