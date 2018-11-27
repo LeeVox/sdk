@@ -48,7 +48,7 @@ namespace LeeVox.Sdk.Test
             Assert.AreEqual((byte)175, "AF".ParseToByte(NumberStyles.AllowHexSpecifier, null));
             Assert.AreEqual(null, "AF".ParseToByte(NumberStyles.AllowDecimalPoint, null));
             Assert.AreEqual((byte)1, "AF".ParseToByte(NumberStyles.AllowDecimalPoint, null, (byte)1));
-            Assert.AreEqual((byte)21, "21.0".ParseToByte(NumberStyles.AllowDecimalPoint, CultureInfo.CurrentCulture.NumberFormat));
+            Assert.AreEqual((byte)21, "21.0".ParseToByte(NumberStyles.AllowDecimalPoint, CultureInfo.CurrentCulture.NumberFormat, (byte)1));
 
             Assert.AreEqual(10, "10".ParseToInt());
             Assert.AreEqual(-12, "\t -12\r \n".ParseToInt());
@@ -58,7 +58,7 @@ namespace LeeVox.Sdk.Test
             Assert.AreEqual(-1234, "1,234-".ParseToInt(NumberStyles.AllowThousands | NumberStyles.AllowTrailingSign, null));
             Assert.AreEqual(null, "AF".ParseToInt(NumberStyles.AllowDecimalPoint, null));
             Assert.AreEqual(1, "AF".ParseToInt(NumberStyles.AllowDecimalPoint, null, 1));
-            Assert.AreEqual(1234, "1,234.000".ParseToInt(NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint, CultureInfo.CurrentCulture.NumberFormat));
+            Assert.AreEqual(1234, "1,234.000".ParseToInt(NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint, CultureInfo.CurrentCulture.NumberFormat, 1));
 
             Assert.AreEqual(10L, "10".ParseToLong());
             Assert.AreEqual(-12L, "\t -12\r \n".ParseToLong());
@@ -68,7 +68,7 @@ namespace LeeVox.Sdk.Test
             Assert.AreEqual(-1234L, "1,234-".ParseToLong(NumberStyles.AllowThousands | NumberStyles.AllowTrailingSign, null));
             Assert.AreEqual(null, "AF".ParseToLong(NumberStyles.AllowDecimalPoint, null));
             Assert.AreEqual(1L, "AF".ParseToLong(NumberStyles.AllowDecimalPoint, null, 1L));
-            Assert.AreEqual(1234L, "1,234.000".ParseToLong(NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint, CultureInfo.CurrentCulture.NumberFormat));
+            Assert.AreEqual(1234L, "1,234.000".ParseToLong(NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint, CultureInfo.CurrentCulture.NumberFormat, 1L));
 
             Assert.AreEqual(10F, "10".ParseToFloat());
             Assert.AreEqual(-12.345F, "\t -12.345\r \n".ParseToFloat());
@@ -78,7 +78,7 @@ namespace LeeVox.Sdk.Test
             Assert.AreEqual(-1234F, "1,234-".ParseToFloat(NumberStyles.AllowThousands | NumberStyles.AllowTrailingSign, null));
             Assert.AreEqual(null, "AF".ParseToFloat(NumberStyles.AllowDecimalPoint, null));
             Assert.AreEqual(1F, "AF".ParseToFloat(NumberStyles.AllowDecimalPoint, null, 1F));
-            Assert.AreEqual(1234.567F, "1,234.567".ParseToFloat(NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint, CultureInfo.CurrentCulture.NumberFormat));
+            Assert.AreEqual(1234.567F, "1,234.567".ParseToFloat(NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint, CultureInfo.CurrentCulture.NumberFormat, 1F));
 
             Assert.AreEqual(10D, "10".ParseToDouble());
             Assert.AreEqual(-12.345D, "\t -12.345\r \n".ParseToDouble());
@@ -88,7 +88,7 @@ namespace LeeVox.Sdk.Test
             Assert.AreEqual(-1234D, "1,234-".ParseToDouble(NumberStyles.AllowThousands | NumberStyles.AllowTrailingSign, null));
             Assert.AreEqual(null, "AF".ParseToDouble(NumberStyles.AllowDecimalPoint, null));
             Assert.AreEqual(1D, "AF".ParseToDouble(NumberStyles.AllowDecimalPoint, null, 1D));
-            Assert.AreEqual(1234.567D, "1,234.567".ParseToDouble(NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint, CultureInfo.CurrentCulture.NumberFormat));
+            Assert.AreEqual(1234.567D, "1,234.567".ParseToDouble(NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint, CultureInfo.CurrentCulture.NumberFormat, 1D));
 
             Assert.AreEqual(10M, "10".ParseToDecimal());
             Assert.AreEqual(-12.345M, "\t -12.345\r \n".ParseToDecimal());
@@ -98,7 +98,7 @@ namespace LeeVox.Sdk.Test
             Assert.AreEqual(-1234M, "1,234-".ParseToDecimal(NumberStyles.AllowThousands | NumberStyles.AllowTrailingSign, null));
             Assert.AreEqual(null, "AF".ParseToDecimal(NumberStyles.AllowDecimalPoint, null));
             Assert.AreEqual(1M, "AF".ParseToDecimal(NumberStyles.AllowDecimalPoint, null, 1M));
-            Assert.AreEqual(1234.567M, "1,234.567".ParseToDecimal(NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint, CultureInfo.CurrentCulture.NumberFormat));
+            Assert.AreEqual(1234.567M, "1,234.567".ParseToDecimal(NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint, CultureInfo.CurrentCulture.NumberFormat, 1M));
 
             Assert.AreEqual(new DateTime(1970, 1, 1), "1970/1/1".ParseToDateTime());
             Assert.AreEqual(new DateTime(2018, 11, 26, 1, 23, 45, 666, DateTimeKind.Utc).ToLocalTime(), "\t 2018-11-26T01:23:45.666Z\r \n".ParseToDateTime());
@@ -109,6 +109,7 @@ namespace LeeVox.Sdk.Test
             Assert.AreEqual(new DateTime(2018, 11, 26, 1, 23, 45, 666), "2018-11-26 01:23:45.666".ParseToDateTime(DateTimeStyles.AssumeLocal, null));
             Assert.AreEqual(null, "YYYY/MM/DD".ParseToDateTime(DateTimeStyles.AssumeLocal, null));
             Assert.AreEqual(new DateTime(1970, 1, 1), "YYYY/MM/DD".ParseToDateTime(DateTimeStyles.AssumeLocal, null, new DateTime(1970, 1, 1)));
+            Assert.AreEqual(new DateTime(2001, 11, 12), "2001/11/12".ParseToDateTime(DateTimeStyles.AssumeLocal, null, new DateTime(1970, 1, 1)));
 
             CultureInfo.CurrentCulture = new CultureInfo(currentCultureName);
         }
