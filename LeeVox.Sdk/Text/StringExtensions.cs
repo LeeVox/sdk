@@ -10,12 +10,10 @@ namespace LeeVox.Sdk
         /// <c>System.String</c> object, returns <c>string.Empty</c> in case of <c>null</c>.
         /// </summary>
         /// <remarks>
-        /// This is shortcut to <c>(text ?? string.Empty).Trim()</c>
+        /// This is shortcut to <c>text?.Trim() ?? string.Empty</c>
         /// </remarks>
         public static string SafeTrim(this string text)
-        {
-            return (text ?? string.Empty).Trim();
-        }
+            => text?.Trim() ?? string.Empty;
 
         /// <summary>
         /// Removes all leading and trailing occurrences of a set of characters specified
@@ -23,91 +21,101 @@ namespace LeeVox.Sdk
         /// in case of <c>null</c>.
         /// </summary>
         /// <remarks>
-        /// This is shortcut to <c>(text ?? string.Empty).Trim(trimChars)</c>
+        /// This is shortcut to <c>text?.Trim(trimChars) ?? string.Empty</c>
         /// </remarks>
         public static string SafeTrim(this string text, params char[] trimChars)
-        {
-            return (text ?? string.Empty).Trim(trimChars);
-        }
+            => text?.Trim(trimChars) ?? string.Empty;
 
-        public static bool IsOrdinalEqual(this string x, string y)
-        {
-            return StringComparer.Ordinal.Compare(x, y) == 0;
-        }
+        /// <summary>
+        /// Determines whether a <c>System.String</c> has same value to another <c>System.String</c> using <c>StringComparison.CurrentCulture</c>
+        /// </summary>
+        public static bool IsEqual(this string a, string b)
+            => IsEqual(a, b, StringComparison.CurrentCulture);
 
-        public static bool IsOrdinalEqualIgnoreCase(this string x, string y)
-        {
-            return StringComparer.OrdinalIgnoreCase.Compare(x, y) == 0;
-        }
+        /// <summary>
+        /// Determines whether a <c>System.String</c> has same value to another <c>System.String</c> using <c>StringComparison.CurrentCulture</c> with option to ignore case
+        /// </summary>
+        public static bool IsEqual(this string a, string b, bool ignoreCase)
+            => IsEqual(a, b, ignoreCase ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture);
 
-        public static bool IsOrdinalEqualIgnoreSpaces(this string x, string y)
-        {
-            return StringComparerIgnoreSpaces.OrdinalIgnoreSpaces.Compare(x, y) == 0;
-        }
+        /// <summary>
+        /// Determines whether a <c>System.String</c> has same value to another <c>System.String</c> using specified <c>StringComparison</c>
+        /// </summary>
+        public static bool IsEqual(this string a, string b, StringComparison stringComparison)
+            => string.Equals(a, b, stringComparison);
 
-        public static bool IsOrdinalEqualIgnoreCaseAndSpaces(this string x, string y)
-        {
-            return StringComparerIgnoreSpaces.OrdinalIgnoreCaseAndSpaces.Compare(x, y) == 0;
-        }
+        /// <summary>
+        /// Determines whether a <c>System.String</c> has same value to another <c>System.String</c> using <c>StringComparison.Ordinal</c>
+        /// </summary>
+        public static bool IsOrdinalEqual(this string a, string b)
+            => IsOrdinalEqual(a, b, false);
 
-        public static byte[] GetBytes(this string text)
-            => GetBytes(text, Encoding.UTF8);
+        /// <summary>
+        /// Determines whether a <c>System.String</c> has same value to another <c>System.String</c> using <c>StringComparison.Ordinal</c> with option to ignore case
+        /// </summary>
+        public static bool IsOrdinalEqual(this string a, string b, bool ignoreCase)
+            => string.Equals(a, b, ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal);
 
-        public static byte[] GetBytes(this string text, byte[] returnValueIfError)
-            => GetBytes(text, Encoding.UTF8, returnValueIfError);
+        /// <summary>
+        /// Determines whether a <c>System.String</c> has same value (ignore trailing and leading spaces) to another <c>System.String</c> using <c>StringComparison.CurrentCulture</c>
+        /// </summary>
+        public static bool IsEqualIgnoreSpaces(this string a, string b)
+            => IsEqualIgnoreSpaces(a, b, StringComparison.CurrentCulture);
 
-        public static byte[] GetBytes(this string text, int charIndex, int charCount)
-            => GetBytes(text, charIndex, charCount, Encoding.UTF8);
+        /// <summary>
+        /// Determines whether a <c>System.String</c> has same value (ignore trailing and leading spaces) to another <c>System.String</c> using <c>StringComparison.CurrentCulture</c> with option to ignore case
+        /// </summary>
+        public static bool IsEqualIgnoreSpaces(this string a, string b, bool ignoreCase)
+            => IsEqualIgnoreSpaces(a, b, ignoreCase ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture);
 
-        public static byte[] GetBytes(this string text, int charIndex, int charCount, byte[] returnValueIfError)
-            => GetBytes(text, charIndex, charCount, Encoding.UTF8, returnValueIfError);
+        /// <summary>
+        /// Determines whether a <c>System.String</c> has same value (ignore trailing and leading spaces) to another <c>System.String</c> using a specified <c>StringComparison</c>
+        /// </summary>
+        public static bool IsEqualIgnoreSpaces(this string a, string b, StringComparison stringComparison)
+            => string.Equals(a?.Trim(), b?.Trim(), stringComparison);
 
-        public static byte[] GetBytes(this string text, Encoding encoding)
-        {
-            return encoding.GetBytes(text);
-        }
+        /// <summary>
+        /// Determines whether a <c>System.String</c> has same value (ignore trailing and leading spaces) to another <c>System.String</c> using <c>StringComparison.Ordinal</c>
+        /// </summary>
+        public static bool IsOrdinalEqualIgnoreSpaces(this string a, string b)
+            => IsOrdinalEqualIgnoreSpaces(a, b, false);
 
-        public static byte[] GetBytes(this string text, Encoding encoding, byte[] returnValueIfError)
-        {
-            if (text == null)
-            {
-                return returnValueIfError;
-            }
-            
-            try
-            {
-                return encoding.GetBytes(text);
-            }
-            catch
-            {
-                return returnValueIfError;
-            }
-        }
+        /// <summary>
+        /// Determines whether a <c>System.String</c> has same value (ignore trailing and leading spaces) to another <c>System.String</c> using <c>StringComparison.Ordinal</c> with option to ignore case
+        /// </summary>
+        public static bool IsOrdinalEqualIgnoreSpaces(this string a, string b, bool ignoreCase)
+            => string.Equals(a?.Trim(), b?.Trim(), ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal);
 
-        public static byte[] GetBytes(this string text, int charIndex, int charCount, Encoding encoding)
-        {
-            var result = new byte[encoding.GetByteCount(text)];
-            encoding.GetBytes(text, charIndex, charCount, result, 0);
-            return result;
-        }
+        /// <summary>
+        /// Determines whether a <c>System.String</c> contains another <c>System.String</c> using <c>StringComparison.CurrentCulture</c> with option to ignore case
+        /// </summary>
+        /// <exception cref="System.NullReferenceException">current string is null</exception>
+        /// <exception cref="System.ArgumentNullException">search string is null</exception>
+        public static bool Contains(this string text, string search, bool ignoreCase)
+            => Contains(text, search, ignoreCase ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture);
 
-        public static byte[] GetBytes(this string text, int charIndex, int charCount, Encoding encoding, byte[] returnValueIfError)
-        {
-            if (text == null)
-            {
-                return returnValueIfError;
-            }
+        /// <summary>
+        /// Determines whether a <c>System.String</c> contains another <c>System.String</c> using a specified <c>StringComparison</c>
+        /// </summary>
+        /// <exception cref="System.NullReferenceException">current string is null</exception>
+        /// <exception cref="System.ArgumentNullException">search string is null</exception>
+        public static bool Contains(this string text, string search, StringComparison stringComparison)
+            => text.IndexOf(search, stringComparison) >= 0;
 
-            try
-            {
-                var result = new byte[encoding.GetByteCount(text)];
-                encoding.GetBytes(text, charIndex, charCount, result, 0);
-                return result;
-            }
-            catch
-            {
-                return returnValueIfError;
-            }
-        }
+        /// <summary>
+        /// Determines whether a <c>System.String</c> contains another <c>System.String</c> using <c>StringComparison.Ordinal</c>
+        /// </summary>
+        /// <exception cref="System.NullReferenceException">current string is null</exception>
+        /// <exception cref="System.ArgumentNullException">search string is null</exception>
+        public static bool OrdinalContains(this string text, string search)
+            => OrdinalContains(text, search, false);
+
+        /// <summary>
+        /// Determines whether a <c>System.String</c> contains another <c>System.String</c> using <c>StringComparison.Ordinal</c> with option to ignore case
+        /// </summary>
+        /// <exception cref="System.NullReferenceException">current string is null</exception>
+        /// <exception cref="System.ArgumentNullException">search string is null</exception>
+        public static bool OrdinalContains(this string text, string search, bool ignoreCase)
+            => text.IndexOf(search, ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal) >= 0;
     }
 }
