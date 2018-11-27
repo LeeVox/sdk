@@ -1,16 +1,16 @@
 # Parsing extensions for `System.String`
 
-## ParseTo<TResult> methods
+## ParseTo\<TResult> methods
 Try to convert the specified `System.String` to `Nullable<TResult>` type using `Convert.ChangeType` function.
 
 __Overloads__
-* [ParseTo<TResult>()](#ParseToTResult)
-* [ParseTo<TResult>(IFormatProvider)](#ParseToTResultIFormatProvider)
-* [ParseTo<TResult>(TResult)](#ParseToTResultTResult)
-* [ParseTo<TResult>(IFormatProvider, TResult)](#ParseToTResultIFormatProvider-TResult)
+* [ParseTo\<TResult>()](#ParseToTResult)
+* [ParseTo\<TResult>(IFormatProvider)](#ParseToTResultIFormatProvider)
+* [ParseTo\<TResult>(TResult)](#ParseToTResultTResult)
+* [ParseTo\<TResult>(IFormatProvider, TResult)](#ParseToTResultIFormatProvider-TResult)
 
 ---
-### ParseTo<TResult>()
+### ParseTo\<TResult>()
 Try to convert the specified <c>System.String</c> to <c>Nullable<TResult></c> type using <c>Convert.ChangeType</c> function.
 * Returns `null` if the conversion fails.
 
@@ -19,7 +19,7 @@ public static TResult? ParseTo<TResult>(this string text);
 ```
 
 ---
-### ParseTo<TResult>(IFormatProvider)
+### ParseTo\<TResult>(IFormatProvider)
 Try to convert the specified <c>System.String</c> to <c>Nullable<TResult></c> type using <c>Convert.ChangeType</c> function and a <c>FormatProvider</c>.
 * Returns `null` if the conversion fails.
 
@@ -28,7 +28,7 @@ public static TResult? ParseTo<TResult>(this string text, IFormatProvider provid
 ```
 
 ---
-### ParseTo<TResult>(TResult)
+### ParseTo\<TResult>(TResult)
 Try to convert the specified <c>System.String</c> to <c>Nullable<TResult></c> type using <c>Convert.ChangeType</c> function.
 * Returns `returnValueIfError` if the conversion fails.
 
@@ -37,7 +37,7 @@ public static TResult? ParseTo<TResult>(this string text, TResult returnValueIfE
 ```
 
 ---
-### ParseTo<TResult>(IFormatProvider, TResult)
+### ParseTo\<TResult>(IFormatProvider, TResult)
 Try to convert the specified <c>System.String</c> to <c>Nullable<TResult></c> type using <c>Convert.ChangeType</c> function and a <c>FormatProvider</c>.
 * Returns `returnValueIfError` if the conversion fails.
 
@@ -75,9 +75,9 @@ Try to convert the specified `System.String` to `System.Byte` type using `byte.T
 
 __Overloads__
 * [ParseToByte()](#ParseToByte)
-* [ParseToByte(NumberStyles, IFormatProvider)](#ParseToByteNumberStylesIFormatProvider)
+* [ParseToByte(NumberStyles, IFormatProvider)](#ParseToByteNumberStyles-IFormatProvider)
 * [ParseToByte(byte)](#ParseToByteByte)
-* [ParseToByte(NumberStyles, IFormatProvider, byte)](#ParseToByteNumberStylesIFormatProviderByte)
+* [ParseToByte(NumberStyles, IFormatProvider, byte)](#ParseToByteNumberStyles-IFormatProvider-Byte)
 
 ---
 ### ParseToByte()
@@ -165,9 +165,9 @@ Try to convert the specified `System.String` to `System.Int64` type using `long.
 
 __Overloads__
 * [ParseToLong()](#ParseToLong)
-* [ParseToLong(NumberStyles, IFormatProvider)](#ParseToLongNumberStylesIFormatProvider)
+* [ParseToLong(NumberStyles, IFormatProvider)](#ParseToLongNumberStyles-IFormatProvider)
 * [ParseToLong(long)](#ParseToLongLong)
-* [ParseToLong(NumberStyles, IFormatProvider, long)](#ParseToLongNumberStylesIFormatProviderLong)
+* [ParseToLong(NumberStyles, IFormatProvider, long)](#ParseToLongNumberStyles-IFormatProvider-Long)
 
 ---
 ### ParseToLong()
