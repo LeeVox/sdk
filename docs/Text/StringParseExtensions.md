@@ -7,7 +7,7 @@ __Overloads__
 * [ParseTo<TResult>()](#ParseToTResult)
 * [ParseTo<TResult>(IFormatProvider)](#ParseToTResultIFormatProvider)
 * [ParseTo<TResult>(TResult)](#ParseToTResultTResult)
-* [ParseTo<TResult>(IFormatProvider, TResult)](ParseToTResultIFormatProviderTResult)
+* [ParseTo<TResult>(IFormatProvider, TResult)](#ParseToTResultIFormatProvider-TResult)
 
 ---
 ### ParseTo<TResult>()
@@ -120,9 +120,9 @@ Try to convert the specified `System.String` to `System.Int32` type using `int.T
 
 __Overloads__
 * [ParseToInt()](#ParseToInt)
-* [ParseToInt(NumberStyles, IFormatProvider)](#ParseToIntNumberStylesIFormatProvider)
+* [ParseToInt(NumberStyles, IFormatProvider)](#ParseToIntNumberStyles-IFormatProvider)
 * [ParseToInt(int)](#ParseToIntInt)
-* [ParseToInt(NumberStyles, IFormatProvider, int)](#ParseToIntNumberStylesIFormatProviderInt)
+* [ParseToInt(NumberStyles, IFormatProvider, int)](#ParseToIntNumberStyles-IFormatProvider-Int)
 
 ---
 ### ParseToInt()
@@ -210,9 +210,9 @@ Try to convert the specified `System.String` to `System.Float` type using `float
 
 __Overloads__
 * [ParseToFloat()](#ParseToFloat)
-* [ParseToFloat(NumberStyles, IFormatProvider)](#ParseToFloatNumberStylesIFormatProvider)
+* [ParseToFloat(NumberStyles, IFormatProvider)](#ParseToFloatNumberStyles-IFormatProvider)
 * [ParseToFloat(float)](#ParseToFloatFloat)
-* [ParseToFloat(NumberStyles, IFormatProvider, float)](#ParseToFloatNumberStylesIFormatProviderFloat)
+* [ParseToFloat(NumberStyles, IFormatProvider, float)](#ParseToFloatNumberStyles-IFormatProvider-Float)
 
 ---
 ### ParseToFloat()
@@ -255,9 +255,9 @@ Try to convert the specified `System.String` to `System.Double` type using `doub
 
 __Overloads__
 * [ParseToDouble()](#ParseToDouble)
-* [ParseToDouble(NumberStyles, IFormatProvider)](#ParseToDoubleNumberStylesIFormatProvider)
+* [ParseToDouble(NumberStyles, IFormatProvider)](#ParseToDoubleNumberStyles-IFormatProvider)
 * [ParseToDouble(double)](#ParseToDoubleDouble)
-* [ParseToDouble(NumberStyles, IFormatProvider, double)](#ParseToDoubleNumberStylesIFormatProviderDouble)
+* [ParseToDouble(NumberStyles, IFormatProvider, double)](#ParseToDoubleNumberStyles-IFormatProvider-Double)
 
 ---
 ### ParseToDouble()
@@ -300,9 +300,9 @@ Try to convert the specified `System.String` to `System.Decimal` type using `dec
 
 __Overloads__
 * [ParseToDecimal()](#ParseToDecimal)
-* [ParseToDecimal(NumberStyles, IFormatProvider)](#ParseToDecimalNumberStylesIFormatProvider)
+* [ParseToDecimal(NumberStyles, IFormatProvider)](#ParseToDecimalNumberStyles-IFormatProvider)
 * [ParseToDecimal(decimal)](#ParseToDecimalDecimal)
-* [ParseToDecimal(NumberStyles, IFormatProvider, decimal)](#ParseToDecimalNumberStylesIFormatProviderDecimal)
+* [ParseToDecimal(NumberStyles, IFormatProvider, decimal)](#ParseToDecimalNumberStyles-IFormatProvider-Decimal)
 
 ---
 ### ParseToDecimal()
@@ -345,9 +345,9 @@ Try to convert the specified `System.String` to `System.DateTime` type using `Da
 
 __Overloads__
 * [ParseToDateTime()](#ParseToDateTime)
-* [ParseToDateTime(DateTimeStyles, IFormatProvider)](#ParseToDateTimeDateTimeStylesIFormatProvider)
+* [ParseToDateTime(DateTimeStyles, IFormatProvider)](#ParseToDateTimeDateTimeStyles-IFormatProvider)
 * [ParseToDateTime(DateTime)](#ParseToDateTimeDateTime)
-* [ParseToDateTime(DateTimeStyles, IFormatProvider, DateTime)](#ParseToDateTimeDateTimeStylesIFormatProviderDateTime)
+* [ParseToDateTime(DateTimeStyles, IFormatProvider, DateTime)](#ParseToDateTimeDateTimeStyles-IFormatProvider-DateTime)
 
 ---
 ### ParseToDateTime()
@@ -359,7 +359,7 @@ public static DateTime? ParseToDateTime(this string text);
 ```
 
 ---
-### ParseToDateTime(NumberStyles, IFormatProvider)
+### ParseToDateTime(DateTimeStyles, IFormatProvider)
 Try to convert the specified `System.String` to `System.DateTime` type using `DateTime.TryParse` function and DateTime formats.
 * Returns `null` if the conversion fails.
 

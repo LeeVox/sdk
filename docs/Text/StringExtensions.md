@@ -38,18 +38,18 @@ Determines whether a `System.String` has same value to another `System.String`.
 
 __Overloads__
 * [IsEqual(string)](#IsEqualString)
-* [IsEqual(string, bool)](#IsEqualStringBool)
-* [IsEqual(string, StringComparison)](#IsEqualStringStringComparison)
+* [IsEqual(string, bool)](#IsEqualString-Bool)
+* [IsEqual(string, StringComparison)](#IsEqualString-StringComparison)
 
 * [IsOrdinalEqual(string)](#IsOrdinalEqualString)
-* [IsOrdinalEqual(string, bool)](#IsOrdinalEqualStringBool)
+* [IsOrdinalEqual(string, bool)](#IsOrdinalEqualString-Bool)
 
 * [IsEqualIgnoreSpaces(string)](#IsEqualIgnoreSpacesString)
-* [IsEqualIgnoreSpaces(string, bool)](#IsEqualIgnoreSpacesStringBool)
-* [IsEqualIgnoreSpaces(string, StringComparison)](IsEqualIgnoreSpacesStringStringComparison)
+* [IsEqualIgnoreSpaces(string, bool)](#IsEqualIgnoreSpacesString-Bool)
+* [IsEqualIgnoreSpaces(string, StringComparison)](#IsEqualIgnoreSpacesString-StringComparison)
 
 * [IsOrdinalEqualIgnoreSpaces(string)](#IsOrdinalEqualIgnoreSpacesString)
-* [IsOrdinalEqualIgnoreSpaces(string, bool)](#IsOrdinalEqualIgnoreSpacesStringBool)
+* [IsOrdinalEqualIgnoreSpaces(string, bool)](#IsOrdinalEqualIgnoreSpacesString-Bool)
 
 ---
 ### IsEqual(string)
@@ -135,10 +135,10 @@ public static string IsOrdinalEqualIgnoreSpaces(this string a, string b, bool ig
 Determines whether a `System.String` contains another `System.String`.
 
 __Overloads__
-* [Contains(string, bool)](#ContainsStringBool)
-* [Contains(string, StringComparison)](#ContainsStringStringComparison)
+* [Contains(string, bool)](#ContainsString-Bool)
+* [Contains(string, StringComparison)](#ContainsString-StringComparison)
 * [OrdinalContains(string)](#OrdinalContainsString)
-* [OrdinalContains(string, bool)](#OrdinalContainsStringBool)
+* [OrdinalContains(string, bool)](#OrdinalContainsString-Bool)
 
 ---
 ### Contains(string, bool)
