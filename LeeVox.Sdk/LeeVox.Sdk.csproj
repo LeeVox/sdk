@@ -6,6 +6,8 @@
     <TargetFrameworks>$(TargetFrameworks);netcoreapp1.1</TargetFrameworks>
     <TargetFrameworks>$(TargetFrameworks);netcoreapp2.0</TargetFrameworks>
     <TargetFrameworks>$(TargetFrameworks);netcoreapp2.1</TargetFrameworks>
+    <TargetFrameworks>$(TargetFrameworks);netcoreapp2.2</TargetFrameworks>
+    <TargetFrameworks>$(TargetFrameworks);netcoreapp3.0</TargetFrameworks>
 
     <TargetFrameworks>$(TargetFrameworks);netstandard1.0</TargetFrameworks>
     <TargetFrameworks>$(TargetFrameworks);netstandard1.1</TargetFrameworks>
@@ -38,6 +40,21 @@
     <DefineConstants>$(DefineConstants);NETCOREAPP1_1_OR_ABOVE</DefineConstants>
     <DefineConstants>$(DefineConstants);NETCOREAPP2_0_OR_ABOVE</DefineConstants>
     <DefineConstants>$(DefineConstants);NETCOREAPP2_1_OR_ABOVE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp2.2'">
+    <DefineConstants>$(DefineConstants);NETCOREAPP1_0_OR_ABOVE</DefineConstants>
+    <DefineConstants>$(DefineConstants);NETCOREAPP1_1_OR_ABOVE</DefineConstants>
+    <DefineConstants>$(DefineConstants);NETCOREAPP2_0_OR_ABOVE</DefineConstants>
+    <DefineConstants>$(DefineConstants);NETCOREAPP2_1_OR_ABOVE</DefineConstants>
+    <DefineConstants>$(DefineConstants);NETCOREAPP2_2_OR_ABOVE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
+    <DefineConstants>$(DefineConstants);NETCOREAPP1_0_OR_ABOVE</DefineConstants>
+    <DefineConstants>$(DefineConstants);NETCOREAPP1_1_OR_ABOVE</DefineConstants>
+    <DefineConstants>$(DefineConstants);NETCOREAPP2_0_OR_ABOVE</DefineConstants>
+    <DefineConstants>$(DefineConstants);NETCOREAPP2_1_OR_ABOVE</DefineConstants>
+    <DefineConstants>$(DefineConstants);NETCOREAPP2_2_OR_ABOVE</DefineConstants>
+    <DefineConstants>$(DefineConstants);NETCOREAPP3_0_OR_ABOVE</DefineConstants>
   </PropertyGroup>
   
   <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard1.0'">
