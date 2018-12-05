@@ -30,13 +30,13 @@ jobs:
 
   - task: DotNetCoreCLI@2
     displayName: 'dotnet test'
-    condition: $(EXEC_TEST)
+    condition: ${EXEC_TEST}
     inputs:
       command: test
       projects: LeeVox.Sdk.Test/LeeVox.Sdk.Test.csproj
       arguments: /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=TestResult/Coverage/'
-      publishTestResults: $(PUBLISH_TEST)
+      publishTestResults: ${PUBLISH_TEST}
 
   - bash: 'bash <(curl -s https://codecov.io/bash) -B $(Build.SourceBranchName) -n "$(Agent.OS) - sdk ${{ parameters.sdk }}"'
     displayName: 'publish codecov'
-    condition: $(PUBLISH_TEST)
+    condition: ${PUBLISH_TEST}
