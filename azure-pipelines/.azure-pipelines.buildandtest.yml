@@ -1,12 +1,13 @@
 parameters:
   name: ''
   sdk: ''
-  execTest: true
-  publishTest: true
   matrix:
 
 jobs:
 - job: ${{ parameters.name }}
+  variables:
+    execTest: true
+    publishTest: true
   strategy:
     matrix: ${{ parameters.matrix }}
   steps:
@@ -30,13 +31,13 @@ jobs:
 
   - task: DotNetCoreCLI@2
     displayName: 'dotnet test'
-    condition: ${{ parameters.execTest }}
+    condition: $(execTest)
     inputs:
       command: test
       projects: LeeVox.Sdk.Test/LeeVox.Sdk.Test.csproj
       arguments: /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=TestResult/Coverage/'
-      publishTestResults: ${{ parameters.publishTest }}
+      publishTestResults: $(publishTest)
 
   - bash: 'bash <(curl -s https://codecov.io/bash) -B $(Build.SourceBranchName) -n "$(Agent.OS) - sdk ${{ parameters.sdk }}"'
     displayName: 'publish codecov'
-    condition: ${{ parameters.publishTest }}
+    condition: $(publishTest)
