@@ -1,0 +1,29 @@
+parameters:
+  name: ''
+  sdk: ''
+  target: ''
+
+jobs:
+- job: ${{ parameters.name }}
+  variables:
+    TargetFramework: ${{ parameters.target }}
+  steps:
+  - script: 'git log -3'
+    displayName: 'show git log'
+
+  - task: DotNetCoreInstaller@0
+    displayName: 'Install SDK'
+    inputs:
+      version: ${{ parameters.sdk }}
+
+  - task: DotNetCoreCLI@2
+    displayName: 'dotnet restore'
+    inputs:
+      command: restore
+      projects: LeeVox.Sdk/LeeVox.Sdk.csproj
+
+  - task: DotNetCoreCLI@2
+    displayName: 'dotnet build'
+    inputs:
+      command: build
+      projects: LeeVox.Sdk/LeeVox.Sdk.csproj
