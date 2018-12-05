@@ -39,5 +39,4 @@ jobs:
   - bash: 'bash <(curl -s https://codecov.io/bash) -s TestCoverageResult -B $(Build.SourceBranchName) -n "$(Agent.OS) - sdk ${{ parameters.sdk }} - target ${{ parameters.target }}"'
     displayName: 'publish codecov'
     condition: ${{ parameters.publishTest }}
-    inputs:
-      workingDirectory: $(System.DefaultWorkingDirectory)
+    workingDirectory: $(System.DefaultWorkingDirectory)
