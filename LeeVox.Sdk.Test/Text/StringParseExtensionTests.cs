@@ -70,9 +70,13 @@ namespace LeeVox.Sdk.Test
             Assert.AreEqual(1L, "AF".ParseToLong(NumberStyles.AllowDecimalPoint, null, 1L));
             Assert.AreEqual(1234L, "1,234.000".ParseToLong(NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint, CultureInfo.CurrentCulture.NumberFormat, 1L));
 
-            Assert.AreEqual(10F, "10".ParseToFloat());
+            Assert.IsTrue(float.Epsilon >= float.MinValue - "-3.402823E+38".ParseToFloat());
             Assert.AreEqual(-12.345F, "\t -12.345\r \n".ParseToFloat());
-            Assert.AreEqual(null, "9999999999999999999999999999999999999999".ParseToFloat());
+#if NETCOREAPP3_0_OR_ABOVE
+            Assert.AreEqual(float.NegativeInfinity, "-3.992823E+38".ParseToFloat());
+#else
+            Assert.AreEqual(null, "-3.992823E+38".ParseToFloat());
+#endif
             Assert.AreEqual(1F, "abcdef".ParseToFloat(1F));
             Assert.AreEqual(-15.666F, "-15.666".ParseToFloat(1F));
             Assert.AreEqual(-1234F, "1,234-".ParseToFloat(NumberStyles.AllowThousands | NumberStyles.AllowTrailingSign, null));
@@ -80,9 +84,13 @@ namespace LeeVox.Sdk.Test
             Assert.AreEqual(1F, "AF".ParseToFloat(NumberStyles.AllowDecimalPoint, null, 1F));
             Assert.AreEqual(1234.567F, "1,234.567".ParseToFloat(NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint, CultureInfo.CurrentCulture.NumberFormat, 1F));
 
-            Assert.AreEqual(10D, "10".ParseToDouble());
+            Assert.IsTrue(double.Epsilon >= double.MaxValue - "1.7976931348623157E+308".ParseToDouble());
             Assert.AreEqual(-12.345D, "\t -12.345\r \n".ParseToDouble());
-            Assert.AreEqual(null, "abcdef".ParseToDouble());
+#if NETCOREAPP3_0_OR_ABOVE
+            Assert.AreEqual(double.PositiveInfinity, "1.9976931348623157E+308".ParseToDouble());
+#else
+            Assert.AreEqual(null, "1.9976931348623157E+308".ParseToDouble());
+#endif
             Assert.AreEqual(1D, "abcdef".ParseToDouble(1D));
             Assert.AreEqual(-15.666D, "-15.666".ParseToDouble(1D));
             Assert.AreEqual(-1234D, "1,234-".ParseToDouble(NumberStyles.AllowThousands | NumberStyles.AllowTrailingSign, null));
