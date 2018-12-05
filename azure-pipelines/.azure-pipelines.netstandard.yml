@@ -20,6 +20,7 @@ jobs:
     displayName: 'dotnet restore'
     inputs:
       command: restore
+      projects: LeeVox.Sdk/LeeVox.Sdk.csproj
 
   - task: DotNetCoreCLI@2
     displayName: 'dotnet build'
