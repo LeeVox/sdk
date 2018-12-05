@@ -25,3 +25,4 @@ jobs:
     displayName: 'dotnet build'
     inputs:
       command: build
+      projects: LeeVox.Sdk/LeeVox.Sdk.csproj
