@@ -5,7 +5,7 @@ phases:
 - phase: netcoreapp1_0
   condition: succeededOrFailed()
   variables:
-    Configuration: DEBUG+RELEASE
+    Configuration: DEBUG
     TargetFramework: netcoreapp1.0
   steps:
   - script: 'git log -3'
@@ -35,7 +35,7 @@ phases:
 - phase: netcoreapp1_1
   condition: succeededOrFailed()
   variables:
-    Configuration: DEBUG+RELEASE
+    Configuration: DEBUG
     TargetFramework: netcoreapp1.1
   steps:
   - script: 'git log -3'
@@ -65,7 +65,7 @@ phases:
 - phase: netcoreapp2_0
   condition: succeededOrFailed()
   variables:
-    Configuration: DEBUG+RELEASE
+    Configuration: DEBUG
     TargetFramework: netcoreapp2.0
   steps:
   - script: 'git log -3'
@@ -95,7 +95,7 @@ phases:
 - phase: netcoreapp2_1
   condition: succeededOrFailed()
   variables:
-    Configuration: DEBUG+RELEASE
+    Configuration: DEBUG
     TargetFramework: netcoreapp2.1
   steps:
   - script: 'git log -3'
@@ -125,7 +125,7 @@ phases:
 - phase: netcoreapp2_2
   condition: succeededOrFailed()
   variables:
-    Configuration: DEBUG+RELEASE
+    Configuration: DEBUG
     TargetFramework: netcoreapp2.2
   steps:
   - script: 'git log -3'
@@ -155,7 +155,7 @@ phases:
 - phase: netcoreapp3_0
   condition: succeededOrFailed()
   variables:
-    Configuration: DEBUG+RELEASE
+    Configuration: DEBUG
     TargetFramework: netcoreapp3.0
   steps:
   - script: 'git log -3'
