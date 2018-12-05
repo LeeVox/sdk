@@ -32,14 +32,14 @@ jobs:
     inputs:
       command: test
       projects: LeeVox.Sdk.Test/LeeVox.Sdk.Test.csproj
-      arguments: '/p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=TestCoverageResult'
+      arguments: '/p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=TestResult/Coverage'
       publishTestResults: ${{ parameters.publishTest }}
       workingDirectory: $(System.DefaultWorkingDirectory)
 
-  - script: 'type "$(System.DefaultWorkingDirectory)/TestCoverageResult/.cobertura.xml"'
+  - script: 'type "$(System.DefaultWorkingDirectory)/TestResult/Coverage/.cobertura.xml"'
     displayName: 'show coverage'
 
-  - bash: 'bash <(curl -s https://codecov.io/bash) -s TestCoverageResult -B $(Build.SourceBranchName) -n "$(Agent.OS) - sdk ${{ parameters.sdk }} - target ${{ parameters.target }}"'
+  - bash: 'bash <(curl -s https://codecov.io/bash) -s "TestResult/Coverage" -B $(Build.SourceBranchName) -n "$(Agent.OS) - sdk ${{ parameters.sdk }} - target ${{ parameters.target }}"'
     displayName: 'publish codecov'
     condition: ${{ parameters.publishTest }}
     workingDirectory: $(System.DefaultWorkingDirectory)
