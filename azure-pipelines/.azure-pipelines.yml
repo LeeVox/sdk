@@ -3,82 +3,28 @@ resources:
   fetchDepth: 5
 
 jobs:
-- template: .azure-pipelines.buildandtest.yml
+- template: .azure-pipelines.netcoreapp.yml
   parameters:
-    name: netcore1_0
+    name: netcoreapp1_1
     sdk: '1.1.11'
-    matrix:
-      netcoreapp1_0:
-        TARGET_FRAMEWORK: 'netcoreapp1.0'
-        PUBLISH_TEST: false
-      netstandard1_6:
-        TARGET_FRAMEWORK: 'netstandard1.6'
-        EXEC_TEST: false
+    target: netcoreapp1.1
+    publishTest: false
 
-- template: .azure-pipelines.buildandtest.yml
+- template: .azure-pipelines.netcoreapp.yml
   parameters:
-    name: netcore1_1
-    sdk: '1.1.11'
-    matrix:
-      netcoreapp1_1:
-        TARGET_FRAMEWORK: 'netcoreapp1.1'
-        PUBLISH_TEST: false
-      netstandard1_6:
-        TARGET_FRAMEWORK: 'netstandard1.6'
-        EXEC_TEST: false
-
-- template: .azure-pipelines.buildandtest.yml
-  parameters:
-    name: netcore2_0
-    sdk: '2.1.202'
-    matrix:
-      netcoreapp2_0:
-        TARGET_FRAMEWORK: 'netcoreapp2.0'
-      netstandard1_6:
-        TARGET_FRAMEWORK: 'netstandard1.6'
-        EXEC_TEST: false
-      netstandard2_0:
-        TARGET_FRAMEWORK: 'netstandard2.0'
-        EXEC_TEST: false
-
-- template: .azure-pipelines.buildandtest.yml
-  parameters:
-    name: netcore2_1
+    name: netcoreapp2_1
     sdk: '2.1.500'
-    matrix:
-      netcoreapp2_1:
-        TARGET_FRAMEWORK: 'netcoreapp2.1'
-      netstandard1_6:
-        TARGET_FRAMEWORK: 'netstandard1.6'
-        EXEC_TEST: false
-      netstandard2_0:
-        TARGET_FRAMEWORK: 'netstandard2.0'
-        EXEC_TEST: false
+    target: netcoreapp2.1
 
-- template: .azure-pipelines.buildandtest.yml
-  parameters:
-    name: netcore2_2
-    sdk: '2.2.100'
-    matrix:
-      netcoreapp2_2:
-        TARGET_FRAMEWORK: 'netcoreapp2.2'
-      netstandard1_6:
-        TARGET_FRAMEWORK: 'netstandard1.6'
-        EXEC_TEST: false
-      netstandard2_0:
-        TARGET_FRAMEWORK: 'netstandard2.0'
-        EXEC_TEST: false
 
-- template: .azure-pipelines.buildandtest.yml
+- template: .azure-pipelines.netstandard.yml
   parameters:
-    name: netcore3_0
-    sdk: '3.0.100-preview-009812'
-    matrix:
-      netcoreapp3_0:
-        TARGET_FRAMEWORK: 'netcoreapp3.0'
-      netstandard1_6:
-        TARGET_FRAMEWORK: 'netstandard1.6'
-        EXEC_TEST: false
-      netstandard2_0:
-        TARGET_FRAMEWORK: 'netstandard2.0'
-        EXEC_TEST: false
+    name: netstandard1_6
+    sdk: '1.1.11'
+    target: 'netstandard1.6'
+
+- template: .azure-pipelines.netstandard.yml
+  parameters:
+    name: netstandard2_0
+    sdk: '2.1.500'
+    target: 'netstandard2.0'
