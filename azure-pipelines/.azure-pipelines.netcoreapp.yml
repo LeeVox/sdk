@@ -32,7 +32,7 @@ jobs:
     inputs:
       command: test
       projects: LeeVox.Sdk.Test/LeeVox.Sdk.Test.csproj
-      arguments: '/p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=TestResult/Coverage'
+      arguments: '/p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=TestResult/Coverage/'
       publishTestResults: ${{ parameters.publishTest }}
       workingDirectory: $(System.DefaultWorkingDirectory)
 
