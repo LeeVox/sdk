@@ -30,7 +30,7 @@ jobs:
 
   - task: DotNetCoreCLI@2
     displayName: 'dotnet test'
-    condition: eq(True, $(EXEC_TEST))
+    condition: eq(True, variables['EXEC_TEST'])
     inputs:
       command: test
       projects: LeeVox.Sdk.Test/LeeVox.Sdk.Test.csproj
@@ -39,4 +39,4 @@ jobs:
 
   - bash: 'bash <(curl -s https://codecov.io/bash) -B $(Build.SourceBranchName) -n "$(Agent.OS) - sdk ${{ parameters.sdk }}"'
     displayName: 'publish codecov'
-    condition: eq(True, $(PUBLISH_TEST))
+    condition: eq(True, variables['PUBLISH_TEST'])
