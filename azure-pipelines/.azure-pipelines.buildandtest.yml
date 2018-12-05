@@ -2,6 +2,8 @@ parameters:
   name: ''
   sdk: ''
   target: ''
+  doTest: true
+  publishTestResult: true
 
 jobs:
 - job: ${{ parameters.name }}
@@ -29,7 +31,9 @@ jobs:
 
   - task: DotNetCoreCLI@2
     displayName: 'dotnet test'
+    condition: ${{ parameters.doTest }}
     inputs:
       command: test
       projects: LeeVox.Sdk.Test/LeeVox.Sdk.Test.csproj
       arguments: /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=TestResult/Coverage/'
+      publishTestResults: ${{ parameters.publishTestResult }}

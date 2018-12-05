@@ -8,11 +8,13 @@ jobs:
     name: netcoreapp1_0
     sdk: '1.1.11'
     target: 'netcoreapp1.0'
+    publishTestResult: false
 - template: .azure-pipelines.buildandtest.yml
   parameters:
     name: netcoreapp1_1
     sdk: '1.1.11'
     target: 'netcoreapp1.1'
+    publishTestResult: false
 - template: .azure-pipelines.buildandtest.yml
   parameters:
     name: netcoreapp2_0
