@@ -2,7 +2,7 @@ resources:
 - repo: self
   fetchDepth: 5
 phases:
-- phase: netcoreapp1.0
+- phase: netcoreapp1_0
   condition: succeededOrFailed()
   variables:
     Configuration: DEBUG+RELEASE
@@ -32,7 +32,7 @@ phases:
       command: test
       projects: LeeVox.Sdk.Test
 
-- phase: netcoreapp1.1
+- phase: netcoreapp1_1
   condition: succeededOrFailed()
   variables:
     Configuration: DEBUG+RELEASE
@@ -62,7 +62,7 @@ phases:
       command: test
       projects: LeeVox.Sdk.Test
 
-- phase: netcoreapp2.0
+- phase: netcoreapp2_0
   condition: succeededOrFailed()
   variables:
     Configuration: DEBUG+RELEASE
@@ -92,7 +92,7 @@ phases:
       command: test
       projects: LeeVox.Sdk.Test
 
-- phase: netcoreapp2.1
+- phase: netcoreapp2_1
   condition: succeededOrFailed()
   variables:
     Configuration: DEBUG+RELEASE
@@ -105,6 +105,66 @@ phases:
     displayName: 'Install SDK'
     inputs:
       version: 2.1.500
+
+  - task: DotNetCoreCLI@2
+    displayName: 'dotnet restore'
+    inputs:
+      command: restore
+
+  - task: DotNetCoreCLI@2
+    displayName: 'dotnet build'
+    inputs:
+      command: build
+
+  - task: DotNetCoreCLI@2
+    displayName: 'dotnet test'
+    inputs:
+      command: test
+      projects: LeeVox.Sdk.Test
+
+- phase: netcoreapp2_2
+  condition: succeededOrFailed()
+  variables:
+    Configuration: DEBUG+RELEASE
+    TargetFramework: netcoreapp2.2
+  steps:
+  - script: 'git log -3'
+    displayName: 'show git log'
+
+  - task: DotNetCoreInstaller@0
+    displayName: 'Install SDK'
+    inputs:
+      version: 2.2.100
+
+  - task: DotNetCoreCLI@2
+    displayName: 'dotnet restore'
+    inputs:
+      command: restore
+
+  - task: DotNetCoreCLI@2
+    displayName: 'dotnet build'
+    inputs:
+      command: build
+
+  - task: DotNetCoreCLI@2
+    displayName: 'dotnet test'
+    inputs:
+      command: test
+      projects: LeeVox.Sdk.Test
+
+- phase: netcoreapp3_0
+  condition: succeededOrFailed()
+  variables:
+    Configuration: DEBUG+RELEASE
+    TargetFramework: netcoreapp3.0
+  steps:
+  - script: 'git log -3'
+    displayName: 'show git log'
+
+  - task: DotNetCoreInstaller@0
+    displayName: 'Install SDK'
+    inputs:
+      version: 3.0.100-preview-009812
 
   - task: DotNetCoreCLI@2
     displayName: 'dotnet restore'
