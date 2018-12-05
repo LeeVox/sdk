@@ -1,14 +1,16 @@
 parameters:
   name: ''
   sdk: ''
+  config: 'Debug'
   target: ''
   doTest: true
   publishTestResult: true
 
 jobs:
 - job: ${{ parameters.name }}
+  displayName: ${{ parameters.name }}
   variables:
-    Configuration: DEBUG
+    Configuration: ${{ parameters.config }}
     TargetFramework: ${{ parameters.target }}
   steps:
   - script: 'git log -3'

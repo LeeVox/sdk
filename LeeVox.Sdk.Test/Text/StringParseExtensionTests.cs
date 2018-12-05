@@ -72,7 +72,11 @@ namespace LeeVox.Sdk.Test
 
             Assert.AreEqual(10F, "10".ParseToFloat());
             Assert.AreEqual(-12.345F, "\t -12.345\r \n".ParseToFloat());
+#if NETCOREAPP3_0_OR_ABOVE
+            Assert.AreEqual(float.PositiveInfinity, "9999999999999999999999999999999999999999".ParseToFloat());
+#else
             Assert.AreEqual(null, "9999999999999999999999999999999999999999".ParseToFloat());
+#endif
             Assert.AreEqual(1F, "abcdef".ParseToFloat(1F));
             Assert.AreEqual(-15.666F, "-15.666".ParseToFloat(1F));
             Assert.AreEqual(-1234F, "1,234-".ParseToFloat(NumberStyles.AllowThousands | NumberStyles.AllowTrailingSign, null));
@@ -82,7 +86,11 @@ namespace LeeVox.Sdk.Test
 
             Assert.AreEqual(10D, "10".ParseToDouble());
             Assert.AreEqual(-12.345D, "\t -12.345\r \n".ParseToDouble());
-            Assert.AreEqual(null, "abcdef".ParseToDouble());
+#if NETCOREAPP3_0_OR_ABOVE
+            Assert.AreEqual(double.PositiveInfinity, "999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999".ParseToFloat());
+#else
+            Assert.AreEqual(null, "999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999".ParseToFloat());
+#endif
             Assert.AreEqual(1D, "abcdef".ParseToDouble(1D));
             Assert.AreEqual(-15.666D, "-15.666".ParseToDouble(1D));
             Assert.AreEqual(-1234D, "1,234-".ParseToDouble(NumberStyles.AllowThousands | NumberStyles.AllowTrailingSign, null));
