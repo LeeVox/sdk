@@ -7,31 +7,122 @@ jobs:
   parameters:
     name: netcoreapp1_0
     sdk: '1.1.11'
-    target: 'netcoreapp1.0'
-    publishTestResult: false
+    matrix:
+      netcoreapp1_0:
+        TargetFramework: 'netcoreapp1.0'
+        publishTest: false
+      netstandard1_0:
+        TargetFramework: 'netstandard1.0'
+        execTest: false
+      netstandard1_1:
+        TargetFramework: 'netstandard1.1'
+        execTest: false
+      netstandard1_2:
+        TargetFramework: 'netstandard1.2'
+        execTest: false
+      netstandard1_3:
+        TargetFramework: 'netstandard1.3'
+        execTest: false
+      netstandard1_4:
+        TargetFramework: 'netstandard1.4'
+        execTest: false
+      netstandard1_5:
+        TargetFramework: 'netstandard1.5'
+        execTest: false
+      netstandard1_6:
+        TargetFramework: 'netstandard1.6'
+        execTest: false
+
 - template: .azure-pipelines.buildandtest.yml
   parameters:
     name: netcoreapp1_1
     sdk: '1.1.11'
-    target: 'netcoreapp1.1'
-    publishTestResult: false
+    matrix:
+      netcoreapp1_1:
+        TargetFramework: 'netcoreapp1.1'
+        publishTest: false
+      netstandard1_0:
+        TargetFramework: 'netstandard1.0'
+        execTest: false
+      netstandard1_1:
+        TargetFramework: 'netstandard1.1'
+        execTest: false
+      netstandard1_2:
+        TargetFramework: 'netstandard1.2'
+        execTest: false
+      netstandard1_3:
+        TargetFramework: 'netstandard1.3'
+        execTest: false
+      netstandard1_4:
+        TargetFramework: 'netstandard1.4'
+        execTest: false
+      netstandard1_5:
+        TargetFramework: 'netstandard1.5'
+        execTest: false
+      netstandard1_6:
+        TargetFramework: 'netstandard1.6'
+        execTest: false
+
 - template: .azure-pipelines.buildandtest.yml
   parameters:
     name: netcoreapp2_0
     sdk: '2.1.202'
-    target: 'netcoreapp2.0'
+    matrix:
+      netcoreapp2_0:
+        TargetFramework: 'netcoreapp2.0'
+      netstandard1_0:
+        TargetFramework: 'netstandard1.0'
+        execTest: false
+      netstandard1_1:
+        TargetFramework: 'netstandard1.1'
+        execTest: false
+      netstandard1_2:
+        TargetFramework: 'netstandard1.2'
+        execTest: false
+      netstandard1_3:
+        TargetFramework: 'netstandard1.3'
+        execTest: false
+      netstandard1_4:
+        TargetFramework: 'netstandard1.4'
+        execTest: false
+      netstandard1_5:
+        TargetFramework: 'netstandard1.5'
+        execTest: false
+      netstandard1_6:
+        TargetFramework: 'netstandard1.6'
+        execTest: false
+      netstandard2_0:
+        TargetFramework: 'netstandard2.0'
+        execTest: false
+
 - template: .azure-pipelines.buildandtest.yml
   parameters:
     name: netcoreapp2_1
     sdk: '2.1.500'
-    target: 'netcoreapp2.1'
-- template: .azure-pipelines.buildandtest.yml
-  parameters:
-    name: netcoreapp2_2
-    sdk: '2.2.100'
-    target: 'netcoreapp2.2'
-- template: .azure-pipelines.buildandtest.yml
-  parameters:
-    name: netcoreapp3_0
-    sdk: '3.0.100-preview-009812'
-    target: 'netcoreapp3.0'
+    matrix:
+      netcoreapp2_1:
+        TargetFramework: 'netcoreapp2.1'
+      netstandard1_0:
+        TargetFramework: 'netstandard1.0'
+        execTest: false
+      netstandard1_1:
+        TargetFramework: 'netstandard1.1'
+        execTest: false
+      netstandard1_2:
+        TargetFramework: 'netstandard1.2'
+        execTest: false
+      netstandard1_3:
+        TargetFramework: 'netstandard1.3'
+        execTest: false
+      netstandard1_4:
+        TargetFramework: 'netstandard1.4'
+        execTest: false
+      netstandard1_5:
+        TargetFramework: 'netstandard1.5'
+        execTest: false
+      netstandard1_6:
+        TargetFramework: 'netstandard1.6'
+        execTest: false
+      netstandard2_0:
+        TargetFramework: 'netstandard2.0'
+        execTest: false
