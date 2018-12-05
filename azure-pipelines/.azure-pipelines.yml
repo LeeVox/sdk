@@ -2,29 +2,51 @@ resources:
 - repo: self
   fetchDepth: 5
 
+variables:
+  LATEST_SDK: '2.2.100'
+  LATEST_SDK_PREVIEW: '3.0.100-preview-009812'
+
 jobs:
+- template: .azure-pipelines.netcoreapp.yml
+  parameters:
+    name: netcoreapp1_0
+    sdk: '1.1.11'
+    target: netcoreapp1.0
+    publishTest: false
 - template: .azure-pipelines.netcoreapp.yml
   parameters:
     name: netcoreapp1_1
     sdk: '1.1.11'
     target: netcoreapp1.1
     publishTest: false
-
+- template: .azure-pipelines.netcoreapp.yml
+  parameters:
+    name: netcoreapp2_0
+    sdk: '2.1.202'
+    target: netcoreapp2.0
 - template: .azure-pipelines.netcoreapp.yml
   parameters:
     name: netcoreapp2_1
     sdk: '2.1.500'
     target: netcoreapp2.1
-
+- template: .azure-pipelines.netcoreapp.yml
+  parameters:
+    name: netcoreapp2_2
+    sdk: '2.2.100'
+    target: netcoreapp2.2
+- template: .azure-pipelines.netcoreapp.yml
+  parameters:
+    name: netcoreapp3_0
+    sdk: '3.0.100-preview-009812'
+    target: netcoreapp3.0
 
 - template: .azure-pipelines.netstandard.yml
   parameters:
     name: netstandard1_6
     sdk: '1.1.11'
     target: 'netstandard1.6'
-
 - template: .azure-pipelines.netstandard.yml
   parameters:
     name: netstandard2_0
-    sdk: '2.1.500'
+    sdk: '2.2.100'
     target: 'netstandard2.0'

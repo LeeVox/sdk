@@ -35,6 +35,6 @@ jobs:
       arguments: /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=TestResult/Coverage/'
       publishTestResults: ${{ parameters.publishTest }}
 
-  - bash: 'bash <(curl -s https://codecov.io/bash) -B $(Build.SourceBranchName) -n "$(Agent.OS) - sdk ${{ parameters.sdk }} - target ${{ parameters.target }}"'
+  - bash: 'bash <(curl -s https://codecov.io/bash) -s TestResult/Coverage/ -B $(Build.SourceBranchName) -n "$(Agent.OS) - sdk ${{ parameters.sdk }} - target ${{ parameters.target }}"'
     displayName: 'publish codecov'
     condition: ${{ parameters.publishTest }}
