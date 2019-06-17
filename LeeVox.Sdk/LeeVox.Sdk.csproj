@@ -2,6 +2,14 @@
   <PropertyGroup>
     <DebugType>Full</DebugType>
     <TargetFrameworks>netcoreapp2.1</TargetFrameworks>
+	
+	<IsPackable>True</IsPackable>
+	<Title>LeeVox SDK</Title>
+	<Description>SDK for .NET Core</Description>
+	<Authors>LeeVox</Authors>
+	<PackageIconUrl></PackageIconUrl>
+	<IncludeSymbols>True</IncludeSymbols>
+	<RepositoryUrl>https://github.com/LeeVox/sdk</RepositoryUrl>
 
     <TargetFrameworks>$(TargetFrameworks);netcoreapp2.2</TargetFrameworks>
     <TargetFrameworks>$(TargetFrameworks);netcoreapp2.1</TargetFrameworks>
