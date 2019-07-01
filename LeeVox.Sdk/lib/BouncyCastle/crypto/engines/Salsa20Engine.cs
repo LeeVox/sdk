@@ -10,7 +10,7 @@ namespace Org.BouncyCastle.Crypto.Engines
 	/// <summary>
 	/// Implementation of Daniel J. Bernstein's Salsa20 stream cipher, Snuffle 2005
 	/// </summary>
-	public class Salsa20Engine
+	internal class Salsa20Engine
 		: IStreamCipher
 	{
 		public static readonly int DEFAULT_ROUNDS = 20;
@@ -74,12 +74,12 @@ namespace Org.BouncyCastle.Crypto.Engines
 		}
 
         public virtual void Init(
-			bool				forEncryption, 
+			bool				forEncryption,
 			ICipherParameters	parameters)
 		{
-			/* 
+			/*
 			 * Salsa20 encryption and decryption is completely
-			 * symmetrical, so the 'forEncryption' is 
+			 * symmetrical, so the 'forEncryption' is
 			 * irrelevant. (Like 90% of stream ciphers)
 			 */
 
@@ -120,7 +120,7 @@ namespace Org.BouncyCastle.Crypto.Engines
 		public virtual string AlgorithmName
 		{
 			get
-            { 
+            {
 				string name = "Salsa20";
 				if (rounds != DEFAULT_ROUNDS)
 				{
@@ -159,10 +159,10 @@ namespace Org.BouncyCastle.Crypto.Engines
 		}
 
         public virtual void ProcessBytes(
-			byte[]	inBytes, 
-			int		inOff, 
-			int		len, 
-			byte[]	outBytes, 
+			byte[]	inBytes,
+			int		inOff,
+			int		len,
+			byte[]	outBytes,
 			int		outOff)
 		{
 			if (!initialised)

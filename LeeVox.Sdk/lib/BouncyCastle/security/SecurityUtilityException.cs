@@ -2,7 +2,7 @@ using System;
 
 namespace Org.BouncyCastle.Security
 {
-    public class SecurityUtilityException
+    internal class SecurityUtilityException
 		: Exception
     {
         /**

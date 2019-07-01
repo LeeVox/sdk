@@ -2,7 +2,7 @@ using System;
 
 namespace Org.BouncyCastle.Crypto
 {
-    public class MaxBytesExceededException
+    internal class MaxBytesExceededException
 		: CryptoException
 	{
 		public MaxBytesExceededException()

@@ -4,7 +4,7 @@ using System.Text;
 namespace Org.BouncyCastle.Utilities
 {
     /// <summary> General array utilities.</summary>
-    public abstract class Arrays
+    internal abstract class Arrays
     {
         public static readonly byte[] EmptyBytes = new byte[0];
         public static readonly int[] EmptyInts = new int[0];

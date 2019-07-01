@@ -4,7 +4,7 @@ using Org.BouncyCastle.Utilities;
 
 namespace Org.BouncyCastle.Crypto.Parameters
 {
-    public class ParametersWithIV
+    internal class ParametersWithIV
         : ICipherParameters
     {
         private readonly ICipherParameters parameters;

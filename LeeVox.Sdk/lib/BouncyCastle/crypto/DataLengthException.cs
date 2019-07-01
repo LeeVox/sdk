@@ -2,7 +2,7 @@ using System;
 
 namespace Org.BouncyCastle.Crypto
 {
-    public class DataLengthException
+    internal class DataLengthException
 		: CryptoException
 	{
         /**

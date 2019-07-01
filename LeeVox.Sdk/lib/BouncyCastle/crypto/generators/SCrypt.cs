@@ -13,7 +13,7 @@ namespace Org.BouncyCastle.Crypto.Generators
     /// Scrypt was created by Colin Percival and is specified in
     /// <a href="http://tools.ietf.org/html/draft-josefsson-scrypt-kdf-01">draft-josefsson-scrypt-kd</a>.
     /// </remarks>
-    public class SCrypt
+    internal class SCrypt
 	{
         /// <summary>Generate a key using the scrypt key derivation function.</summary>
         /// <param name="P">the bytes of the pass phrase.</param>

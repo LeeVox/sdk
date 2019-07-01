@@ -2,7 +2,7 @@ using System;
 
 namespace Org.BouncyCastle.Crypto.Parameters
 {
-    public class DesEdeParameters
+    internal class DesEdeParameters
 		: DesParameters
     {
         /*

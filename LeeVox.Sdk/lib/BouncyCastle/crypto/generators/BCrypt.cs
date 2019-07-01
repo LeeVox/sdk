@@ -16,18 +16,18 @@ namespace Org.BouncyCastle.Crypto.Generators
      * In contrast to the paper, the order of key setup and salt setup is reversed:
      * state &lt;- ExpandKey(state, 0, key)
      * state %lt;- ExpandKey(state, 0, salt)
-     * This corresponds to the OpenBSD reference implementation of Bcrypt. 
+     * This corresponds to the OpenBSD reference implementation of Bcrypt.
      * </p><p>
-     * Note: 
+     * Note:
      * There is no successful cryptanalysis (status 2015), but
      * the amount of memory and the band width of Bcrypt
-     * may be insufficient to effectively prevent attacks 
+     * may be insufficient to effectively prevent attacks
      * with custom hardware like FPGAs, ASICs
      * </p><p>
      * This implementation uses some parts of Bouncy Castle's BlowfishEngine.
      * </p>
      */
-    public sealed class BCrypt
+    internal sealed class BCrypt
     {
         // magic String "OrpheanBeholderScryDoubt" is used as clear text for encryption
         private static readonly uint[] MAGIC_STRING =

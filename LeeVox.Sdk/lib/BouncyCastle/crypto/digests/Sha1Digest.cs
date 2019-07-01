@@ -12,7 +12,7 @@ namespace Org.BouncyCastle.Crypto.Digests
      * It is interesting to ponder why the, apart from the extra IV, the other difference here from MD5
      * is the "endianness" of the word processing!
      */
-    public class Sha1Digest
+    internal class Sha1Digest
         : GeneralDigest
     {
         private const int DigestLength = 20;
@@ -267,7 +267,7 @@ namespace Org.BouncyCastle.Crypto.Digests
             xOff = 0;
             Array.Clear(X, 0, 16);
         }
-		
+
 		public override IMemoable Copy()
 		{
 			return new Sha1Digest(this);

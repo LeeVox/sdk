@@ -7,7 +7,7 @@ using Org.BouncyCastle.Utilities;
 
 namespace Org.BouncyCastle.Security
 {
-    public sealed class ParameterUtilities
+    internal sealed class ParameterUtilities
     {
         private ParameterUtilities()
         {

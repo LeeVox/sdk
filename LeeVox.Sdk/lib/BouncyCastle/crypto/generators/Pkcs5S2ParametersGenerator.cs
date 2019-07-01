@@ -17,7 +17,7 @@ namespace Org.BouncyCastle.Crypto.Generators
     * <a href="http://www.rsasecurity.com/rsalabs/pkcs/pkcs-5/index.html">
     * RSA's Pkcs5 Page</a></p>
     */
-    public class Pkcs5S2ParametersGenerator
+    internal class Pkcs5S2ParametersGenerator
         : PbeParametersGenerator
     {
         private readonly IMac hMac;

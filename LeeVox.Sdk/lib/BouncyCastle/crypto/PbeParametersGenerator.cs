@@ -8,7 +8,7 @@ namespace Org.BouncyCastle.Crypto
     /**
      * super class for all Password Based Encyrption (Pbe) parameter generator classes.
      */
-    public abstract class PbeParametersGenerator
+    internal abstract class PbeParametersGenerator
     {
         protected byte[]	mPassword;
         protected byte[]	mSalt;

@@ -17,7 +17,7 @@ namespace Org.BouncyCastle.Crypto.Digests
      * SHA-512 1024   64    512
      * </pre>
      */
-    public class Sha512Digest
+    internal class Sha512Digest
         : LongDigest
     {
         private const int DigestLength = 64;
@@ -87,7 +87,7 @@ namespace Org.BouncyCastle.Crypto.Digests
             H7 = 0x1f83d9abfb41bd6b;
             H8 = 0x5be0cd19137e2179;
         }
-		
+
 		public override IMemoable Copy()
 		{
 			return new Sha512Digest(this);

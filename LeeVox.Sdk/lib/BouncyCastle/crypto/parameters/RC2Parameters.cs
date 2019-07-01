@@ -2,7 +2,7 @@ using System;
 
 namespace Org.BouncyCastle.Crypto.Parameters
 {
-	public class RC2Parameters
+	internal class RC2Parameters
 		: KeyParameter
 	{
 		private readonly int bits;
