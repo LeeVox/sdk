@@ -2,15 +2,6 @@ using System;
 
 namespace Org.BouncyCastle.Crypto
 {
-    /**
-     * this exception is thrown if a buffer that is meant to have output
-     * copied into it turns out to be too short, or if we've been given
-     * insufficient input. In general this exception will Get thrown rather
-     * than an ArrayOutOfBounds exception.
-     */
-#if !(NETCF_1_0 || NETCF_2_0 || SILVERLIGHT || PORTABLE)
-    [Serializable]
-#endif
     public class DataLengthException
 		: CryptoException
 	{

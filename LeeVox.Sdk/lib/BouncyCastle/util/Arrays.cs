@@ -1,8 +1,6 @@
 using System;
 using System.Text;
 
-using Org.BouncyCastle.Math;
-
 namespace Org.BouncyCastle.Utilities
 {
     /// <summary> General array utilities.</summary>
@@ -100,18 +98,6 @@ namespace Org.BouncyCastle.Utilities
         public static bool AreEqual(
             int[]	a,
             int[]	b)
-        {
-            if (a == b)
-                return true;
-
-            if (a == null || b == null)
-                return false;
-
-            return HaveSameContents(a, b);
-        }
-
-        [CLSCompliantAttribute(false)]
-        public static bool AreEqual(uint[] a, uint[] b)
         {
             if (a == b)
                 return true;
@@ -288,84 +274,6 @@ namespace Org.BouncyCastle.Utilities
             return hc;
         }
 
-        [CLSCompliantAttribute(false)]
-        public static int GetHashCode(uint[] data)
-        {
-            if (data == null)
-                return 0;
-
-            int i = data.Length;
-            int hc = i + 1;
-
-            while (--i >= 0)
-            {
-                hc *= 257;
-                hc ^= (int)data[i];
-            }
-
-            return hc;
-        }
-
-        [CLSCompliantAttribute(false)]
-        public static int GetHashCode(uint[] data, int off, int len)
-        {
-            if (data == null)
-                return 0;
-
-            int i = len;
-            int hc = i + 1;
-
-            while (--i >= 0)
-            {
-                hc *= 257;
-                hc ^= (int)data[off + i];
-            }
-
-            return hc;
-        }
-
-        [CLSCompliantAttribute(false)]
-        public static int GetHashCode(ulong[] data)
-        {
-            if (data == null)
-                return 0;
-
-            int i = data.Length;
-            int hc = i + 1;
-
-            while (--i >= 0)
-            {
-                ulong di = data[i];
-                hc *= 257;
-                hc ^= (int)di;
-                hc *= 257;
-                hc ^= (int)(di >> 32);
-            }
-
-            return hc;
-        }
-
-        [CLSCompliantAttribute(false)]
-        public static int GetHashCode(ulong[] data, int off, int len)
-        {
-            if (data == null)
-                return 0;
-
-            int i = len;
-            int hc = i + 1;
-
-            while (--i >= 0)
-            {
-                ulong di = data[off + i];
-                hc *= 257;
-                hc ^= (int)di;
-                hc *= 257;
-                hc ^= (int)(di >> 32);
-            }
-
-            return hc;
-        }
-
         public static byte[] Clone(
             byte[] data)
         {
@@ -373,7 +281,7 @@ namespace Org.BouncyCastle.Utilities
         }
 
         public static byte[] Clone(
-            byte[] data, 
+            byte[] data,
             byte[] existing)
         {
             if (data == null)
@@ -402,30 +310,6 @@ namespace Org.BouncyCastle.Utilities
         public static long[] Clone(long[] data)
         {
             return data == null ? null : (long[])data.Clone();
-        }
-
-        [CLSCompliantAttribute(false)]
-        public static ulong[] Clone(
-            ulong[] data)
-        {
-            return data == null ? null : (ulong[]) data.Clone();
-        }
-
-        [CLSCompliantAttribute(false)]
-        public static ulong[] Clone(
-            ulong[] data, 
-            ulong[] existing)
-        {
-            if (data == null)
-            {
-                return null;
-            }
-            if ((existing == null) || (existing.Length != data.Length))
-            {
-                return Clone(data);
-            }
-            Array.Copy(data, 0, existing, 0, existing.Length);
-            return existing;
         }
 
         public static bool Contains(byte[] a, byte n)
@@ -505,13 +389,6 @@ namespace Org.BouncyCastle.Utilities
             return tmp;
         }
 
-        public static BigInteger[] CopyOf(BigInteger[] data, int newLength)
-        {
-            BigInteger[] tmp = new BigInteger[newLength];
-            Array.Copy(data, 0, tmp, 0, System.Math.Min(newLength, data.Length));
-            return tmp;
-        }
-
         /**
          * Make a copy of a range of bytes from the passed in data array. The range can
          * extend beyond the end of the input array, in which case the return array will
@@ -543,14 +420,6 @@ namespace Org.BouncyCastle.Utilities
         {
             int newLength = GetLength(from, to);
             long[] tmp = new long[newLength];
-            Array.Copy(data, from, tmp, 0, System.Math.Min(newLength, data.Length - from));
-            return tmp;
-        }
-
-        public static BigInteger[] CopyOfRange(BigInteger[] data, int from, int to)
-        {
-            int newLength = GetLength(from, to);
-            BigInteger[] tmp = new BigInteger[newLength];
             Array.Copy(data, from, tmp, 0, System.Math.Min(newLength, data.Length - from));
             return tmp;
         }

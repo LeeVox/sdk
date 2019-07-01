@@ -5,7 +5,6 @@ using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Crypto.Digests;
 using Org.BouncyCastle.Crypto.Macs;
 using Org.BouncyCastle.Crypto.Utilities;
-using Org.BouncyCastle.Math;
 using Org.BouncyCastle.Security;
 
 namespace Org.BouncyCastle.Crypto.Generators
@@ -106,6 +105,7 @@ namespace Org.BouncyCastle.Crypto.Generators
         * @param keySize the size of the key we want (in bits)
         * @return a KeyParameter object.
         */
+		[Obsolete]
         public override ICipherParameters GenerateDerivedParameters(
             int keySize)
         {
@@ -132,6 +132,7 @@ namespace Org.BouncyCastle.Crypto.Generators
         * @param ivSize the size of the iv we want (in bits)
         * @return a ParametersWithIV object.
         */
+		[Obsolete]
         public override ICipherParameters GenerateDerivedParameters(
             int	keySize,
             int	ivSize)

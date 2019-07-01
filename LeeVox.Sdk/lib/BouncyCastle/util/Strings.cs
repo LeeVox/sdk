@@ -77,34 +77,19 @@ namespace Org.BouncyCastle.Utilities
         public static string FromAsciiByteArray(
             byte[] bytes)
         {
-#if SILVERLIGHT || PORTABLE
-            // TODO Check for non-ASCII bytes in input?
             return Encoding.UTF8.GetString(bytes, 0, bytes.Length);
-#else
-            return Encoding.ASCII.GetString(bytes, 0, bytes.Length);
-#endif
         }
 
         public static byte[] ToAsciiByteArray(
             char[] cs)
         {
-#if SILVERLIGHT || PORTABLE
-            // TODO Check for non-ASCII characters in input?
             return Encoding.UTF8.GetBytes(cs);
-#else
-            return Encoding.ASCII.GetBytes(cs);
-#endif
         }
 
         public static byte[] ToAsciiByteArray(
             string s)
         {
-#if SILVERLIGHT || PORTABLE
-            // TODO Check for non-ASCII characters in input?
             return Encoding.UTF8.GetBytes(s);
-#else
-            return Encoding.ASCII.GetBytes(s);
-#endif
         }
 
         public static string FromUtf8ByteArray(
