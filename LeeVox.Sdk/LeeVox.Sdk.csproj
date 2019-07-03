@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <DebugType>Full</DebugType>
+    <DebugType>Portable</DebugType>
     <TargetFrameworks>netcoreapp2.1</TargetFrameworks>
 
     <IsPackable>True</IsPackable>
