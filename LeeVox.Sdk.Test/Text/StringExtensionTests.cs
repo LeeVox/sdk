@@ -1,7 +1,6 @@
 using System;
 using System.Globalization;
 using System.Linq;
-using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace LeeVox.Sdk.Test
@@ -227,8 +226,8 @@ namespace LeeVox.Sdk.Test
         [DataRow(SE, STRING_2_SPACES_LOWER, STRING_1_SPACES_UPPER)]
         public void StringComparerTests(string cultureName, string left, string right)
         {
-            var currentCultureName = Thread.CurrentThread.CurrentCulture.Name;
-            Thread.CurrentThread.CurrentCulture = new CultureInfo(cultureName);
+            var currentCultureName = CultureInfo.CurrentCulture.Name;
+            CultureInfo.CurrentCulture = new CultureInfo(cultureName);
 
             Assert.AreEqual(StringComparer.Ordinal.Compare(left?.Trim(), right?.Trim()), StringComparerIgnoreSpaces.Ordinal.Compare(left, right));
             Assert.AreEqual(StringComparer.Ordinal.Equals(left?.Trim(), right?.Trim()), StringComparerIgnoreSpaces.Ordinal.Equals(left, right));
@@ -262,7 +261,7 @@ namespace LeeVox.Sdk.Test
             Assert.AreEqual(StringComparer.InvariantCultureIgnoreCase.GetHashCode(right?.Trim()), StringComparerIgnoreSpaces.InvariantCultureIgnoreCase.GetHashCode(right));
 #endif
 
-            Thread.CurrentThread.CurrentCulture = new CultureInfo(currentCultureName);
+            CultureInfo.CurrentCulture = new CultureInfo(currentCultureName);
         }
     }
 }
