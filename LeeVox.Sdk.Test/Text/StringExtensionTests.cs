@@ -1,8 +1,6 @@
 using System;
 using System.Globalization;
 using System.Linq;
-using System.Threading;
-using LeeVox.Sdk;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace LeeVox.Sdk.Test
@@ -207,7 +205,63 @@ namespace LeeVox.Sdk.Test
             Assert.ThrowsException<ArgumentNullException>(() => STRING_2.OrdinalContains(NULL_STRING_1));
             Assert.ThrowsException<ArgumentNullException>(() => STRING_1.OrdinalContains(NULL_STRING_2, true));
         }
+
+        [TestMethod]
+        [DataRow(US, STRING_1, STRING_1_UPPER)]
+        [DataRow(US, STRING_1, STRING_1_SPACES)]
+        [DataRow(US, STRING_1, STRING_1_SPACES_UPPER)]
+        [DataRow(US, STRING_1_SPACES, STRING_1_SPACES_UPPER)]
+        [DataRow(US, STRING_2, STRING_1)]
+        [DataRow(US, STRING_2_SPACES, STRING_1_UPPER)]
+        [DataRow(US, STRING_2_LOWER, STRING_1_SPACES_UPPER)]
+        [DataRow(US, STRING_2_SPACES_LOWER, STRING_1_SPACES_UPPER)]
+
+        [DataRow(SE, STRING_1, STRING_1_UPPER)]
+        [DataRow(SE, STRING_1, STRING_1_SPACES)]
+        [DataRow(SE, STRING_1, STRING_1_SPACES_UPPER)]
+        [DataRow(SE, STRING_1_SPACES, STRING_1_SPACES_UPPER)]
+        [DataRow(SE, STRING_2, STRING_1)]
+        [DataRow(SE, STRING_2_SPACES, STRING_1_UPPER)]
+        [DataRow(SE, STRING_2_LOWER, STRING_1_SPACES_UPPER)]
+        [DataRow(SE, STRING_2_SPACES_LOWER, STRING_1_SPACES_UPPER)]
+        public void StringComparerTests(string cultureName, string left, string right)
+        {
+            var currentCultureName = CultureInfo.CurrentCulture.Name;
+            CultureInfo.CurrentCulture = new CultureInfo(cultureName);
+
+            Assert.AreEqual(StringComparer.Ordinal.Compare(left?.Trim(), right?.Trim()), StringComparerIgnoreSpaces.Ordinal.Compare(left, right));
+            Assert.AreEqual(StringComparer.Ordinal.Equals(left?.Trim(), right?.Trim()), StringComparerIgnoreSpaces.Ordinal.Equals(left, right));
+            Assert.AreEqual(StringComparer.Ordinal.GetHashCode(left?.Trim()), StringComparerIgnoreSpaces.Ordinal.GetHashCode(left));
+            Assert.AreEqual(StringComparer.Ordinal.GetHashCode(right?.Trim()), StringComparerIgnoreSpaces.Ordinal.GetHashCode(right));
+
+            Assert.AreEqual(StringComparer.OrdinalIgnoreCase.Compare(left?.Trim(), right?.Trim()), StringComparerIgnoreSpaces.OrdinalIgnoreCase.Compare(left, right));
+            Assert.AreEqual(StringComparer.OrdinalIgnoreCase.Equals(left?.Trim(), right?.Trim()), StringComparerIgnoreSpaces.OrdinalIgnoreCase.Equals(left, right));
+            Assert.AreEqual(StringComparer.OrdinalIgnoreCase.GetHashCode(left?.Trim()), StringComparerIgnoreSpaces.OrdinalIgnoreCase.GetHashCode(left));
+            Assert.AreEqual(StringComparer.OrdinalIgnoreCase.GetHashCode(right?.Trim()), StringComparerIgnoreSpaces.OrdinalIgnoreCase.GetHashCode(right));
+
+            Assert.AreEqual(StringComparer.CurrentCulture.Compare(left?.Trim(), right?.Trim()), StringComparerIgnoreSpaces.CurrentCulture.Compare(left, right));
+            Assert.AreEqual(StringComparer.CurrentCulture.Equals(left?.Trim(), right?.Trim()), StringComparerIgnoreSpaces.CurrentCulture.Equals(left, right));
+            Assert.AreEqual(StringComparer.CurrentCulture.GetHashCode(left?.Trim()), StringComparerIgnoreSpaces.CurrentCulture.GetHashCode(left));
+            Assert.AreEqual(StringComparer.CurrentCulture.GetHashCode(right?.Trim()), StringComparerIgnoreSpaces.CurrentCulture.GetHashCode(right));
+
+            Assert.AreEqual(StringComparer.CurrentCultureIgnoreCase.Compare(left?.Trim(), right?.Trim()), StringComparerIgnoreSpaces.CurrentCultureIgnoreCase.Compare(left, right));
+            Assert.AreEqual(StringComparer.CurrentCultureIgnoreCase.Equals(left?.Trim(), right?.Trim()), StringComparerIgnoreSpaces.CurrentCultureIgnoreCase.Equals(left, right));
+            Assert.AreEqual(StringComparer.CurrentCultureIgnoreCase.GetHashCode(left?.Trim()), StringComparerIgnoreSpaces.CurrentCultureIgnoreCase.GetHashCode(left));
+            Assert.AreEqual(StringComparer.CurrentCultureIgnoreCase.GetHashCode(right?.Trim()), StringComparerIgnoreSpaces.CurrentCultureIgnoreCase.GetHashCode(right));
+
+#if NETCOREAPP2_0_OR_ABOVE || NETSTANDARD2_0_OR_ABOVE
+            Assert.AreEqual(StringComparer.InvariantCulture.Compare(left?.Trim(), right?.Trim()), StringComparerIgnoreSpaces.InvariantCulture.Compare(left, right));
+            Assert.AreEqual(StringComparer.InvariantCulture.Equals(left?.Trim(), right?.Trim()), StringComparerIgnoreSpaces.InvariantCulture.Equals(left, right));
+            Assert.AreEqual(StringComparer.InvariantCulture.GetHashCode(left?.Trim()), StringComparerIgnoreSpaces.InvariantCulture.GetHashCode(left));
+            Assert.AreEqual(StringComparer.InvariantCulture.GetHashCode(right?.Trim()), StringComparerIgnoreSpaces.InvariantCulture.GetHashCode(right));
+
+            Assert.AreEqual(StringComparer.InvariantCultureIgnoreCase.Compare(left?.Trim(), right?.Trim()), StringComparerIgnoreSpaces.InvariantCultureIgnoreCase.Compare(left, right));
+            Assert.AreEqual(StringComparer.InvariantCultureIgnoreCase.Equals(left?.Trim(), right?.Trim()), StringComparerIgnoreSpaces.InvariantCultureIgnoreCase.Equals(left, right));
+            Assert.AreEqual(StringComparer.InvariantCultureIgnoreCase.GetHashCode(left?.Trim()), StringComparerIgnoreSpaces.InvariantCultureIgnoreCase.GetHashCode(left));
+            Assert.AreEqual(StringComparer.InvariantCultureIgnoreCase.GetHashCode(right?.Trim()), StringComparerIgnoreSpaces.InvariantCultureIgnoreCase.GetHashCode(right));
+#endif
+
+            CultureInfo.CurrentCulture = new CultureInfo(currentCultureName);
+        }
     }
 }
-
-
