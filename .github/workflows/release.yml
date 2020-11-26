@@ -17,6 +17,12 @@ jobs:
         target: ['net5']
     runs-on: ${{ matrix.os }}
     steps:
+      - name: get version
+        id: get-version
+        shell: pwsh
+        run: |
+          echo $VERSION
+          echo ("VERSION=" + $VERSION + ([math]::Round( [math]::Sqrt( ((Get-Date) - (Get-Date -Date "1/1/2020 0:0:0")).TotalMinutes )))) >> $GITHUB_ENV
       - name: checkout
         uses: actions/checkout@master
       - name: setup .netcore sdk
@@ -31,11 +37,6 @@ jobs:
           git log -3
       - name: build
         run: dotnet build LeeVox.Sdk -f ${{ matrix.target }} -c ${{ matrix.config }} /p:TargetFrameworks=${{ matrix.target }}
-      - name: get version
-        id: get-version
-        shell: pwsh
-        run: |
-           echo ("VERSION=" + ([math]::Round( [math]::Sqrt( ((Get-Date) - (Get-Date -Date "1/1/2020 0:0:0")).TotalMinutes )))) >> $GITHUB_ENV
       - name: pack
         run: dotnet pack LeeVox.Sdk -c ${{ matrix.config }} /p:TargetFrameworks=${{ matrix.target }} /p:Version=$VERSION
       - name: create release
