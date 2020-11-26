@@ -37,13 +37,20 @@ jobs:
       - name: build
         run: dotnet build LeeVox.Sdk -f ${{ matrix.target }} -c ${{ matrix.config }} /p:TargetFrameworks=${{ matrix.target }}
       - name: pack
-        run: dotnet pack LeeVox.Sdk -c ${{ matrix.config }} /p:TargetFrameworks=${{ matrix.target }} /p:Version=${{ steps.get-version.outputs.VERSION }}
+        run: dotnet pack LeeVox.Sdk -c ${{ matrix.config }} --include-symbols /p:TargetFrameworks=${{ matrix.target }} /p:Version=$VERSION
       - name: create release
         uses: actions/create-release@v1
         with:
-          tag_name: v${{ steps.get-version.outputs.VERSION }}
-          release_name: Version ${{ steps.get-version.outputs.VERSION }}
+          tag_name: v$VERSION
+          release_name: Version $VERSION
           draft: false
           pre_release: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ steps.get-version.outputs.VERSION }}
+      - name: publish nuget
+        run: |
+          dotnet nuget push LeeVox.Sdk\bin\${{ matrix.config }}\LeeVox.Sdk.$VERSION.symbols.nupkg --source https://api.nuget.org/v3/index.json --api-key $API_KEY
+        env:
+          API_KEY: ${{ secrets.LEEVOX_NUGET_API_KEY }}
+          VERSION: ${{ steps.get-version.outputs.VERSION }}
