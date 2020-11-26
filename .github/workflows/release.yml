@@ -10,7 +10,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: ['windows-latest']
+        os: ['macOS-latest']
         sdk: ['5.0.100']
         config: ['Release']
         target: ['net5']
@@ -32,8 +32,9 @@ jobs:
         run: dotnet build LeeVox.Sdk -f ${{ matrix.target }} -c ${{ matrix.config }} /p:TargetFrameworks=${{ matrix.target }}
       - name: get patch version
         id: get-patch-version
+        shell: pwsh
         run: |
-          echo '::set-output name=PATCH::$(( $(date +"%s") - $(date --date='2020-01-01T00:00:00+00:00' +"%s") ))'
+          '::set-output name=PATCH::' + [math]::Round( ((Get-Date) - (Get-Date -Date "1/1/2020 0:0:0")).TotalMinutes / 2)
       - name: pack
         run: dotnet pack LeeVox.Sdk -c ${{ matrix.config }} /p:TargetFrameworks=${{ matrix.target }} /p:Version=$VERSION.${{ steps.get-patch-version.outputs.PATCH }}
       - name: create release
