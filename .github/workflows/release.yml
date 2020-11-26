@@ -21,7 +21,7 @@ jobs:
         id: get-version
         shell: pwsh
         run: |
-          Write-Host ("VERSION=$env:VERSION." + ([math]::Round( [math]::Sqrt( ((Get-Date) - (Get-Date -Date "1/1/2020 0:0:0")).TotalMinutes )))) >> $GITHUB_ENV
+          Write-Host ("::set-output name=VERSION::$env:VERSION." + ([math]::Round( [math]::Sqrt( ((Get-Date) - (Get-Date -Date "1/1/2020 0:0:0")).TotalMinutes ))))
       - name: checkout
         uses: actions/checkout@master
       - name: setup .netcore sdk
@@ -37,12 +37,12 @@ jobs:
       - name: build
         run: dotnet build LeeVox.Sdk -f ${{ matrix.target }} -c ${{ matrix.config }} /p:TargetFrameworks=${{ matrix.target }}
       - name: pack
-        run: dotnet pack LeeVox.Sdk -c ${{ matrix.config }} /p:TargetFrameworks=${{ matrix.target }} /p:Version=$VERSION
+        run: dotnet pack LeeVox.Sdk -c ${{ matrix.config }} /p:TargetFrameworks=${{ matrix.target }} /p:Version=${{ steps.get-version.outputs.VERSION }}
       - name: create release
         uses: actions/create-release@v1
         with:
-          tag_name: v$VERSION
-          release_name: Version $VERSION
+          tag_name: v${{ steps.get-version.outputs.VERSION }}
+          release_name: Version ${{ steps.get-version.outputs.VERSION }}
           draft: false
           pre_release: false
         env:
