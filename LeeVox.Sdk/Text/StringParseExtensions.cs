@@ -12,10 +12,7 @@ namespace LeeVox.Sdk
         /// </summary>
         /// <remarks>returns <c>null</c> if the conversion fails.</remarks>
         public static TResult? ParseTo<TResult>(this string text)
-            where TResult : struct
-#if NETCOREAPP || NETSTANDARD1_3_OR_ABOVE
-            , IConvertible
-#endif
+            where TResult : struct, IConvertible
         {
             try
             {
@@ -32,10 +29,7 @@ namespace LeeVox.Sdk
         /// </summary>
         /// <remarks>returns <c>null</c> if the conversion fails.</remarks>
         public static TResult? ParseTo<TResult>(this string text, IFormatProvider provider)
-            where TResult : struct
-#if NETCOREAPP || NETSTANDARD1_3_OR_ABOVE
-            , IConvertible
-#endif
+            where TResult : struct, IConvertible
         {
             try
             {
@@ -52,10 +46,7 @@ namespace LeeVox.Sdk
         /// </summary>
         /// <param name="returnValueIfError">returns value if cannot convert</param>
         public static TResult ParseTo<TResult>(this string text, TResult returnValueIfError)
-            where TResult : struct
-#if NETCOREAPP || NETSTANDARD1_3_OR_ABOVE
-            , IConvertible
-#endif
+            where TResult : struct, IConvertible
         {
             try
             {
@@ -72,10 +63,7 @@ namespace LeeVox.Sdk
         /// </summary>
         /// <param name="returnValueIfError">returns value if cannot convert</param>
         public static TResult ParseTo<TResult>(this string text, IFormatProvider provider, TResult returnValueIfError)
-            where TResult : struct
-#if NETCOREAPP || NETSTANDARD1_3_OR_ABOVE
-            , IConvertible
-#endif
+            where TResult : struct, IConvertible
         {
             try
             {
