@@ -1,4 +1,4 @@
-name: .NET 5
+name: windows
 
 on: [push, pull_request]
 
@@ -7,7 +7,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: ['windows-latest', 'ubuntu-latest', 'macOS-latest']
+        os: ['windows-latest']
         sdk: ['5.0.100']
         config: ['Debug', 'Release']
         target:

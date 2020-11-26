@@ -1,0 +1,44 @@
+name: macos
+
+on: [push, pull_request]
+
+jobs:
+  main:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ['macOS-latest']
+        sdk: ['5.0.100']
+        config: ['Debug', 'Release']
+        target:
+          - 'net5'
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: checkout
+        uses: actions/checkout@master
+      - name: setup .netcore sdk
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: ${{ matrix.sdk }}
+      - name: show info
+        run: |
+          echo sdk version
+          dotnet --version
+          echo branch '${{ github.ref }}', os '${{ matrix.os }}', sdk '${{ matrix.sdk }}', target '${{ matrix.target }}', config '${{ matrix.config }}'
+          git log -3
+      - name: build
+        run: dotnet build LeeVox.Sdk -f ${{ matrix.target }} -c ${{ matrix.config }} /p:TargetFrameworks=${{ matrix.target }}
+      - name: test
+        run: dotnet test LeeVox.Sdk.Test -f ${{ matrix.target }} -c ${{ matrix.config }} /p:TargetFrameworks=${{ matrix.target }} /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=TestResults/Coverage/
+      - name: upload code coverage
+        continue-on-error: true
+        run: |
+          chmod +x $CODECOV
+          $CODECOV -B $GITHUB_REF -n "os $OS - sdk $SDK - target $TARGET - config $CONFIG"
+        shell: sh -e {0}
+        env:
+          OS: ${{ matrix.os }}
+          SDK: ${{ matrix.sdk }}
+          TARGET: ${{ matrix.target }}
+          CONFIG: ${{ matrix.config }}
+          CODECOV: ${{ github.workspace }}/.github/workflows/codecov.sh

@@ -7,9 +7,9 @@ This is collection of useful functions for lazy developers (like me).
 ## Status
 
 ### Build
-| Windows | Linux | macOS |
-| ---     | ---   | ---   |
-| [![Build Status](https://dev.azure.com/leevox/sdk/_apis/build/status/windows-ci?branchName=master)](https://dev.azure.com/leevox/sdk/_build) | [![Build Status](https://dev.azure.com/leevox/sdk/_apis/build/status/linux-ci?branchName=master)](https://dev.azure.com/leevox/sdk/_build) | [![Build Status](https://dev.azure.com/leevox/sdk/_apis/build/status/osx-ci?branchName=master)](https://dev.azure.com/leevox/sdk/_build) |
+| Windows  | Ubuntu | macOS  |
+| ---      | ---    | ---    |
+| [![Build Status](https://github.com/leevox/sdk/workflows/windows/badge.svg)](https://github.com/LeeVox/sdk/actions) | [![Build Status](https://github.com/leevox/sdk/workflows/ubuntu/badge.svg)](https://github.com/LeeVox/sdk/actions) | [![Build Status](https://github.com/leevox/sdk/workflows/macos/badge.svg)](https://github.com/LeeVox/sdk/actions) |
 
 ### Code Coverage
 [![codecov](https://codecov.io/gh/LeeVox/sdk/branch/master/graph/badge.svg)](https://codecov.io/gh/LeeVox/sdk/branch/master)
