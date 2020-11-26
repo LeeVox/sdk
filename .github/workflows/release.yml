@@ -2,9 +2,8 @@ name: release
 
 on:
   push:
-
-env:
-  VERSION: "5.0"
+    branches:
+      - "master"
 
 jobs:
   main:
@@ -21,7 +20,7 @@ jobs:
         id: get-version
         shell: pwsh
         run: |
-          Write-Host ("::set-output name=VERSION::$env:VERSION." + ([math]::Round( [math]::Sqrt( ((Get-Date) - (Get-Date -Date "1/1/2020 0:0:0")).TotalMinutes ))))
+          Write-Host ("::set-output name=VERSION::" + (Get-Date -Format 'yy.MM.HHmm'))
       - name: checkout
         uses: actions/checkout@master
       - name: setup .netcore sdk
