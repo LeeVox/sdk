@@ -30,13 +30,13 @@ jobs:
           git log -3
       - name: build
         run: dotnet build LeeVox.Sdk -f ${{ matrix.target }} -c ${{ matrix.config }} /p:TargetFrameworks=${{ matrix.target }}
-      - name: pack
-        run: dotnet pack LeeVox.Sdk -f ${{ matrix.target }} -c ${{ matrix.config }} /p:TargetFrameworks=${{ matrix.target }}
       - name: get patch version
         id: get-patch-version
         run: |
           PATCH=$(( $(date +"%s") - $(date --date='2020-01-01T00:00:00+00:00' +"%s") ))
           echo '::set-output name=PATCH::$PATCH'
+      - name: pack
+        run: dotnet pack LeeVox.Sdk -c ${{ matrix.config }} /p:TargetFrameworks=${{ matrix.target }} /p:Version=$VERSION.${{ steps.get-patch-version.outputs.PATCH }}
       - name: create release
         uses: actions/create-release@v1
         with:
