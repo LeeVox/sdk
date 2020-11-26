@@ -10,7 +10,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: ['macOS-latest']
+        os: ['windows-latest']
         sdk: ['5.0.100']
         config: ['Release']
         target: ['net5']
