@@ -33,8 +33,7 @@ jobs:
       - name: get patch version
         id: get-patch-version
         run: |
-          PATCH=$(( $(date +"%s") - $(date --date='2020-01-01T00:00:00+00:00' +"%s") ))
-          echo '::set-output name=PATCH::$PATCH'
+          echo '::set-output name=PATCH::$(( $(date +"%s") - $(date --date='2020-01-01T00:00:00+00:00' +"%s") ))'
       - name: pack
         run: dotnet pack LeeVox.Sdk -c ${{ matrix.config }} /p:TargetFrameworks=${{ matrix.target }} /p:Version=$VERSION.${{ steps.get-patch-version.outputs.PATCH }}
       - name: create release
