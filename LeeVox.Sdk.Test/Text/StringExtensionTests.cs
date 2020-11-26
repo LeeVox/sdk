@@ -101,10 +101,8 @@ namespace LeeVox.Sdk.Test
 
             Assert.AreEqual(string.Equals(a.Trim(), b.Trim(), StringComparison.CurrentCulture), a.IsEqualIgnoreSpaces(b, StringComparison.CurrentCulture));
             Assert.AreEqual(string.Equals(a.ToUpper().Trim(), b.ToLower().Trim(), StringComparison.CurrentCultureIgnoreCase), a.IsEqualIgnoreSpaces(b, StringComparison.CurrentCultureIgnoreCase));
-#if NETCOREAPP2_0_OR_ABOVE || NETSTANDARD2_0_OR_ABOVE
             Assert.AreEqual(string.Equals(a.Trim(), b.Trim(), StringComparison.InvariantCulture), a.IsEqualIgnoreSpaces(b, StringComparison.InvariantCulture));
             Assert.AreEqual(string.Equals(a.ToUpper().Trim(), b.ToLower().Trim(), StringComparison.InvariantCultureIgnoreCase), a.IsEqualIgnoreSpaces(b, StringComparison.InvariantCultureIgnoreCase));
-#endif
 
             Assert.AreEqual(string.Equals(a.Trim(), b.Trim(), StringComparison.Ordinal), a.IsOrdinalEqualIgnoreSpaces(b));
             Assert.AreEqual(string.Equals(a.Trim(), b.Trim(), StringComparison.Ordinal), a.IsOrdinalEqualIgnoreSpaces(b, false));
@@ -139,10 +137,8 @@ namespace LeeVox.Sdk.Test
             Assert.AreEqual(string.Equals(a, b, StringComparison.CurrentCulture), a.IsEqualIgnoreSpaces(b, false));
             Assert.AreEqual(string.Equals(a, b, StringComparison.CurrentCulture), a.IsEqualIgnoreSpaces(b, StringComparison.CurrentCulture));
             Assert.AreEqual(string.Equals(a, b, StringComparison.CurrentCultureIgnoreCase), a.IsEqualIgnoreSpaces(b, StringComparison.CurrentCultureIgnoreCase));
-#if NETCOREAPP2_0_OR_ABOVE || NETSTANDARD2_0_OR_ABOVE
             Assert.AreEqual(string.Equals(a, b, StringComparison.InvariantCulture), a.IsEqualIgnoreSpaces(b, StringComparison.InvariantCulture));
             Assert.AreEqual(string.Equals(a, b, StringComparison.InvariantCultureIgnoreCase), a.IsEqualIgnoreSpaces(b, StringComparison.InvariantCultureIgnoreCase));
-#endif
 
             Assert.AreEqual(string.Equals(a, b, StringComparison.Ordinal), a.IsOrdinalEqualIgnoreSpaces(b));
             Assert.AreEqual(string.Equals(a, b, StringComparison.OrdinalIgnoreCase), a.IsOrdinalEqualIgnoreSpaces(b, false));
@@ -159,9 +155,7 @@ namespace LeeVox.Sdk.Test
             Assert.IsTrue(STRING_1_SPACES.Contains(STRING_1));
             Assert.IsFalse(STRING_1_SPACES.Contains(STRING_1_UPPER, false));
             Assert.AreEqual(STRING_1_SPACES.IndexOf(STRING_1_UPPER, StringComparison.CurrentCultureIgnoreCase) >= 0, STRING_1_SPACES.Contains(STRING_1_UPPER, StringComparison.CurrentCultureIgnoreCase));
-#if NETCOREAPP2_0_OR_ABOVE || NETSTANDARD2_0_OR_ABOVE
             Assert.AreEqual(STRING_2_SPACES.IndexOf(STRING_2_LOWER, StringComparison.InvariantCulture) >= 0, STRING_2_SPACES.Contains(STRING_2_LOWER, StringComparison.InvariantCulture));
-#endif
             Assert.IsTrue(STRING_2_SPACES.Contains(STRING_2_LOWER, true));
 
             Assert.IsTrue(STRING_1_SPACES.OrdinalContains(STRING_1));
@@ -173,9 +167,7 @@ namespace LeeVox.Sdk.Test
             Assert.IsTrue(STRING_1_SPACES.Contains(STRING_1));
             Assert.IsFalse(STRING_1_SPACES.Contains(STRING_1_UPPER, false));
             Assert.AreEqual(STRING_2_SPACES.IndexOf(STRING_2_LOWER, StringComparison.CurrentCultureIgnoreCase) >= 0, STRING_2_SPACES.Contains(STRING_2_LOWER, StringComparison.CurrentCultureIgnoreCase));
-            #if NETCOREAPP2_0_OR_ABOVE || NETSTANDARD2_0_OR_ABOVE
             Assert.AreEqual(STRING_1_SPACES.IndexOf(STRING_1_UPPER, StringComparison.InvariantCultureIgnoreCase) >= 0, STRING_1_SPACES.Contains(STRING_1_UPPER, StringComparison.InvariantCultureIgnoreCase));
-#endif
             Assert.IsTrue(STRING_2_SPACES.Contains(STRING_2_LOWER, true));
 
             Assert.IsTrue(STRING_1_SPACES.OrdinalContains(STRING_1));
@@ -249,7 +241,6 @@ namespace LeeVox.Sdk.Test
             Assert.AreEqual(StringComparer.CurrentCultureIgnoreCase.GetHashCode(left?.Trim()), StringComparerIgnoreSpaces.CurrentCultureIgnoreCase.GetHashCode(left));
             Assert.AreEqual(StringComparer.CurrentCultureIgnoreCase.GetHashCode(right?.Trim()), StringComparerIgnoreSpaces.CurrentCultureIgnoreCase.GetHashCode(right));
 
-#if NETCOREAPP2_0_OR_ABOVE || NETSTANDARD2_0_OR_ABOVE
             Assert.AreEqual(StringComparer.InvariantCulture.Compare(left?.Trim(), right?.Trim()), StringComparerIgnoreSpaces.InvariantCulture.Compare(left, right));
             Assert.AreEqual(StringComparer.InvariantCulture.Equals(left?.Trim(), right?.Trim()), StringComparerIgnoreSpaces.InvariantCulture.Equals(left, right));
             Assert.AreEqual(StringComparer.InvariantCulture.GetHashCode(left?.Trim()), StringComparerIgnoreSpaces.InvariantCulture.GetHashCode(left));
@@ -259,7 +250,6 @@ namespace LeeVox.Sdk.Test
             Assert.AreEqual(StringComparer.InvariantCultureIgnoreCase.Equals(left?.Trim(), right?.Trim()), StringComparerIgnoreSpaces.InvariantCultureIgnoreCase.Equals(left, right));
             Assert.AreEqual(StringComparer.InvariantCultureIgnoreCase.GetHashCode(left?.Trim()), StringComparerIgnoreSpaces.InvariantCultureIgnoreCase.GetHashCode(left));
             Assert.AreEqual(StringComparer.InvariantCultureIgnoreCase.GetHashCode(right?.Trim()), StringComparerIgnoreSpaces.InvariantCultureIgnoreCase.GetHashCode(right));
-#endif
 
             CultureInfo.CurrentCulture = new CultureInfo(currentCultureName);
         }

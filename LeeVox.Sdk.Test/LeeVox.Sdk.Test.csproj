@@ -2,13 +2,7 @@
   <PropertyGroup>
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
-    <TargetFrameworks>netcoreapp2.1</TargetFrameworks>
-
-    <TargetFrameworks>$(TargetFrameworks);netcoreapp2.2</TargetFrameworks>
-    <TargetFrameworks>$(TargetFrameworks);netcoreapp2.1</TargetFrameworks>
-    <TargetFrameworks>$(TargetFrameworks);netcoreapp2.0</TargetFrameworks>
-    <TargetFrameworks>$(TargetFrameworks);netcoreapp1.1</TargetFrameworks>
-    <TargetFrameworks>$(TargetFrameworks);netcoreapp1.0</TargetFrameworks>
+    <TargetFrameworks>net5</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,48 +19,4 @@
   <ItemGroup>
     <ProjectReference Include="..\LeeVox.Sdk\LeeVox.Sdk.csproj" />
   </ItemGroup>
-
-  <PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp1.0'">
-    <TargetFrameworks>netcoreapp1.0</TargetFrameworks>
-    <DefineConstants>$(DefineConstants);NETCOREAPP</DefineConstants>
-    <DefineConstants>$(DefineConstants);NETCOREAPP1_0_OR_ABOVE</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp1.1'">
-    <TargetFrameworks>netcoreapp1.1</TargetFrameworks>
-    <DefineConstants>$(DefineConstants);NETCOREAPP</DefineConstants>
-    <DefineConstants>$(DefineConstants);NETCOREAPP1_0_OR_ABOVE</DefineConstants>
-    <DefineConstants>$(DefineConstants);NETCOREAPP1_1_OR_ABOVE</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp2.0'">
-    <TargetFrameworks>netcoreapp2.0</TargetFrameworks>
-    <DefineConstants>$(DefineConstants);NETCOREAPP</DefineConstants>
-    <DefineConstants>$(DefineConstants);NETCOREAPP1_0_OR_ABOVE</DefineConstants>
-    <DefineConstants>$(DefineConstants);NETCOREAPP1_1_OR_ABOVE</DefineConstants>
-    <DefineConstants>$(DefineConstants);NETCOREAPP2_0_OR_ABOVE</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp2.1'">
-    <TargetFrameworks>netcoreapp2.1</TargetFrameworks>
-    <DefineConstants>$(DefineConstants);NETCOREAPP</DefineConstants>
-    <DefineConstants>$(DefineConstants);NETCOREAPP1_0_OR_ABOVE</DefineConstants>
-    <DefineConstants>$(DefineConstants);NETCOREAPP1_1_OR_ABOVE</DefineConstants>
-    <DefineConstants>$(DefineConstants);NETCOREAPP2_0_OR_ABOVE</DefineConstants>
-    <DefineConstants>$(DefineConstants);NETCOREAPP2_1_OR_ABOVE</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp2.2'">
-    <TargetFrameworks>netcoreapp2.2</TargetFrameworks>
-    <DefineConstants>$(DefineConstants);NETCOREAPP1_0_OR_ABOVE</DefineConstants>
-    <DefineConstants>$(DefineConstants);NETCOREAPP1_1_OR_ABOVE</DefineConstants>
-    <DefineConstants>$(DefineConstants);NETCOREAPP2_0_OR_ABOVE</DefineConstants>
-    <DefineConstants>$(DefineConstants);NETCOREAPP2_1_OR_ABOVE</DefineConstants>
-    <DefineConstants>$(DefineConstants);NETCOREAPP2_2_OR_ABOVE</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
-    <TargetFrameworks>netcoreapp3.0</TargetFrameworks>
-    <DefineConstants>$(DefineConstants);NETCOREAPP1_0_OR_ABOVE</DefineConstants>
-    <DefineConstants>$(DefineConstants);NETCOREAPP1_1_OR_ABOVE</DefineConstants>
-    <DefineConstants>$(DefineConstants);NETCOREAPP2_0_OR_ABOVE</DefineConstants>
-    <DefineConstants>$(DefineConstants);NETCOREAPP2_1_OR_ABOVE</DefineConstants>
-    <DefineConstants>$(DefineConstants);NETCOREAPP2_2_OR_ABOVE</DefineConstants>
-    <DefineConstants>$(DefineConstants);NETCOREAPP3_0_OR_ABOVE</DefineConstants>
-  </PropertyGroup>
 </Project>

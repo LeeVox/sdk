@@ -72,11 +72,7 @@ namespace LeeVox.Sdk.Test
 
             Assert.IsTrue(float.Epsilon >= float.MinValue - "-3.402823E+38".ParseToFloat());
             Assert.AreEqual(-12.345F, "\t -12.345\r \n".ParseToFloat());
-#if NETCOREAPP3_0_OR_ABOVE
             Assert.AreEqual(float.NegativeInfinity, "-3.992823E+38".ParseToFloat());
-#else
-            Assert.AreEqual(null, "-3.992823E+38".ParseToFloat());
-#endif
             Assert.AreEqual(1F, "abcdef".ParseToFloat(1F));
             Assert.AreEqual(-15.666F, "-15.666".ParseToFloat(1F));
             Assert.AreEqual(-1234F, "1,234-".ParseToFloat(NumberStyles.AllowThousands | NumberStyles.AllowTrailingSign, null));
@@ -86,11 +82,7 @@ namespace LeeVox.Sdk.Test
 
             Assert.IsTrue(double.Epsilon >= double.MaxValue - "1.7976931348623157E+308".ParseToDouble());
             Assert.AreEqual(-12.345D, "\t -12.345\r \n".ParseToDouble());
-#if NETCOREAPP3_0_OR_ABOVE
             Assert.AreEqual(double.PositiveInfinity, "1.9976931348623157E+308".ParseToDouble());
-#else
-            Assert.AreEqual(null, "1.9976931348623157E+308".ParseToDouble());
-#endif
             Assert.AreEqual(1D, "abcdef".ParseToDouble(1D));
             Assert.AreEqual(-15.666D, "-15.666".ParseToDouble(1D));
             Assert.AreEqual(-1234D, "1,234-".ParseToDouble(NumberStyles.AllowThousands | NumberStyles.AllowTrailingSign, null));

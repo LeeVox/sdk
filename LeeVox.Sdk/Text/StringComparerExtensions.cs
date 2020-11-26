@@ -40,8 +40,6 @@ namespace LeeVox.Sdk
             }
         }
 
-#if NETCOREAPP2_0_OR_ABOVE || NETSTANDARD2_0_OR_ABOVE
-
         /// <summary>
         /// Gets a <c>System.StringComparer</c> object that performs a case-sensitive string comparison
         /// using the word comparison rules of the invariant culture and ignores trailing + leading whitespaces.
@@ -53,8 +51,6 @@ namespace LeeVox.Sdk
         /// using the word comparison rules of the invariant culture and ignores trailing + leading whitespaces.
         /// </summary>
         public static StringComparer InvariantCultureIgnoreCase { get; } = new IgnoreSpacesComparer(StringComparer.InvariantCultureIgnoreCase);
-
-#endif
 
         internal sealed class IgnoreSpacesComparer : StringComparer
         {
