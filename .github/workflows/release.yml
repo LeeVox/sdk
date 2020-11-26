@@ -35,14 +35,14 @@ jobs:
         id: get-version
         shell: pwsh
         run: |
-          "::set-output name=VERSION::$VERSION." + [math]::Round( [math]::Sqrt( ((Get-Date) - (Get-Date -Date "1/1/2020 0:0:0")).TotalMinutes ))
+           echo ("VERSION=" + ([math]::Round( [math]::Sqrt( ((Get-Date) - (Get-Date -Date "1/1/2020 0:0:0")).TotalMinutes )))) >> $GITHUB_ENV
       - name: pack
-        run: dotnet pack LeeVox.Sdk -c ${{ matrix.config }} /p:TargetFrameworks=${{ matrix.target }} /p:Version=${{ steps.get-patch-version.outputs.VERSION }}
+        run: dotnet pack LeeVox.Sdk -c ${{ matrix.config }} /p:TargetFrameworks=${{ matrix.target }} /p:Version=$VERSION
       - name: create release
         uses: actions/create-release@v1
         with:
-          tag_name: v${{ steps.get-patch-version.outputs.VERSION }}
-          release_name: Version ${{ steps.get-patch-version.outputs.VERSION }}
+          tag_name: v$VERSION
+          release_name: Version $VERSION
           draft: false
           pre_release: false
         env:
