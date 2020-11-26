@@ -21,8 +21,8 @@ jobs:
         id: get-version
         shell: pwsh
         run: |
-          echo $VERSION
-          echo ("VERSION=" + $VERSION + ([math]::Round( [math]::Sqrt( ((Get-Date) - (Get-Date -Date "1/1/2020 0:0:0")).TotalMinutes )))) >> $GITHUB_ENV
+          Write-Host $env:VERSION
+          Write-Host ("VERSION=" + $env:VERSION + ([math]::Round( [math]::Sqrt( ((Get-Date) - (Get-Date -Date "1/1/2020 0:0:0")).TotalMinutes )))) >> $GITHUB_ENV
       - name: checkout
         uses: actions/checkout@master
       - name: setup .netcore sdk
