@@ -7,7 +7,9 @@ namespace LeeVox.Sdk
     public static class Base32
 	{
 		private static readonly char PaddingChar = '=';
+		private static readonly char[] Base32LowerCaseChars = Enumerable.Concat(GetCharsRange('a', 'z'), GetCharsRange('2', '7')).ToArray();
 		private static readonly char[] Base32Chars = Enumerable.Concat(GetCharsRange('A', 'Z'), GetCharsRange('2', '7')).ToArray();
+		private static readonly char[] Base32ExtendedHexLowerCaseChars = Enumerable.Concat(GetCharsRange('0', '9'), GetCharsRange('a', 'v')).ToArray();
 		private static readonly char[] Base32ExtendedHexChars = Enumerable.Concat(GetCharsRange('0', '9'), GetCharsRange('A', 'V')).ToArray();
 		private static readonly Dictionary<char, byte> Base32CharsLookup = Base32Chars.Concat(GetCharsRange('a', 'z'))
 			.ToDictionary(c => c, c => (byte)Array.IndexOf(Base32Chars, Char.ToUpper(c)));
@@ -20,8 +22,8 @@ namespace LeeVox.Sdk
 		/// Converts an array of 8-bit unsigned integers to its equivalent string representation
         // that is encoded with base-32 digits (RFC 4648)
 		/// </summary>
-		public static string ToBase32String(IEnumerable<byte> bytes)
-			=> new string(EncodeBase32WithMappingChars(bytes, Base32Chars));
+		public static string ToBase32String(IEnumerable<byte> bytes, bool useLowerCase = false)
+			=> new string(EncodeBase32WithMappingChars(bytes, useLowerCase ? Base32LowerCaseChars : Base32Chars));
 
 		/// <summary>
 		/// Converts the specified string, which encodes binary data as base-32 digits (RFC 4648),
@@ -34,8 +36,8 @@ namespace LeeVox.Sdk
 		/// Converts an array of 8-bit unsigned integers to its equivalent string representation
 		/// that is encoded with base-32-extended-hex digits (RFC 4648)
 		/// </summary>
-		public static string ToBase32ExtendedHexString(byte[] bytes)
-			=> new string(EncodeBase32WithMappingChars(bytes, Base32ExtendedHexChars));
+		public static string ToBase32ExtendedHexString(byte[] bytes, bool useLowerCase = false)
+			=> new string(EncodeBase32WithMappingChars(bytes, useLowerCase ? Base32ExtendedHexLowerCaseChars : Base32ExtendedHexChars));
 
 		/// <summary>
 		/// Converts the specified string, which encodes binary data as base-32-extended-hex digits (RFC 4648),

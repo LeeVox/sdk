@@ -1,6 +1,13 @@
 name: ubuntu
 
-on: [push, pull_request]
+on:
+  pull_request:
+    branches:
+      - "*"
+
+defaults:
+  run:
+    shell: bash
 
 jobs:
   main:
@@ -16,20 +23,23 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@master
+        with:
+          fetch-depth: 3
       - name: setup .netcore sdk
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: ${{ matrix.sdk }}
       - name: show info
         run: |
-          echo sdk version
+          echo "sdk version:"
           dotnet --version
-          echo branch '${{ github.ref }}', os '${{ matrix.os }}', sdk '${{ matrix.sdk }}', target '${{ matrix.target }}', config '${{ matrix.config }}'
-          git log -3
+          echo "branch: ${{ github.ref }}, os: ${{ matrix.os }}, sdk: ${{ matrix.sdk }}, target: ${{ matrix.target }}, config: ${{ matrix.config }}"
+          echo "git logs:"
+          git log -n 3
       - name: build
-        run: dotnet build LeeVox.Sdk -f ${{ matrix.target }} -c ${{ matrix.config }} /p:TargetFrameworks=${{ matrix.target }}
+        run: dotnet build LeeVox.Sdk -f ${{ matrix.target }} -c ${{ matrix.config }} -p:TargetFrameworks=${{ matrix.target }}
       - name: test
-        run: dotnet test LeeVox.Sdk.Test -f ${{ matrix.target }} -c ${{ matrix.config }} /p:TargetFrameworks=${{ matrix.target }} /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=TestResults/Coverage/
+        run: dotnet test LeeVox.Sdk.Test -f ${{ matrix.target }} -c ${{ matrix.config }} -p:TargetFrameworks=${{ matrix.target }} -p:CollectCoverage=true -p:CoverletOutputFormat=cobertura -p:CoverletOutput=TestResults/Coverage/
       - name: upload code coverage
         continue-on-error: true
         run: |
