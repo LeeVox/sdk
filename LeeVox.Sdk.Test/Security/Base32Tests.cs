@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using FluentAssertions;
 using Xunit;
@@ -6,6 +10,21 @@ namespace LeeVox.Sdk.Test
 {
     public class Base32Tests
     {
+        public static readonly IEnumerable<object[]> RandomBytes;
+
+        static Base32Tests()
+        {
+            RandomBytes = Enumerable.Range(1, 30).Select(x =>
+            {
+                var bytes = new byte[64];
+                using (var random = new RNGCryptoServiceProvider())
+                {
+                    random.GetBytes(bytes);
+                }
+                return new string[] { Convert.ToBase64String(bytes) };
+            });
+        }
+
         [Theory]
         [InlineData("", "")]
         [InlineData("f", "MY======")]
@@ -104,6 +123,44 @@ namespace LeeVox.Sdk.Test
             var actualDecodedBytes = Base32.FromBase32ExtendedHexString(encoded);
             var actualDecodedString = Encoding.ASCII.GetString(actualDecodedBytes);
             actualDecodedString.Should().BeEquivalentTo(expectedRaw);
+        }
+
+        [Theory]
+        [MemberData(nameof(RandomBytes))]
+        public void EncodeDecodeRandomBytesUsingBase32(string randomBytesAsBase64)
+        {
+            var randomBytes = Convert.FromBase64String(randomBytesAsBase64);
+
+            var encoded = Base32.ToBase32String(randomBytes);
+            var decoded = Base32.FromBase32String(encoded);
+
+            decoded.Length.Should().Be(randomBytes.Length);
+            decoded.Should().BeEquivalentTo(randomBytes, $"Encode then Decode should return original bytes: '{randomBytesAsBase64}'");
+
+            var encodedLowercase = Base32.ToBase32String(randomBytes, useLowerCase: true);
+            var decodedLowercase = Base32.FromBase32String(encodedLowercase);
+
+            decodedLowercase.Length.Should().Be(randomBytes.Length);
+            decodedLowercase.Should().BeEquivalentTo(randomBytes, $"Encode then Decode (Lowercase) should return original bytes: '{randomBytesAsBase64}'");
+        }
+
+        [Theory]
+        [MemberData(nameof(RandomBytes))]
+        public void EncodeDecodeRandomBytesUsingBase32ExtendedHex(string randomBytesAsBase64)
+        {
+            var randomBytes = Convert.FromBase64String(randomBytesAsBase64);
+
+            var encoded = Base32.ToBase32ExtendedHexString(randomBytes);
+            var decoded = Base32.FromBase32ExtendedHexString(encoded);
+
+            decoded.Length.Should().Be(randomBytes.Length);
+            decoded.Should().BeEquivalentTo(randomBytes, $"Encode then Decode should return original bytes: '{randomBytesAsBase64}'");
+
+            var encodedLowercase = Base32.ToBase32ExtendedHexString(randomBytes, useLowerCase: true);
+            var decodedLowercase = Base32.FromBase32ExtendedHexString(encodedLowercase);
+
+            decodedLowercase.Length.Should().Be(randomBytes.Length);
+            decodedLowercase.Should().BeEquivalentTo(randomBytes, $"Encode then Decode (Lowercase) should return original bytes: '{randomBytesAsBase64}'");
         }
     }
 }
