@@ -3,9 +3,6 @@ name: release
 on:
   push:
 
-env:
-  BUILD_VERSION: ${{ secrets.VERSION }}.${{ github.run_number }}
-
 jobs:
   main:
     strategy:
@@ -17,6 +14,9 @@ jobs:
         target: ['net5']
     runs-on: ${{ matrix.os }}
     steps:
+      - name: set version
+        run: |
+          echo "BUILD_VERSION=$(xmllint --xpath '/Project/PropertyGroup/Version/text()' LeeVox.Sdk/LeeVox.Sdk.csproj).${{ github.run_number }}" >> $GITHUB_ENV
       - name: checkout
         uses: actions/checkout@master
       - name: setup .netcore sdk
@@ -30,10 +30,8 @@ jobs:
           dotnet --version
           echo branch '${{ github.ref }}', os '${{ matrix.os }}', sdk '${{ matrix.sdk }}', target '${{ matrix.target }}', config '${{ matrix.config }}'
           git log -3
-      - name: build
-        run: dotnet build LeeVox.Sdk -f ${{ matrix.target }} -c ${{ matrix.config }} /p:TargetFrameworks=${{ matrix.target }}
       - name: pack
-        run: dotnet pack LeeVox.Sdk -c ${{ matrix.config }} --include-symbols /p:TargetFrameworks=${{ matrix.target }} /p:Version=$BUILD_VERSION
+        run: dotnet pack LeeVox.Sdk -c ${{ matrix.config }} /p:TargetFrameworks=${{ matrix.target }} /p:Version=$BUILD_VERSION
       - name: create release
         uses: actions/create-release@v1
         with:

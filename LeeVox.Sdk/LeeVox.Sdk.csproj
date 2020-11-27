@@ -2,6 +2,7 @@
   <PropertyGroup>
     <DebugType>Portable</DebugType>
     <TargetFrameworks>net5</TargetFrameworks>
+    <Version>5.0</Version>
 
     <IsPackable>True</IsPackable>
     <Title>LeeVox SDK</Title>
@@ -9,5 +10,8 @@
     <Authors>LeeVox</Authors>
     <PackageIconUrl></PackageIconUrl>
     <RepositoryUrl>https://github.com/LeeVox/sdk</RepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <IncludeSymbols>true</IncludeSymbols>
+    <IncludeSource>true</IncludeSource>
   </PropertyGroup>
 </Project>
