@@ -2,8 +2,6 @@ name: release
 
 on:
   push:
-    branches:
-      - "master"
 
 defaults:
   run:
@@ -34,8 +32,7 @@ jobs:
           echo "BUILD_VERSION=$(xmllint --xpath 'Project/PropertyGroup/Version/text()' LeeVox.Sdk/LeeVox.Sdk.csproj).${{ github.run_number }}" >> $GITHUB_ENV
       - name: show info
         run: |
-          echo "build version:"
-          echo $BUILD_VERSION "|" ${{ env.BUILD_VERSION }}
+          echo "build version: $BUILD_VERSION"
           echo "sdk version:"
           dotnet --version
           echo "branch: ${{ github.ref }}, os: ${{ matrix.os }}, sdk: ${{ matrix.sdk }}, target: ${{ matrix.target }}, config: ${{ matrix.config }}"
@@ -46,8 +43,8 @@ jobs:
       - name: create release
         uses: actions/create-release@v1
         with:
-          tag_name: v$BUILD_VERSION
-          release_name: Version $BUILD_VERSION
+          tag_name: v${{ env.BUILD_VERSION }}
+          release_name: Version ${{ env.BUILD_VERSION }}
           draft: false
           pre_release: false
         env:
