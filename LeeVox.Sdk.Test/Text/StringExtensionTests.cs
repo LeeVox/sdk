@@ -43,24 +43,24 @@ namespace LeeVox.Sdk.Test
 
             expected = string.Empty;
             actual = NULL_STRING.SafeTrim();
-            actual.Should().BeEquivalentTo(expected, "Should returns empty string if text is null.");
+            AssertEqual(expected, actual, "Should returns empty string if text is null.");
 
             expected = string.Empty;
             actual = NULL_STRING.SafeTrim('a', 'b', 'c');
-            actual.Should().BeEquivalentTo(expected, "Should returns empty string if text is null.");
+            AssertEqual(expected, actual, "Should returns empty string if text is null.");
 
             expected = UNICODE_STRING.Trim();
             actual = UNICODE_STRING.SafeTrim();
-            actual.Should().BeEquivalentTo(expected, "Should able to trim basic whitespaces.");
+            AssertEqual(expected, actual, "Should able to trim basic whitespaces.");
 
             expected = ALL_WHITESPACES_STRING.Trim();
             actual = ALL_WHITESPACES_STRING.SafeTrim();
-            actual.Should().BeEquivalentTo(expected, "Should able to trim all whitespace chars.");
+            AssertEqual(expected, actual, "Should able to trim all whitespace chars.");
             // ref: https://docs.microsoft.com/en-us/dotnet/api/system.char.iswhitespace
 
             expected = SAMPLE_STRING.Trim(TRIM_CHARS);
             actual = SAMPLE_STRING.SafeTrim(TRIM_CHARS);
-            actual.Should().BeEquivalentTo(expected, "Should able to trim specified chars.");
+            AssertEqual(expected, actual, "Should able to trim specified chars.");
         }
 
         [Theory]
@@ -254,8 +254,8 @@ namespace LeeVox.Sdk.Test
             CultureInfo.CurrentCulture = new CultureInfo(currentCultureName);
         }
 
-        private void AssertEqual<T>(T expected, T actual)
-            => actual.Should().BeEquivalentTo(expected);
+        private void AssertEqual<T>(T expected, T actual, string message = null)
+            => actual.Should().BeEquivalentTo(expected, message);
 
         private void AssertTrue(bool value)
             => value.Should().BeTrue();
