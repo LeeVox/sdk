@@ -14,9 +14,9 @@ namespace LeeVox.Sdk.Test
 
         static Base32Tests()
         {
-            RandomBytes = Enumerable.Range(1, 30).Select(x =>
+            RandomBytes = Enumerable.Range(0, 256).Select(x =>
             {
-                var bytes = new byte[64];
+                var bytes = new byte[x];
                 using (var random = new RNGCryptoServiceProvider())
                 {
                     random.GetBytes(bytes);
@@ -133,15 +133,21 @@ namespace LeeVox.Sdk.Test
 
             var encoded = Base32.ToBase32String(randomBytes);
             var decoded = Base32.FromBase32String(encoded);
+            var decodedTrim = Base32.FromBase32String(encoded.TrimEnd('='));
 
             decoded.Length.Should().Be(randomBytes.Length);
-            decoded.Should().BeEquivalentTo(randomBytes, $"Encode then Decode should return original bytes: '{randomBytesAsBase64}'");
+            decoded.Should().BeEquivalentTo(randomBytes, $"Decode(Encode()) should return original bytes: '{randomBytesAsBase64}'");
+            decodedTrim.Length.Should().Be(randomBytes.Length);
+            decodedTrim.Should().BeEquivalentTo(randomBytes, $"Decode(Trim(Encode())) should return original bytes: '{randomBytesAsBase64}'");
 
             var encodedLowercase = Base32.ToBase32String(randomBytes, useLowerCase: true);
             var decodedLowercase = Base32.FromBase32String(encodedLowercase);
+            var decodedTrimLowercase = Base32.FromBase32String(encodedLowercase.TrimEnd('='));
 
             decodedLowercase.Length.Should().Be(randomBytes.Length);
-            decodedLowercase.Should().BeEquivalentTo(randomBytes, $"Encode then Decode (Lowercase) should return original bytes: '{randomBytesAsBase64}'");
+            decodedLowercase.Should().BeEquivalentTo(randomBytes, $"Decode(Encode(lowercase)) should return original bytes: '{randomBytesAsBase64}'");
+            decodedTrimLowercase.Length.Should().Be(randomBytes.Length);
+            decodedTrimLowercase.Should().BeEquivalentTo(randomBytes, $"Decode(Trim(Encode(lowercase))) should return original bytes: '{randomBytesAsBase64}'");
         }
 
         [Theory]
@@ -152,15 +158,21 @@ namespace LeeVox.Sdk.Test
 
             var encoded = Base32.ToBase32ExtendedHexString(randomBytes);
             var decoded = Base32.FromBase32ExtendedHexString(encoded);
+            var decodedTrim = Base32.FromBase32ExtendedHexString(encoded.TrimEnd('='));
 
             decoded.Length.Should().Be(randomBytes.Length);
-            decoded.Should().BeEquivalentTo(randomBytes, $"Encode then Decode should return original bytes: '{randomBytesAsBase64}'");
+            decoded.Should().BeEquivalentTo(randomBytes, $"Decode(Encode()) should return original bytes: '{randomBytesAsBase64}'");
+            decodedTrim.Length.Should().Be(randomBytes.Length);
+            decodedTrim.Should().BeEquivalentTo(randomBytes, $"Decode(Trim(Encode())) should return original bytes: '{randomBytesAsBase64}'");
 
             var encodedLowercase = Base32.ToBase32ExtendedHexString(randomBytes, useLowerCase: true);
             var decodedLowercase = Base32.FromBase32ExtendedHexString(encodedLowercase);
+            var decodedTrimLowercase = Base32.FromBase32ExtendedHexString(encodedLowercase.TrimEnd('='));
 
             decodedLowercase.Length.Should().Be(randomBytes.Length);
-            decodedLowercase.Should().BeEquivalentTo(randomBytes, $"Encode then Decode (Lowercase) should return original bytes: '{randomBytesAsBase64}'");
+            decodedLowercase.Should().BeEquivalentTo(randomBytes, $"Decode(Encode(lowercase)) should return original bytes: '{randomBytesAsBase64}'");
+            decodedTrimLowercase.Length.Should().Be(randomBytes.Length);
+            decodedTrimLowercase.Should().BeEquivalentTo(randomBytes, $"Decode(Trim(Encode(lowercase))) should return original bytes: '{randomBytesAsBase64}'");
         }
     }
 }
