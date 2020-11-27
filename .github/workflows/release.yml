@@ -2,8 +2,9 @@ name: release
 
 on:
   push:
-    branches:
-      - "master"
+
+env:
+  BUILD_VERSION: ${{ secrets.VERSION }}.${{ github.run_number }}
 
 jobs:
   main:
@@ -16,11 +17,6 @@ jobs:
         target: ['net5']
     runs-on: ${{ matrix.os }}
     steps:
-      - name: get version
-        id: get-version
-        shell: pwsh
-        run: |
-          Write-Host ("::set-output name=VERSION::" + (Get-Date -Format 'yy.MM.HHmm'))
       - name: checkout
         uses: actions/checkout@master
       - name: setup .netcore sdk
@@ -29,6 +25,7 @@ jobs:
           dotnet-version: ${{ matrix.sdk }}
       - name: show info
         run: |
+          echo build version $BUILD_VERSION
           echo sdk version
           dotnet --version
           echo branch '${{ github.ref }}', os '${{ matrix.os }}', sdk '${{ matrix.sdk }}', target '${{ matrix.target }}', config '${{ matrix.config }}'
@@ -36,16 +33,18 @@ jobs:
       - name: build
         run: dotnet build LeeVox.Sdk -f ${{ matrix.target }} -c ${{ matrix.config }} /p:TargetFrameworks=${{ matrix.target }}
       - name: pack
-        run: dotnet pack LeeVox.Sdk -c ${{ matrix.config }} --include-symbols /p:TargetFrameworks=${{ matrix.target }} /p:Version=${{ steps.get-version.outputs.VERSION }}
+        run: dotnet pack LeeVox.Sdk -c ${{ matrix.config }} --include-symbols /p:TargetFrameworks=${{ matrix.target }} /p:Version=$BUILD_VERSION
       - name: create release
         uses: actions/create-release@v1
         with:
-          tag_name: v${{ steps.get-version.outputs.VERSION }}
-          release_name: Version ${{ steps.get-version.outputs.VERSION }}
+          tag_name: v$BUILD_VERSION
+          release_name: Version $BUILD_VERSION
           draft: false
           pre_release: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: publish nuget
         run: |
-          dotnet nuget push LeeVox.Sdk\bin\${{ matrix.config }}\LeeVox.Sdk.${{ steps.get-version.outputs.VERSION }}.symbols.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.LEEVOX_NUGET_API_KEY }}
+          dotnet nuget push LeeVox.Sdk\bin\${{ matrix.config }}\LeeVox.Sdk.$BUILD_VERSION.symbols.nupkg --source https://api.nuget.org/v3/index.json --api-key $LEEVOX_NUGET_API_KEY
+        env:
+          LEEVOX_NUGET_API_KEY: ${{ secrets.LEEVOX_NUGET_API_KEY }}
