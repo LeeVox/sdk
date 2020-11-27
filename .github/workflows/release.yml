@@ -2,6 +2,8 @@ name: release
 
 on:
   push:
+    branches:
+      - "master"
 
 defaults:
   run:
@@ -52,6 +54,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: publish nuget
         run: |
-          dotnet nuget push LeeVox.Sdk\bin\${{ matrix.config }}\LeeVox.Sdk.$BUILD_VERSION.symbols.nupkg --source https://api.nuget.org/v3/index.json --api-key $LEEVOX_NUGET_API_KEY
+          dotnet nuget push LeeVox.Sdk/bin/${{ matrix.config }}/LeeVox.Sdk.$BUILD_VERSION.symbols.nupkg --source https://api.nuget.org/v3/index.json --api-key $LEEVOX_NUGET_API_KEY
         env:
           LEEVOX_NUGET_API_KEY: ${{ secrets.LEEVOX_NUGET_API_KEY }}

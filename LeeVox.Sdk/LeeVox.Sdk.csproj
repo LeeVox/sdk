@@ -2,7 +2,7 @@
   <PropertyGroup>
     <DebugType>Portable</DebugType>
     <TargetFrameworks>net5</TargetFrameworks>
-    <Version>5.0</Version>
+    <Version>5.1</Version>
 
     <IsPackable>True</IsPackable>
     <Title>LeeVox SDK</Title>
