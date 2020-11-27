@@ -16,7 +16,7 @@ jobs:
         sdk: ['5.0.100']
         config: ['Release']
         target:
-          - net5.0
+          - net5
     runs-on: ${{ matrix.os }}
     steps:
       - name: checkout
@@ -40,7 +40,7 @@ jobs:
           echo "git logs:"
           git log -n 3
       - name: pack
-        run: dotnet pack LeeVox.Sdk -c ${{ matrix.config }} /p:TargetFrameworks=${{ matrix.target }} /p:Version=$BUILD_VERSION
+        run: dotnet pack LeeVox.Sdk -c ${{ matrix.config }} -p:TargetFrameworks=${{ matrix.target }} -p:Version=$BUILD_VERSION
       - name: create release
         uses: actions/create-release@v1
         with:
