@@ -25,10 +25,12 @@ jobs:
           echo "BUILD_VERSION=$(xmllint --xpath '/Project/PropertyGroup/Version/text()' LeeVox.Sdk/LeeVox.Sdk.csproj).${{ github.run_number }}" >> $GITHUB_ENV
       - name: show info
         run: |
-          echo build version $BUILD_VERSION
-          echo sdk version
+          echo "build version $BUILD_VERSION"
+          echo "build version ${{ env.BUILD_VERSION }} "
+          echo "sdk version"
           dotnet --version
-          echo branch '${{ github.ref }}', os '${{ matrix.os }}', sdk '${{ matrix.sdk }}', target '${{ matrix.target }}', config '${{ matrix.config }}'
+          echo "branch ${{ github.ref }}, os ${{ matrix.os }}, sdk ${{ matrix.sdk }}, target ${{ matrix.target }}, config ${{ matrix.config }}"
+          echo "git logs"
           git log -3
       - name: pack
         run: dotnet pack LeeVox.Sdk -c ${{ matrix.config }} /p:TargetFrameworks=${{ matrix.target }} /p:Version=$BUILD_VERSION
