@@ -15,7 +15,8 @@ jobs:
         os: ['windows-latest']
         sdk: ['5.0.100']
         config: ['Release']
-        target: ['net5']
+        target:
+          - net5
     runs-on: ${{ matrix.os }}
     steps:
       - name: checkout
@@ -28,7 +29,7 @@ jobs:
           dotnet-version: ${{ matrix.sdk }}
       - name: set version
         run: |
-          echo "BUILD_VERSION=$(xmllint --xpath '/Project/PropertyGroup/Version/text()' LeeVox.Sdk/LeeVox.Sdk.csproj).${{ github.run_number }}" >> $GITHUB_ENV
+          echo "BUILD_VERSION=$(xmllint --xpath 'Project/PropertyGroup/Version/text()' LeeVox.Sdk/LeeVox.Sdk.csproj).${{ github.run_number }}" >> $GITHUB_ENV
       - name: show info
         run: |
           echo "build version:"
