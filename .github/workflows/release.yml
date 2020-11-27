@@ -14,15 +14,15 @@ jobs:
         target: ['net5']
     runs-on: ${{ matrix.os }}
     steps:
-      - name: set version
-        run: |
-          echo "BUILD_VERSION=$(xmllint --xpath '/Project/PropertyGroup/Version/text()' LeeVox.Sdk/LeeVox.Sdk.csproj).${{ github.run_number }}" >> $GITHUB_ENV
-      - name: checkout
-        uses: actions/checkout@master
       - name: setup .netcore sdk
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: ${{ matrix.sdk }}
+      - name: checkout
+        uses: actions/checkout@master
+      - name: set version
+        run: |
+          echo "BUILD_VERSION=$(xmllint --xpath '/Project/PropertyGroup/Version/text()' LeeVox.Sdk/LeeVox.Sdk.csproj).${{ github.run_number }}" >> $GITHUB_ENV
       - name: show info
         run: |
           echo build version $BUILD_VERSION
