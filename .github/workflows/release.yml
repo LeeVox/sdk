@@ -16,7 +16,7 @@ jobs:
         sdk: ['5.0.100']
         config: ['Release']
         target:
-          - net5
+          - net5.0
     runs-on: ${{ matrix.os }}
     steps:
       - name: checkout

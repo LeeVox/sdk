@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <DebugType>Portable</DebugType>
-    <TargetFrameworks>net5</TargetFrameworks>
+    <TargetFrameworks>net5.0</TargetFrameworks>
     <Version>5.0</Version>
 
     <IsPackable>True</IsPackable>
