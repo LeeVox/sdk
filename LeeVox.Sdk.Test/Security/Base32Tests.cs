@@ -1,27 +1,13 @@
 using System;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using FluentAssertions;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace LeeVox.Sdk.Test
 {
     public class Base32Tests
     {
-#if STRESS_TEST
-        private const int MAX_BYTES_LENGTH = 1024;
-#else
-        private const int MAX_BYTES_LENGTH = 256;
-#endif
-
-        private readonly ITestOutputHelper Output;
-        public Base32Tests(ITestOutputHelper output)
-        {
-            Output = output;
-        }
-
         [Theory]
         [InlineData("", "")]
         [InlineData("f", "MY======")]
@@ -122,17 +108,22 @@ namespace LeeVox.Sdk.Test
             actualDecodedString.Should().BeEquivalentTo(expectedRaw);
         }
 
-        [Fact]
-        public void EncodeDecodeRandomBytesUsingBase32()
+        [Theory]
+        [InlineData(0, 128)]
+        [InlineData(128, 256)]
+#if STRESS_TEST
+        [InlineData(256, 512)]
+        [InlineData(512, 1024)]
+        [InlineData(1024, 1536)]
+        [InlineData(1536, 2048)]
+#endif
+        public void EncodeDecodeRandomBytesUsingBase32(int minLength, int maxLength)
         {
-            Output.WriteLine("[Base32Tests] MAX_BYTES_LENGTH: " + MAX_BYTES_LENGTH);
-
-            var bytesLengthTests = Enumerable.Range(0, MAX_BYTES_LENGTH);
             var uselowerCaseTests = new bool[] { true, false };
 
-            foreach (var bytesLength in bytesLengthTests)
+            for (var length = minLength; length <= maxLength; length++)
             {
-                var bytes = GenerateRandomBytes(bytesLength);
+                var bytes = GenerateRandomBytes(length);
                 var bytesAsBase64 = Convert.ToBase64String(bytes);
 
                 foreach (var useLowercase in uselowerCaseTests)
@@ -149,17 +140,22 @@ namespace LeeVox.Sdk.Test
             }
         }
 
-        [Fact]
-        public void EncodeDecodeRandomBytesUsingBase32ExtendedHex()
+        [Theory]
+        [InlineData(0, 128)]
+        [InlineData(128, 256)]
+#if STRESS_TEST
+        [InlineData(256, 512)]
+        [InlineData(512, 1024)]
+        [InlineData(1024, 1536)]
+        [InlineData(1536, 2048)]
+#endif
+        public void EncodeDecodeRandomBytesUsingBase32ExtendedHex(int minLength, int maxLength)
         {
-            Output.WriteLine("[Base32Tests] MAX_BYTES_LENGTH: " + MAX_BYTES_LENGTH);
-
-            var bytesLengthTests = Enumerable.Range(0, MAX_BYTES_LENGTH);
             var uselowerCaseTests = new bool[] { true, false };
 
-            foreach (var bytesLength in bytesLengthTests)
+            for (var length = minLength; length <= maxLength; length++)
             {
-                var bytes = GenerateRandomBytes(bytesLength);
+                var bytes = GenerateRandomBytes(length);
                 var bytesAsBase64 = Convert.ToBase64String(bytes);
 
                 foreach (var useLowercase in uselowerCaseTests)
@@ -176,12 +172,18 @@ namespace LeeVox.Sdk.Test
             }
         }
 
-        [Fact]
-        public void EncodeDecodeBytesOfZeroUsingBase32()
+        [Theory]
+        [InlineData(0, 128)]
+        [InlineData(128, 256)]
+#if STRESS_TEST
+        [InlineData(256, 512)]
+        [InlineData(512, 1024)]
+        [InlineData(1024, 1536)]
+        [InlineData(1536, 2048)]
+#endif
+        public void EncodeDecodeBytesOfZeroUsingBase32(int minLength, int maxLength)
         {
-            Output.WriteLine("[Base32Tests] MAX_BYTES_LENGTH: " + MAX_BYTES_LENGTH);
-
-            for (var length = 0; length <= MAX_BYTES_LENGTH; length++)
+            for (var length = minLength; length <= maxLength; length++)
             {
                 var bytes = new byte[length];
                 Array.Fill(bytes, (byte)0);
@@ -206,12 +208,18 @@ namespace LeeVox.Sdk.Test
             }
         }
 
-        [Fact]
-        public void EncodeDecodeBytesOfZeroUsingBase32ExtendedHex()
+        [Theory]
+        [InlineData(0, 128)]
+        [InlineData(128, 256)]
+#if STRESS_TEST
+        [InlineData(256, 512)]
+        [InlineData(512, 1024)]
+        [InlineData(1024, 1536)]
+        [InlineData(1536, 2048)]
+#endif
+        public void EncodeDecodeBytesOfZeroUsingBase32ExtendedHex(int minLength, int maxLength)
         {
-            Output.WriteLine("[Base32Tests] MAX_BYTES_LENGTH: " + MAX_BYTES_LENGTH);
-
-            for (var length = 0; length <= MAX_BYTES_LENGTH; length++)
+            for (var length = minLength; length <= maxLength; length++)
             {
                 var bytes = new byte[length];
                 Array.Fill(bytes, (byte)0);
