@@ -1,28 +1,25 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using FluentAssertions;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace LeeVox.Sdk.Test
 {
     public class Base32Tests
     {
-        public static readonly IEnumerable<object[]> RandomBytes;
+#if STRESS_TEST
+        private const int MAX_BYTES_LENGTH = 1024;
+#else
+        private const int MAX_BYTES_LENGTH = 256;
+#endif
 
-        static Base32Tests()
+        private readonly ITestOutputHelper Output;
+        public Base32Tests(ITestOutputHelper output)
         {
-            RandomBytes = Enumerable.Range(0, 256).Select(x =>
-            {
-                var bytes = new byte[x];
-                using (var random = new RNGCryptoServiceProvider())
-                {
-                    random.GetBytes(bytes);
-                }
-                return new string[] { Convert.ToBase64String(bytes) };
-            });
+            Output = output;
         }
 
         [Theory]
@@ -33,9 +30,9 @@ namespace LeeVox.Sdk.Test
         [InlineData("foob", "MZXW6YQ=")]
         [InlineData("fooba", "MZXW6YTB")]
         [InlineData("foobar", "MZXW6YTBOI======")]
-        public void EncodeBase32(string raw, string expectedEncoded)
+        public void EncodeStringUsingBase32(string raw, string expectedEncoded)
         {
-            var bytes = Encoding.ASCII.GetBytes(raw);
+            var bytes = Encoding.UTF8.GetBytes(raw);
             var actualEncoded = Base32.ToBase32String(bytes);
             actualEncoded.Should().BeEquivalentTo(expectedEncoded);
             var actualEncodedLowerCase = Base32.ToBase32String(bytes, useLowerCase: true);
@@ -68,10 +65,10 @@ namespace LeeVox.Sdk.Test
         [InlineData("mzXW6YQ", "foob")]
         [InlineData("mzxW6ytB", "fooba")]
         [InlineData("mzxw6ytboi", "foobar")]
-        public void DecodeBase32(string encoded, string expectedRaw)
+        public void DecodeBase32ToString(string encoded, string expectedRaw)
         {
             var actualDecodedBytes = Base32.FromBase32String(encoded);
-            var actualDecodedString = Encoding.ASCII.GetString(actualDecodedBytes);
+            var actualDecodedString = Encoding.UTF8.GetString(actualDecodedBytes);
             actualDecodedString.Should().BeEquivalentTo(expectedRaw);
         }
 
@@ -83,9 +80,9 @@ namespace LeeVox.Sdk.Test
         [InlineData("foob", "CPNMUOG=")]
         [InlineData("fooba", "CPNMUOJ1")]
         [InlineData("foobar", "CPNMUOJ1E8======")]
-        public void EncodeBase32ExtendedHex(string raw, string expectedEncoded)
+        public void EncodeStringToBase32ExtendedHex(string raw, string expectedEncoded)
         {
-            var bytes = Encoding.ASCII.GetBytes(raw);
+            var bytes = Encoding.UTF8.GetBytes(raw);
             var actualEncoded = Base32.ToBase32ExtendedHexString(bytes);
             actualEncoded.Should().BeEquivalentTo(expectedEncoded);
             var actualEncodedLowerCase = Base32.ToBase32ExtendedHexString(bytes, useLowerCase: true);
@@ -118,61 +115,156 @@ namespace LeeVox.Sdk.Test
         [InlineData("CpnMuoG", "foob")]
         [InlineData("cPnMUoJ1", "fooba")]
         [InlineData("cpnmuoj1e8", "foobar")]
-        public void DecodeBase32ExtendedHex(string encoded, string expectedRaw)
+        public void DecodeBase32ExtendedHexToString(string encoded, string expectedRaw)
         {
             var actualDecodedBytes = Base32.FromBase32ExtendedHexString(encoded);
-            var actualDecodedString = Encoding.ASCII.GetString(actualDecodedBytes);
+            var actualDecodedString = Encoding.UTF8.GetString(actualDecodedBytes);
             actualDecodedString.Should().BeEquivalentTo(expectedRaw);
         }
 
-        [Theory]
-        [MemberData(nameof(RandomBytes))]
-        public void EncodeDecodeRandomBytesUsingBase32(string randomBytesAsBase64)
+        [Fact]
+        public void EncodeDecodeRandomBytesUsingBase32()
         {
-            var randomBytes = Convert.FromBase64String(randomBytesAsBase64);
+            Output.WriteLine("[Base32Tests] MAX_BYTES_LENGTH: " + MAX_BYTES_LENGTH);
 
-            var encoded = Base32.ToBase32String(randomBytes);
-            var decoded = Base32.FromBase32String(encoded);
-            var decodedTrim = Base32.FromBase32String(encoded.TrimEnd('='));
+            var bytesLengthTests = Enumerable.Range(0, MAX_BYTES_LENGTH);
+            var uselowerCaseTests = new bool[] { true, false };
 
-            decoded.Length.Should().Be(randomBytes.Length);
-            decoded.Should().BeEquivalentTo(randomBytes, $"Decode(Encode()) should return original bytes: '{randomBytesAsBase64}'");
-            decodedTrim.Length.Should().Be(randomBytes.Length);
-            decodedTrim.Should().BeEquivalentTo(randomBytes, $"Decode(Trim(Encode())) should return original bytes: '{randomBytesAsBase64}'");
+            foreach (var bytesLength in bytesLengthTests)
+            {
+                var bytes = GenerateRandomBytes(bytesLength);
+                var bytesAsBase64 = Convert.ToBase64String(bytes);
 
-            var encodedLowercase = Base32.ToBase32String(randomBytes, useLowerCase: true);
-            var decodedLowercase = Base32.FromBase32String(encodedLowercase);
-            var decodedTrimLowercase = Base32.FromBase32String(encodedLowercase.TrimEnd('='));
+                foreach (var useLowercase in uselowerCaseTests)
+                {
+                    var encoded = Base32.ToBase32String(bytes, useLowercase);
+                    var decoded = Base32.FromBase32String(encoded);
+                    var decodedTrim = Base32.FromBase32String(encoded.TrimEnd('=', ' '));
 
-            decodedLowercase.Length.Should().Be(randomBytes.Length);
-            decodedLowercase.Should().BeEquivalentTo(randomBytes, $"Decode(Encode(lowercase)) should return original bytes: '{randomBytesAsBase64}'");
-            decodedTrimLowercase.Length.Should().Be(randomBytes.Length);
-            decodedTrimLowercase.Should().BeEquivalentTo(randomBytes, $"Decode(Trim(Encode(lowercase))) should return original bytes: '{randomBytesAsBase64}'");
+                    decoded.Length.Should().Be(bytes.Length, $"Encode then Decode should return same original byte count (useLowercase: {useLowercase}, original bytes as base64: '{bytesAsBase64}')");
+                    decoded.Should().BeEquivalentTo(bytes, $"Encode then Decode should return original bytes (useLowercase: {useLowercase}, original bytes as base64: '{bytesAsBase64}')");
+                    decodedTrim.Length.Should().Be(bytes.Length, $"Encode then Trim then then Decode should return same original byte count (useLowercase: {useLowercase}, original bytes as base64: '{bytesAsBase64}')");
+                    decodedTrim.Should().BeEquivalentTo(bytes, $"Encode then Trim then Decode should return original bytes (useLowercase: {useLowercase}, original bytes as base64: '{bytesAsBase64}')");
+                }
+            }
         }
 
-        [Theory]
-        [MemberData(nameof(RandomBytes))]
-        public void EncodeDecodeRandomBytesUsingBase32ExtendedHex(string randomBytesAsBase64)
+        [Fact]
+        public void EncodeDecodeRandomBytesUsingBase32ExtendedHex()
         {
-            var randomBytes = Convert.FromBase64String(randomBytesAsBase64);
+            Output.WriteLine("[Base32Tests] MAX_BYTES_LENGTH: " + MAX_BYTES_LENGTH);
 
-            var encoded = Base32.ToBase32ExtendedHexString(randomBytes);
-            var decoded = Base32.FromBase32ExtendedHexString(encoded);
-            var decodedTrim = Base32.FromBase32ExtendedHexString(encoded.TrimEnd('='));
+            var bytesLengthTests = Enumerable.Range(0, MAX_BYTES_LENGTH);
+            var uselowerCaseTests = new bool[] { true, false };
 
-            decoded.Length.Should().Be(randomBytes.Length);
-            decoded.Should().BeEquivalentTo(randomBytes, $"Decode(Encode()) should return original bytes: '{randomBytesAsBase64}'");
-            decodedTrim.Length.Should().Be(randomBytes.Length);
-            decodedTrim.Should().BeEquivalentTo(randomBytes, $"Decode(Trim(Encode())) should return original bytes: '{randomBytesAsBase64}'");
+            foreach (var bytesLength in bytesLengthTests)
+            {
+                var bytes = GenerateRandomBytes(bytesLength);
+                var bytesAsBase64 = Convert.ToBase64String(bytes);
 
-            var encodedLowercase = Base32.ToBase32ExtendedHexString(randomBytes, useLowerCase: true);
-            var decodedLowercase = Base32.FromBase32ExtendedHexString(encodedLowercase);
-            var decodedTrimLowercase = Base32.FromBase32ExtendedHexString(encodedLowercase.TrimEnd('='));
+                foreach (var useLowercase in uselowerCaseTests)
+                {
+                    var encoded = Base32.ToBase32ExtendedHexString(bytes, useLowercase);
+                    var decoded = Base32.FromBase32ExtendedHexString(encoded);
+                    var decodedTrim = Base32.FromBase32ExtendedHexString(encoded.TrimEnd('=', ' '));
 
-            decodedLowercase.Length.Should().Be(randomBytes.Length);
-            decodedLowercase.Should().BeEquivalentTo(randomBytes, $"Decode(Encode(lowercase)) should return original bytes: '{randomBytesAsBase64}'");
-            decodedTrimLowercase.Length.Should().Be(randomBytes.Length);
-            decodedTrimLowercase.Should().BeEquivalentTo(randomBytes, $"Decode(Trim(Encode(lowercase))) should return original bytes: '{randomBytesAsBase64}'");
+                    decoded.Length.Should().Be(bytes.Length, $"Encode then Decode should return same original byte count (useLowercase: {useLowercase}, original bytes as base64: '{bytesAsBase64}')");
+                    decoded.Should().BeEquivalentTo(bytes, $"Encode then Decode should return original bytes (useLowercase: {useLowercase}, original bytes as base64: '{bytesAsBase64}')");
+                    decodedTrim.Length.Should().Be(bytes.Length, $"Encode then Trim then then Decode should return same original byte count (useLowercase: {useLowercase}, original bytes as base64: '{bytesAsBase64}')");
+                    decodedTrim.Should().BeEquivalentTo(bytes, $"Encode then Trim then Decode should return original bytes (useLowercase: {useLowercase}, original bytes as base64: '{bytesAsBase64}')");
+                }
+            }
+        }
+
+        [Fact]
+        public void EncodeDecodeBytesOfZeroUsingBase32()
+        {
+            Output.WriteLine("[Base32Tests] MAX_BYTES_LENGTH: " + MAX_BYTES_LENGTH);
+
+            for (var length = 0; length <= MAX_BYTES_LENGTH; length++)
+            {
+                var bytes = new byte[length];
+                Array.Fill(bytes, (byte)0);
+
+                var encoded = Base32.ToBase32String(bytes);
+                var decoded = Base32.FromBase32String(encoded);
+                var decodedTrim = Base32.FromBase32String(encoded.TrimEnd('=', ' '));
+
+                decoded.Length.Should().Be(length, $"Encode then Decode should return {length} bytes of zero");
+                decoded.Should().BeEquivalentTo(bytes, $"Encode then Decode should return {length} bytes of zero");
+                decodedTrim.Length.Should().Be(length, $"Encode then Trim then Decode should return {length} bytes of zero");
+                decodedTrim.Should().BeEquivalentTo(bytes, $"Encode then Trim then Decode should return {length} bytes of zero");
+
+                var encodedLowerCase = Base32.ToBase32String(bytes);
+                var decodedLowerCase = Base32.FromBase32String(encodedLowerCase);
+                var decodedLowerCaseTrim = Base32.FromBase32String(encodedLowerCase.TrimEnd('=', ' '));
+
+                decodedLowerCase.Length.Should().Be(length, $"Encode then Decode (lowercase) should return {length} bytes of zero");
+                decodedLowerCase.Should().BeEquivalentTo(bytes, $"Encode then Decode (lowercase) should return {length} bytes of zero");
+                decodedLowerCaseTrim.Length.Should().Be(length, $"Encode then Trim then Decode (lowercase) should return {length} bytes of zero");
+                decodedLowerCaseTrim.Should().BeEquivalentTo(bytes, $"Encode then Trim then Decode (lowercase) should return {length} bytes of zero");
+            }
+        }
+
+        [Fact]
+        public void EncodeDecodeBytesOfZeroUsingBase32ExtendedHex()
+        {
+            Output.WriteLine("[Base32Tests] MAX_BYTES_LENGTH: " + MAX_BYTES_LENGTH);
+
+            for (var length = 0; length <= MAX_BYTES_LENGTH; length++)
+            {
+                var bytes = new byte[length];
+                Array.Fill(bytes, (byte)0);
+
+                var encoded = Base32.ToBase32ExtendedHexString(bytes);
+                var decoded = Base32.FromBase32ExtendedHexString(encoded);
+                var decodedTrim = Base32.FromBase32ExtendedHexString(encoded.TrimEnd('=', ' '));
+
+                decoded.Length.Should().Be(length, $"Encode then Decode should return {length} bytes of zero");
+                decoded.Should().BeEquivalentTo(bytes, $"Encode then Decode should return {length} bytes of zero");
+                decodedTrim.Length.Should().Be(length, $"Encode then Trim then Decode should return {length} bytes of zero");
+                decodedTrim.Should().BeEquivalentTo(bytes, $"Encode then Trim then Decode should return {length} bytes of zero");
+
+                var encodedLowerCase = Base32.ToBase32ExtendedHexString(bytes);
+                var decodedLowerCase = Base32.FromBase32ExtendedHexString(encodedLowerCase);
+                var decodedLowerCaseTrim = Base32.FromBase32ExtendedHexString(encodedLowerCase.TrimEnd('=', ' '));
+
+                decodedLowerCase.Length.Should().Be(length, $"Encode then Decode (lowercase) should return {length} bytes of zero");
+                decodedLowerCase.Should().BeEquivalentTo(bytes, $"Encode then Decode (lowercase) should return {length} bytes of zero");
+                decodedLowerCaseTrim.Length.Should().Be(length, $"Encode then Trim then Decode (lowercase) should return {length} bytes of zero");
+                decodedLowerCaseTrim.Should().BeEquivalentTo(bytes, $"Encode then Trim then Decode (lowercase) should return {length} bytes of zero");
+            }
+        }
+
+        [Theory(Skip = "For debug local only.")]
+        [InlineData("")]
+        public void EncodeDecodeBytesToBase32(string bytesAsBase64)
+        {
+            var bytes = Convert.FromBase64String(bytesAsBase64);
+
+            var encoded = Base32.ToBase32String(bytes);
+            var decoded = Base32.FromBase32String(encoded);
+            var decodedTrim = Base32.FromBase32String(encoded.TrimEnd('=', ' '));
+
+            decoded.Should().BeEquivalentTo(bytes, $"(decoded {Convert.ToHexString(decoded)}, bytes {Convert.ToHexString(bytes)})");
+            decodedTrim.Should().BeEquivalentTo(bytes, $"(decodedTrim {Convert.ToHexString(decodedTrim)}, bytes {Convert.ToHexString(bytes)})");
+
+            var encodedLowercase = Base32.ToBase32String(bytes);
+            var decodedLowercase = Base32.FromBase32String(encodedLowercase);
+            var decodedLowercaseTrim = Base32.FromBase32String(encodedLowercase.TrimEnd('=', ' '));
+
+            decodedLowercase.Should().BeEquivalentTo(bytes,$"(decodedLowercase {Convert.ToHexString(decodedLowercase)}, bytes {Convert.ToHexString(bytes)})");
+            decodedLowercaseTrim.Should().BeEquivalentTo(bytes, $"(decodedLowercaseTrim {Convert.ToHexString(decodedLowercaseTrim)}, bytes {Convert.ToHexString(bytes)})");
+        }
+
+        private byte[] GenerateRandomBytes(int length)
+        {
+            var result = new byte[length];
+            using (var random = new RNGCryptoServiceProvider())
+            {
+                random.GetBytes(result);
+            }
+            return result;
         }
     }
 }

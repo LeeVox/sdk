@@ -17,6 +17,7 @@ namespace LeeVox.Sdk
             .ToDictionary(c => c, c => (byte)Array.IndexOf(Base32ExtendedHexChars, Char.ToUpper(c)));
 
         private static readonly byte[] MASKS = new byte[] { 0b0000_0000, 0b0000_0001, 0b0000_0011, 0b0000_0111, 0b0000_1111, 0b0001_1111, 0b0011_1111, 0b0111_1111, 0b1111_1111 };
+        private static readonly int[] DECODE_DELTA = new int[] { 0, 1, -1, 2, 3, -1, 4, -1 };
 
         /// <summary>
         /// Converts an array of 8-bit unsigned integers to its equivalent string representation
@@ -84,9 +85,19 @@ namespace LeeVox.Sdk
 
         private static byte[] DecodeBase32WithMappingChars(string base32String, Dictionary<char, byte> mappingChars)
         {
+            // normalized the base32String
+            base32String = base32String.TrimEnd(PaddingChar, ' ');
+
             var length = base32String.Length;
             var paddedChars = length % 8 == 0 ? base32String : base32String.Concat(Enumerable.Repeat(PaddingChar, 8 - length % 8));
             var paddedLength = paddedChars.Count();
+
+            var resultLengthDelta = DECODE_DELTA[paddedLength - length];
+            if (resultLengthDelta < 0)
+            {
+                throw new ArgumentException(nameof(base32String), "Invalid padding character count.");
+            }
+
             var result = new byte[paddedLength / 8 * 5];
             var resultIndex = 0;
 
@@ -110,24 +121,12 @@ namespace LeeVox.Sdk
                 result[resultIndex++] = (byte)((GetBits(charValues[6], 5, 7) << 5) | charValues[7]);
             }
 
-            do
-            {
-                --resultIndex;
-            }
-            while (resultIndex > 0 && result[resultIndex] == 0);
-
-            Array.Resize(ref result, resultIndex + 1);
-
+            Array.Resize(ref result, result.Length - resultLengthDelta);
             return result;
         }
 
         private static int GetBits(byte b, int fromBit, int toBit)
         {
-            if (fromBit < 0 || fromBit > toBit)
-                throw new ArgumentOutOfRangeException(nameof(fromBit));
-            if (toBit < fromBit || toBit >= 8)
-                throw new ArgumentOutOfRangeException(nameof(toBit));
-
             return (b >> (8 - toBit - 1)) & MASKS[toBit - fromBit + 1];
         }
 
