@@ -68,6 +68,7 @@ namespace LeeVox.Sdk.Test
             AssertEqual(1234L, "1,234.000".ParseToLong(NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint, CultureInfo.CurrentCulture.NumberFormat, 1L));
 
             AssertTrue(float.Epsilon >= float.MinValue - "-3.402823E+38".ParseToFloat());
+            AssertEqual(null, "abc".ParseToFloat());
             AssertEqual(-12.345F, "\t -12.345\r \n".ParseToFloat());
             AssertEqual(float.NegativeInfinity, "-3.992823E+38".ParseToFloat());
             AssertEqual(1F, "abcdef".ParseToFloat(1F));
@@ -79,6 +80,7 @@ namespace LeeVox.Sdk.Test
 
             AssertTrue(double.Epsilon >= double.MaxValue - "1.7976931348623157E+308".ParseToDouble());
             AssertEqual(-12.345D, "\t -12.345\r \n".ParseToDouble());
+            AssertEqual(null, "abc".ParseToDouble());
             AssertEqual(double.PositiveInfinity, "1.9976931348623157E+308".ParseToDouble());
             AssertEqual(1D, "abcdef".ParseToDouble(1D));
             AssertEqual(-15.666D, "-15.666".ParseToDouble(1D));

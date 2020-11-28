@@ -59,6 +59,20 @@ namespace LeeVox.Sdk.Test
         }
 
         [Theory]
+        [InlineData("MZX====")]
+        [InlineData("MZX")]
+        [InlineData("!@#$")]
+        public void DecodeInvalidBase32String(string encoded)
+        {
+
+            this.Invoking(x => Base32.FromBase32String(encoded))
+                .Should().Throw<ArgumentException>();
+
+            this.Invoking(x => Base32.FromBase32ExtendedHexString(encoded))
+                .Should().Throw<ArgumentException>();
+        }
+
+        [Theory]
         [InlineData("", "")]
         [InlineData("f", "CO======")]
         [InlineData("fo", "CPNG====")]
