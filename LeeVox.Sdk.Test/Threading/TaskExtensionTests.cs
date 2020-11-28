@@ -15,7 +15,7 @@ namespace LeeVox.Sdk.Test
             int milliSecondsToWait, timeout;
             TimeSpan time;
 
-            milliSecondsToWait = 500;
+            milliSecondsToWait = 1000;
 
             actual = "";
             expected = milliSecondsToWait.ToString();
@@ -29,13 +29,13 @@ namespace LeeVox.Sdk.Test
             actual.Should().BeEquivalentTo(expected, $"should block the thread for {milliSecondsToWait} seconds then return {expected} with no timeout.");
 
             actual = "";
-            timeout = 250;
+            timeout = 500;
             expected = default(string);
             actual = NewTask(milliSecondsToWait).WaitAndReturn(timeout);
             actual.Should().BeEquivalentTo(expected, $"should return default(string) if timeout.");
 
             actual = "";
-            timeout = 250;
+            timeout = 500;
             expected = "timeout";
             actual = NewTask(milliSecondsToWait).WaitAndReturn(timeout, expected);
             actual.Should().BeEquivalentTo(expected, $"should return expected value if timeout.");
@@ -47,13 +47,13 @@ namespace LeeVox.Sdk.Test
             actual.Should().BeEquivalentTo(expected, $"should block the thread for {milliSecondsToWait} then return {expected} within a timepsan.");
 
             actual = "";
-            time = TimeSpan.FromMilliseconds(250);
+            time = TimeSpan.FromMilliseconds(500);
             expected = default(string);
             actual = NewTask(milliSecondsToWait).WaitAndReturn(time);
             actual.Should().BeEquivalentTo(expected, $"should return default(string) if run out of time.");
 
             actual = "";
-            time = TimeSpan.FromMilliseconds(250);
+            time = TimeSpan.FromMilliseconds(500);
             expected = "timeout";
             actual = NewTask(milliSecondsToWait).WaitAndReturn(time, expected);
             actual.Should().BeEquivalentTo(expected, $"should return expected value if run out of time.");
@@ -66,7 +66,7 @@ namespace LeeVox.Sdk.Test
             int milliSecondsToWait, timeout;
             CancellationTokenSource tokenSource;
 
-            milliSecondsToWait = 500;
+            milliSecondsToWait = 1000;
 
             actual = "";
             tokenSource = new CancellationTokenSource();
@@ -77,20 +77,20 @@ namespace LeeVox.Sdk.Test
 
             actual = "";
             tokenSource = new CancellationTokenSource();
-            tokenSource.CancelAfter(250);
+            tokenSource.CancelAfter(500);
             expected = default(string);
             actual = NewTask(milliSecondsToWait).WaitAndReturn(tokenSource.Token);
             actual.Should().BeEquivalentTo(expected, $"should return default(string) if canceled.");
 
             actual = "";
             tokenSource = new CancellationTokenSource();
-            tokenSource.CancelAfter(250);
+            tokenSource.CancelAfter(500);
             expected = "canceled";
             actual = NewTask(milliSecondsToWait).WaitAndReturn(tokenSource.Token, expected);
             actual.Should().BeEquivalentTo(expected, $"should return expected value if canceled.");
 
             actual = "";
-            timeout = 888;
+            timeout = 8888;
             tokenSource = new CancellationTokenSource();
             tokenSource.CancelAfter(99999);
             expected = milliSecondsToWait.ToString();
@@ -98,7 +98,7 @@ namespace LeeVox.Sdk.Test
             actual.Should().BeEquivalentTo(expected, $"should block the thread for {milliSecondsToWait} then return {expected}.");
 
             actual = "";
-            timeout = 250;
+            timeout = 500;
             tokenSource = new CancellationTokenSource();
             tokenSource.CancelAfter(99999);
             expected = default(string);
@@ -106,7 +106,7 @@ namespace LeeVox.Sdk.Test
             actual.Should().BeEquivalentTo(expected, $"should return default(string) if timeout but not canceled.");
 
             actual = "";
-            timeout = 250;
+            timeout = 500;
             tokenSource = new CancellationTokenSource();
             tokenSource.CancelAfter(99999);
             expected = "timeout";
@@ -114,17 +114,17 @@ namespace LeeVox.Sdk.Test
             actual.Should().BeEquivalentTo(expected, $"should return {expected} if timeout but not canceled.");
 
             actual = "";
-            timeout = 888;
+            timeout = 8888;
             tokenSource = new CancellationTokenSource();
-            tokenSource.CancelAfter(250);
+            tokenSource.CancelAfter(500);
             expected = default(string);
             actual = NewTask(milliSecondsToWait).WaitAndReturn(timeout, tokenSource.Token);
             actual.Should().BeEquivalentTo(expected, $"should return default(string) if no timeout but canceled.");
 
             actual = "";
-            timeout = 888;
+            timeout = 8888;
             tokenSource = new CancellationTokenSource();
-            tokenSource.CancelAfter(250);
+            tokenSource.CancelAfter(500);
             expected = "canceled";
             actual = NewTask(milliSecondsToWait).WaitAndReturn(timeout, tokenSource.Token, expected);
             actual.Should().BeEquivalentTo(expected, $"should return {expected} if no timeout but canceled.");
