@@ -1,143 +1,140 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using LeeVox.Sdk;
+using FluentAssertions;
+using Xunit;
 
 namespace LeeVox.Sdk.Test
 {
-    [TestClass]
     public class TaskExtensionTests
     {
-        const int SECONDS = 1000;
-
-        [TestMethod]
+        [Fact]
         public void BasicWaitAndReturn()
         {
             string actual, expected;
-            int secondsToWait, timeout;
+            int milliSecondsToWait, timeout;
             TimeSpan time;
 
-            secondsToWait = 2;
+            milliSecondsToWait = 500;
 
             actual = "";
-            expected = secondsToWait.ToString();
-            actual = NewTask(secondsToWait).WaitAndReturn();
-            Assert.AreEqual(expected, actual, $"should block the thread for {secondsToWait} seconds then return {expected}.");
+            expected = milliSecondsToWait.ToString();
+            actual = NewTask(milliSecondsToWait).WaitAndReturn();
+            actual.Should().BeEquivalentTo(expected, $"should block the thread for {milliSecondsToWait} seconds then return {expected}.");
 
             actual = "";
-            timeout = 99 * SECONDS;
-            expected = secondsToWait.ToString();
-            actual = NewTask(secondsToWait).WaitAndReturn(timeout);
-            Assert.AreEqual(expected, actual, $"should block the thread for {secondsToWait} seconds then return {expected} with no timeout.");
+            timeout = 99999;
+            expected = milliSecondsToWait.ToString();
+            actual = NewTask(milliSecondsToWait).WaitAndReturn(timeout);
+            actual.Should().BeEquivalentTo(expected, $"should block the thread for {milliSecondsToWait} seconds then return {expected} with no timeout.");
 
             actual = "";
-            timeout = 1 * SECONDS;
+            timeout = 250;
             expected = default(string);
-            actual = NewTask(secondsToWait).WaitAndReturn(timeout);
-            Assert.AreEqual(expected, actual, $"should return default(string) if timeout.");
+            actual = NewTask(milliSecondsToWait).WaitAndReturn(timeout);
+            actual.Should().BeEquivalentTo(expected, $"should return default(string) if timeout.");
 
             actual = "";
-            timeout = 1 * SECONDS;
+            timeout = 250;
             expected = "timeout";
-            actual = NewTask(secondsToWait).WaitAndReturn(timeout, expected);
-            Assert.AreEqual(expected, actual, $"should return expected value if timeout.");
+            actual = NewTask(milliSecondsToWait).WaitAndReturn(timeout, expected);
+            actual.Should().BeEquivalentTo(expected, $"should return expected value if timeout.");
 
             actual = "";
-            time = TimeSpan.FromSeconds(99);
-            expected = secondsToWait.ToString();
-            actual = NewTask(secondsToWait).WaitAndReturn(time);
-            Assert.AreEqual(expected, actual, $"should block the thread for {secondsToWait} then return {expected} within a timepsan.");
+            time = TimeSpan.FromMilliseconds(99999);
+            expected = milliSecondsToWait.ToString();
+            actual = NewTask(milliSecondsToWait).WaitAndReturn(time);
+            actual.Should().BeEquivalentTo(expected, $"should block the thread for {milliSecondsToWait} then return {expected} within a timepsan.");
 
             actual = "";
-            time = TimeSpan.FromSeconds(1);
+            time = TimeSpan.FromMilliseconds(250);
             expected = default(string);
-            actual = NewTask(secondsToWait).WaitAndReturn(time);
-            Assert.AreEqual(expected, actual, $"should return default(string) if run out of time.");
+            actual = NewTask(milliSecondsToWait).WaitAndReturn(time);
+            actual.Should().BeEquivalentTo(expected, $"should return default(string) if run out of time.");
 
             actual = "";
-            time = TimeSpan.FromSeconds(1);
+            time = TimeSpan.FromMilliseconds(250);
             expected = "timeout";
-            actual = NewTask(secondsToWait).WaitAndReturn(time, expected);
-            Assert.AreEqual(expected, actual, $"should return expected value if run out of time.");
+            actual = NewTask(milliSecondsToWait).WaitAndReturn(time, expected);
+            actual.Should().BeEquivalentTo(expected, $"should return expected value if run out of time.");
         }
 
-        [TestMethod]
+        [Fact]
         public void WaitAndRunWithCancellation()
         {
             string actual, expected;
-            int secondsToWait, timeout;
+            int milliSecondsToWait, timeout;
             CancellationTokenSource tokenSource;
 
-            secondsToWait = 2;
+            milliSecondsToWait = 500;
 
             actual = "";
             tokenSource = new CancellationTokenSource();
-            tokenSource.CancelAfter(99 * SECONDS);
-            expected = secondsToWait.ToString();
-            actual = NewTask(secondsToWait).WaitAndReturn(tokenSource.Token);
-            Assert.AreEqual(expected, actual, $"should block the thread for {secondsToWait} then return {expected}.");
+            tokenSource.CancelAfter(99999);
+            expected = milliSecondsToWait.ToString();
+            actual = NewTask(milliSecondsToWait).WaitAndReturn(tokenSource.Token);
+            actual.Should().BeEquivalentTo(expected, $"should block the thread for {milliSecondsToWait} then return {expected}.");
 
             actual = "";
             tokenSource = new CancellationTokenSource();
-            tokenSource.CancelAfter(1 * SECONDS);
+            tokenSource.CancelAfter(250);
             expected = default(string);
-            actual = NewTask(secondsToWait).WaitAndReturn(tokenSource.Token);
-            Assert.AreEqual(expected, actual, $"should return default(string) if canceled.");
+            actual = NewTask(milliSecondsToWait).WaitAndReturn(tokenSource.Token);
+            actual.Should().BeEquivalentTo(expected, $"should return default(string) if canceled.");
 
             actual = "";
             tokenSource = new CancellationTokenSource();
-            tokenSource.CancelAfter(1 * SECONDS);
+            tokenSource.CancelAfter(250);
             expected = "canceled";
-            actual = NewTask(secondsToWait).WaitAndReturn(tokenSource.Token, expected);
-            Assert.AreEqual(expected, actual, $"should return expected value if canceled.");
+            actual = NewTask(milliSecondsToWait).WaitAndReturn(tokenSource.Token, expected);
+            actual.Should().BeEquivalentTo(expected, $"should return expected value if canceled.");
 
             actual = "";
-            timeout = 99 * SECONDS;
+            timeout = 888;
             tokenSource = new CancellationTokenSource();
-            tokenSource.CancelAfter(99 * SECONDS);
-            expected = secondsToWait.ToString();
-            actual = NewTask(secondsToWait).WaitAndReturn(timeout, tokenSource.Token);
-            Assert.AreEqual(expected, actual, $"should block the thread for {secondsToWait} then return {expected}.");
+            tokenSource.CancelAfter(99999);
+            expected = milliSecondsToWait.ToString();
+            actual = NewTask(milliSecondsToWait).WaitAndReturn(timeout, tokenSource.Token);
+            actual.Should().BeEquivalentTo(expected, $"should block the thread for {milliSecondsToWait} then return {expected}.");
 
             actual = "";
-            timeout = 1 * SECONDS;
+            timeout = 250;
             tokenSource = new CancellationTokenSource();
-            tokenSource.CancelAfter(99 * SECONDS);
+            tokenSource.CancelAfter(99999);
             expected = default(string);
-            actual = NewTask(secondsToWait).WaitAndReturn(timeout, tokenSource.Token);
-            Assert.AreEqual(expected, actual, $"should return default(string) if timeout but not canceled.");
+            actual = NewTask(milliSecondsToWait).WaitAndReturn(timeout, tokenSource.Token);
+            actual.Should().BeEquivalentTo(expected, $"should return default(string) if timeout but not canceled.");
 
             actual = "";
-            timeout = 1 * SECONDS;
+            timeout = 250;
             tokenSource = new CancellationTokenSource();
-            tokenSource.CancelAfter(99 * SECONDS);
+            tokenSource.CancelAfter(99999);
             expected = "timeout";
-            actual = NewTask(secondsToWait).WaitAndReturn(timeout, tokenSource.Token, expected);
-            Assert.AreEqual(expected, actual, $"should return {expected} if timeout but not canceled.");
+            actual = NewTask(milliSecondsToWait).WaitAndReturn(timeout, tokenSource.Token, expected);
+            actual.Should().BeEquivalentTo(expected, $"should return {expected} if timeout but not canceled.");
 
             actual = "";
-            timeout = 99 * SECONDS;
+            timeout = 888;
             tokenSource = new CancellationTokenSource();
-            tokenSource.CancelAfter(1 * SECONDS);
+            tokenSource.CancelAfter(250);
             expected = default(string);
-            actual = NewTask(secondsToWait).WaitAndReturn(timeout, tokenSource.Token);
-            Assert.AreEqual(expected, actual, $"should return default(string) if no timeout but canceled.");
+            actual = NewTask(milliSecondsToWait).WaitAndReturn(timeout, tokenSource.Token);
+            actual.Should().BeEquivalentTo(expected, $"should return default(string) if no timeout but canceled.");
 
             actual = "";
-            timeout = 99 * SECONDS;
+            timeout = 888;
             tokenSource = new CancellationTokenSource();
-            tokenSource.CancelAfter(1 * SECONDS);
+            tokenSource.CancelAfter(250);
             expected = "canceled";
-            actual = NewTask(secondsToWait).WaitAndReturn(timeout, tokenSource.Token, expected);
-            Assert.AreEqual(expected, actual, $"should return {expected} if no timeout but canceled.");
+            actual = NewTask(milliSecondsToWait).WaitAndReturn(timeout, tokenSource.Token, expected);
+            actual.Should().BeEquivalentTo(expected, $"should return {expected} if no timeout but canceled.");
         }
 
-        private Task<string> NewTask(int secondsToWait)
+        private Task<string> NewTask(int milliSecondsToWait)
         {
             return Task.Run(() => {
-                Task.Delay(secondsToWait * SECONDS).Wait();
-                return secondsToWait.ToString();
+                Task.Delay(milliSecondsToWait).Wait();
+                return milliSecondsToWait.ToString();
             });
         }
     }

@@ -1,0 +1,1 @@
+dotnet test LeeVox.Sdk.Test -p:DefineConstants=STRESS_TEST -v n

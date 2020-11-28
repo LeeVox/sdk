@@ -75,7 +75,7 @@ namespace LeeVox.Sdk
             try
             {
                 task.Wait(cancellationToken);
-                return task.Result;
+                return cancellationToken.IsCancellationRequested ? returnValueIfCanceled : task.Result;
             }
             catch (OperationCanceledException)
             {
@@ -102,7 +102,9 @@ namespace LeeVox.Sdk
         {
             try
             {
-                return task.Wait(millisecondsTimeout, cancellationToken) ? task.Result : returnValueIfTimeoutOrCanceled;
+                return task.Wait(millisecondsTimeout, cancellationToken) && !cancellationToken.IsCancellationRequested
+                    ? task.Result
+                    : returnValueIfTimeoutOrCanceled;
             }
             catch (OperationCanceledException)
             {
