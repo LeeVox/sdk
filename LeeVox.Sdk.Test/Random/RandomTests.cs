@@ -20,23 +20,6 @@ namespace LeeVox.Sdk.Test
         [Fact]
         public void TestRandomDouble()
         {
-            var random = new Random<double>();
-            for (var i = 0; i < 20; i++)
-            {
-                double actualResult = 0;
-                this.Invoking(x => actualResult = random.Next())
-                    .Should().NotThrow();
-                output.WriteLine(actualResult.ToString());
-            }
-
-            var random2 = new Random<long>();
-            for (var i = 0; i < 20; i++)
-            {
-                long actualResult = 0;
-                this.Invoking(x => actualResult = random2.Next())
-                    .Should().NotThrow();
-                output.WriteLine(actualResult.ToString());
-            }
         }
     }
 }
