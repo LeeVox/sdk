@@ -179,6 +179,46 @@ namespace LeeVox.Sdk
 
         #endregion
 
+        #region parse to uint
+
+        /// <summary>
+        /// Try to convert the specified <c>System.String</c> to <c>Nullable<UInteger></c> type using <c>TryParse</c> function.
+        /// </summary>
+        /// <remarks>returns <c>null</c> if the conversion fails.</remarks>
+        public static uint? ParseToUInt(this string text)
+        {
+            return uint.TryParse(text, out uint result) ? result : (uint?)null;
+        }
+
+        /// <summary>
+        /// Try to convert the specified <c>System.String</c> to <c>Nullable<UInteger></c> type using <c>TryParse</c> function.
+        /// </summary>
+        /// <remarks>returns <c>null</c> if the conversion fails.</remarks>
+        public static uint? ParseToUInt(this string text, NumberStyles styles, IFormatProvider provider)
+        {
+            return uint.TryParse(text, styles, provider, out uint result) ? result : (uint?)null;
+        }
+
+        /// <summary>
+        /// Try to convert the specified <c>System.String</c> to <c>Nullable<UInteger></c> type using <c>TryParse</c> function.
+        /// </summary>
+        /// <param name="returnValueIfError">returns value if cannot convert</param>
+        public static uint ParseToUInt(this string text, uint returnValueIfError)
+        {
+            return uint.TryParse(text, out uint result) ? result : returnValueIfError;
+        }
+
+        /// <summary>
+        /// Try to convert the specified <c>System.String</c> to <c>Nullable<UInteger></c> type using <c>TryParse</c> function.
+        /// </summary>
+        /// <param name="returnValueIfError">returns value if cannot convert</param>
+        public static uint ParseToUInt(this string text, NumberStyles styles, IFormatProvider provider, uint returnValueIfError)
+        {
+            return uint.TryParse(text, styles, provider, out uint result) ? result : returnValueIfError;
+        }
+
+        #endregion
+
         #region parse to long
 
         /// <summary>
@@ -215,6 +255,46 @@ namespace LeeVox.Sdk
         public static long ParseToLong(this string text, NumberStyles styles, IFormatProvider provider, long returnValueIfError)
         {
             return long.TryParse(text, styles, provider, out long result) ? result : returnValueIfError;
+        }
+
+        #endregion
+
+        #region parse to ulong
+
+        /// <summary>
+        /// Try to convert the specified <c>System.String</c> to <c>Nullable<ULong></c> type using <c>TryParse</c> function.
+        /// </summary>
+        /// <remarks>returns <c>null</c> if the conversion fails.</remarks>
+        public static ulong? ParseToULong(this string text)
+        {
+            return ulong.TryParse(text, out ulong result) ? result : (ulong?)null;
+        }
+
+        /// <summary>
+        /// Try to convert the specified <c>System.String</c> to <c>Nullable<ULong></c> type using <c>TryParse</c> function.
+        /// </summary>
+        /// <remarks>returns <c>null</c> if the conversion fails.</remarks>
+        public static ulong? ParseToULong(this string text, NumberStyles styles, IFormatProvider provider)
+        {
+            return ulong.TryParse(text, styles, provider, out ulong result) ? result : (ulong?)null;
+        }
+
+        /// <summary>
+        /// Try to convert the specified <c>System.String</c> to <c>Nullable<ULong></c> type using <c>TryParse</c> function.
+        /// </summary>
+        /// <param name="returnValueIfError">returns value if cannot convert</param>
+        public static ulong ParseToULong(this string text, ulong returnValueIfError)
+        {
+            return ulong.TryParse(text, out ulong result) ? result : returnValueIfError;
+        }
+
+        /// <summary>
+        /// Try to convert the specified <c>System.String</c> to <c>Nullable<ULong></c> type using <c>TryParse</c> function.
+        /// </summary>
+        /// <param name="returnValueIfError">returns value if cannot convert</param>
+        public static ulong ParseToULong(this string text, NumberStyles styles, IFormatProvider provider, ulong returnValueIfError)
+        {
+            return ulong.TryParse(text, styles, provider, out ulong result) ? result : returnValueIfError;
         }
 
         #endregion

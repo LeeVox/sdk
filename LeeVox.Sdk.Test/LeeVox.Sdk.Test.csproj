@@ -25,4 +25,10 @@
   <ItemGroup>
     <ProjectReference Include="..\LeeVox.Sdk\LeeVox.Sdk.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Fixtures\*.*">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 </Project>

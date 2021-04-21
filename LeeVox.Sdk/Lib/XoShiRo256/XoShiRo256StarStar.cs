@@ -19,6 +19,11 @@ namespace LeeVox.Sdk.Lib
 
         #endregion
 
+        private static readonly float FLOAT_MULTIPLIER = BitConverter.ToSingle(BitConverter.GetBytes(0x33800000U));
+        private static readonly double DOUBLE_MULTIPLIER = BitConverter.ToDouble(BitConverter.GetBytes(0x3ca0000000000000UL));
+
+        private const int SEED_SIZE = 4;
+
         // State is maintained using variables rather than an array for performance
         private ulong state0;
         private ulong state1;
@@ -28,12 +33,25 @@ namespace LeeVox.Sdk.Lib
         private bool cachedIntSource;
         private ulong intSource;
 
-        public XoShiRo256StarStar(params ulong[] seed)
+        internal XoShiRo256StarStar(params ulong[] seed)
         {
-            state0 = seed.Length > 0 ? seed[0] : 0;
-            state1 = seed.Length > 1 ? seed[1] : 0;
-            state2 = seed.Length > 2 ? seed[2] : 0;
-            state3 = seed.Length > 3 ? seed[3] : 0;
+            if (seed.Length < SEED_SIZE)
+            {
+                var state = new ulong[SEED_SIZE];
+                FillState(state, seed);
+                SetState(state);
+            }
+            else
+            {
+                SetState(seed);
+            }
+        }
+        internal XoShiRo256StarStar(ulong seed0, ulong seed1, ulong seed2, ulong seed3)
+        {
+            state0 = seed0;
+            state1 = seed1;
+            state2 = seed2;
+            state3 = seed3;
         }
 
         internal uint NextUInt()
@@ -121,29 +139,57 @@ namespace LeeVox.Sdk.Lib
             }
         }
 
+        private void FillState(ulong[] state, ulong[] seed)
+        {
+            Array.Copy(seed, 0, state, 0, Math.Min(state.Length, seed.Length));
+            for (var i = seed.Length; i < state.Length; i++)
+            {
+                state[i] = ScrambleWell(state[i - seed.Length], i);
+            }
+        }
+
+        private void SetState(ulong[] state)
+        {
+            state0 = state[0];
+            state1 = state[1];
+            state2 = state[2];
+            state3 = state[3];
+        }
+
         private uint extractLo(ulong number)
         {
             return (uint)number;
         }
         private uint extractHi(ulong number)
         {
-            return (uint)(number >> sizeof(uint));
-        }
-
-        private double makeDouble(ulong number)
-        {
-            return (double)(number >> 11) * 1e-53d;
+            return (uint)(number >> 32);
         }
 
         private float makeFloat(uint number)
         {
-            return (float)(number >> 8) * 1e-24f;
+            return (float)(number >> 8) * FLOAT_MULTIPLIER;
+        }
+
+        private double makeDouble(ulong number)
+        {
+            return (double)(number >> 11) * DOUBLE_MULTIPLIER;
         }
 
         private void checkIndex(int min, int max, int index)
         {
             if (index < min || index > max)
                 throw new IndexOutOfRangeException($"{index} is out of range [{min}, {max}]");
+        }
+
+        private ulong ScrambleWell(ulong n, int add)
+        {
+            return Scramble(n, 1812433253UL, 30, add);
+        }
+
+        private ulong Scramble(ulong n, ulong mult, int shift, int add)
+        {
+            // cast from ulong to long to match with original Java source.
+            return (ulong)((long)mult * ((long)n ^ ((long)n >> shift)) + add);
         }
     }
 }
