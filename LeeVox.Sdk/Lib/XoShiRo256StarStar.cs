@@ -1,3 +1,8 @@
+/**
+* This is ported from Apache Commons RNG class
+* Source: https://commons.apache.org/proper/commons-rng/
+*/
+
 using System;
 using System.Numerics;
 
@@ -5,23 +10,6 @@ namespace LeeVox.Sdk.Lib
 {
     internal class XoShiRo256StarStar : IDisposable
     {
-        #region disposable
-
-        private bool _disposed = false;
-        public void Dispose() => Dispose(true);
-        protected virtual void Dispose(bool disposing)
-        {
-            if (_disposed)
-                return;
-
-            _disposed = true;
-        }
-
-        #endregion
-
-        private static readonly float FLOAT_MULTIPLIER = BitConverter.ToSingle(BitConverter.GetBytes(0x33800000U));
-        private static readonly double DOUBLE_MULTIPLIER = BitConverter.ToDouble(BitConverter.GetBytes(0x3ca0000000000000UL));
-
         private const int SEED_SIZE = 4;
 
         // State is maintained using variables rather than an array for performance
@@ -59,13 +47,13 @@ namespace LeeVox.Sdk.Lib
             if (cachedIntSource)
             {
                 cachedIntSource = false;
-                return extractLo(intSource);
+                return NumberFactory.ExtractLow(intSource);
             }
             else
             {
                 intSource = NextULong();
                 cachedIntSource = true;
-                return extractHi(intSource);
+                return NumberFactory.ExtractHigh(intSource);
             }
         }
 
@@ -88,12 +76,12 @@ namespace LeeVox.Sdk.Lib
 
         internal float NextFloat()
         {
-            return makeFloat(NextUInt());
+            return NumberFactory.MakeFloat(NextUInt());
         }
 
         internal double NextDouble()
         {
-            return makeDouble(NextULong());
+            return NumberFactory.MakeDouble(NextULong());
         }
 
         internal void FillBytes(byte[] bytes)
@@ -156,25 +144,6 @@ namespace LeeVox.Sdk.Lib
             state3 = state[3];
         }
 
-        private uint extractLo(ulong number)
-        {
-            return (uint)number;
-        }
-        private uint extractHi(ulong number)
-        {
-            return (uint)(number >> 32);
-        }
-
-        private float makeFloat(uint number)
-        {
-            return (float)(number >> 8) * FLOAT_MULTIPLIER;
-        }
-
-        private double makeDouble(ulong number)
-        {
-            return (double)(number >> 11) * DOUBLE_MULTIPLIER;
-        }
-
         private void checkIndex(int min, int max, int index)
         {
             if (index < min || index > max)
@@ -191,5 +160,19 @@ namespace LeeVox.Sdk.Lib
             // cast from ulong to long to match with original Java source.
             return (ulong)((long)mult * ((long)n ^ ((long)n >> shift)) + add);
         }
+
+        #region disposable
+
+        private bool _disposed = false;
+        public void Dispose() => Dispose(true);
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposed)
+                return;
+
+            _disposed = true;
+        }
+
+        #endregion
     }
 }

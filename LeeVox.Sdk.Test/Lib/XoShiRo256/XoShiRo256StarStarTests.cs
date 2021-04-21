@@ -10,10 +10,6 @@ namespace LeeVox.Sdk.Test.Lib
 {
     public class XoShiRo256StarStarTests
     {
-        public XoShiRo256StarStarTests()
-        {
-        }
-
         [Fact]
         public void TestSuiteFromApache()
         {
