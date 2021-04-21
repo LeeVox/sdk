@@ -72,7 +72,7 @@ namespace LeeVox.Sdk.Test.Lib
 
                     while ((uintValue = lines[++i].Replace("0x", "").ParseToUInt(NumberStyles.HexNumber, CultureInfo.CurrentCulture)) != null)
                     {
-                        random.NextUInt().Should().Be(uintValue.Value, $"At line {i}, random should generate uint value {uintValue}");
+                        random.NextUInt().Should().Be(uintValue.Value, $"At line {i+1}, random should generate uint value {uintValue}");
                     }
                 }
                 else if (lines[i].StartsWith("Longs"))
@@ -81,7 +81,7 @@ namespace LeeVox.Sdk.Test.Lib
 
                     while ((ulongValue = lines[++i].Replace("0x", "").ParseToULong(NumberStyles.HexNumber, CultureInfo.CurrentCulture)) != null)
                     {
-                        random.NextULong().Should().Be(ulongValue.Value, $"At line {i}, random should generate ulong value {ulongValue}");
+                        random.NextULong().Should().Be(ulongValue.Value, $"At line {i+1}, random should generate ulong value {ulongValue}");
                     }
                 }
                 else if (lines[i].StartsWith("Floats"))
@@ -90,7 +90,7 @@ namespace LeeVox.Sdk.Test.Lib
 
                     while ((floatValue = lines[++i].ParseToFloat()) != null)
                     {
-                        random.NextFloat().Should().BeApproximately(floatValue.Value, float.Epsilon, $"At line {i}, random should generate float value {floatValue}");
+                        random.NextFloat().Should().BeApproximately(floatValue.Value, float.Epsilon, $"At line {i+1}, random should generate float value {floatValue}");
                     }
                 }
                 else if (lines[i].StartsWith("Doubles"))
@@ -99,7 +99,7 @@ namespace LeeVox.Sdk.Test.Lib
 
                     while ((doubleValue = lines[++i].ParseToDouble()) != null)
                     {
-                        random.NextDouble().Should().BeApproximately(doubleValue.Value, double.Epsilon, $"At line {i}, random should generate double value {doubleValue}");
+                        random.NextDouble().Should().BeApproximately(doubleValue.Value, double.Epsilon, $"At line {i+1}, random should generate double value {doubleValue}");
                     }
                 }
                 else if (lines[i].StartsWith("Bytes"))

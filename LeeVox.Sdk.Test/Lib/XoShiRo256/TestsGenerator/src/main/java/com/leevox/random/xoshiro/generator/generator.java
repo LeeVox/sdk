@@ -24,10 +24,13 @@ public class generator
         // add more random seeds
         long now = System.currentTimeMillis();
         MyXoShiRo256StarStar random = new MyXoShiRo256StarStar(now, Long.rotateLeft(now, 8), Long.rotateLeft(now, 16), Long.rotateLeft(now, 24));
-        List<Long> seedList = new ArrayList<Long>();
-        for (int i = 0; i < RANDOM_STATES; i++)
+        for (int i = 1; i < RANDOM_STATES; i++)
         {
-            seedList.add(random.nextLong());
+            List<Long> seedList = new ArrayList<Long>();
+            for (int j = 0; j < i; j++)
+            {
+                seedList.add(random.nextLong());
+            }
             seeds.add(toArray(seedList));
         }
 
@@ -37,8 +40,8 @@ public class generator
         final int FLOAT_MULTIPLIER_INT = Float.floatToRawIntBits(FLOAT_MULTIPLIER);
         final long DOUBLE_MULTIPLIER_LONG = Double.doubleToRawLongBits(DOUBLE_MULTIPLIER);
 
-        builder.append(String.format("\n# FLOAT_MULTIPLIER:\n\t0x%x\n\t%.036f", FLOAT_MULTIPLIER_INT, FLOAT_MULTIPLIER));
-        builder.append(String.format("\n# DOUBLE_MULTIPLIER:\n\t0x%x\n\t%.036f", DOUBLE_MULTIPLIER_LONG, DOUBLE_MULTIPLIER));
+        builder.append(String.format("\n# FLOAT_MULTIPLIER:\n#\t0x%x\n#\t%.036f", FLOAT_MULTIPLIER_INT, FLOAT_MULTIPLIER));
+        builder.append(String.format("\n# DOUBLE_MULTIPLIER:\n#\t0x%x\n#\t%.036f", DOUBLE_MULTIPLIER_LONG, DOUBLE_MULTIPLIER));
 
         builder.append("\n\n\n");
 
