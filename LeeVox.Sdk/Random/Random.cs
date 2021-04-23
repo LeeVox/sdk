@@ -42,7 +42,7 @@ namespace LeeVox.Sdk
 
         /// <inheritdoc/>
         public bool NextBool()
-            => NumberFactory.MakeBoolean(NextUInt());
+            => (NextByte() & 1) == 1;
 
         #endregion
 
@@ -50,7 +50,7 @@ namespace LeeVox.Sdk
 
         /// <inheritdoc/>
         public byte NextByte()
-            => NextByte(0, byte.MaxValue);
+            => NextBytes(1)[0];
 
         /// <inheritdoc/>
         public byte NextByte(byte maxValue)

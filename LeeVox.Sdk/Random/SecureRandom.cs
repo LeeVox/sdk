@@ -29,7 +29,7 @@ namespace LeeVox.Sdk
 
         /// <inheritdoc/>
         public bool NextBool()
-            => NumberFactory.MakeBoolean(NextUInt());
+            => (NextByte() & 1) == 1;
 
         #endregion
 
@@ -37,7 +37,7 @@ namespace LeeVox.Sdk
 
         /// <inheritdoc/>
         public byte NextByte()
-            => NextByte(0, byte.MaxValue);
+            => NextBytes(1)[0];
 
         /// <inheritdoc/>
         public byte NextByte(byte maxValue)
@@ -213,12 +213,7 @@ namespace LeeVox.Sdk
 
         /// <inheritdoc/>
         public float NextFloat()
-        {
-            byte[] bytes = new byte[sizeof(uint)];
-            _random.GetBytes(bytes);
-            uint num = NumberFactory.MakeUInt(bytes);
-            return NumberFactory.MakeFloat(num);
-        }
+            => NumberFactory.MakeFloat(NumberFactory.MakeUInt(NextBytes(sizeof(uint))));
 
         /// <inheritdoc/>
         public float NextFloat(float minValue, float maxValue)
@@ -234,12 +229,7 @@ namespace LeeVox.Sdk
 
         /// <inheritdoc/>
         public double NextDouble()
-        {
-            byte[] bytes = new byte[sizeof(ulong)];
-            _random.GetBytes(bytes);
-            ulong num = NumberFactory.MakeULong(bytes);
-            return NumberFactory.MakeDouble(num);
-        }
+            => NumberFactory.MakeDouble(NumberFactory.MakeULong(NextBytes(sizeof(ulong))));
 
         /// <inheritdoc/>
         public double NextDouble(double minValue, double maxValue)
