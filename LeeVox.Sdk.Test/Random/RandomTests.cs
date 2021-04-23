@@ -26,7 +26,7 @@ namespace LeeVox.Sdk.Test
             output.WriteLine("NextInt()");
             for (var i = 0; i < 30; i++)
             {
-                output.WriteLine(((Random)random).NexInt().ToString());
+                output.WriteLine(random.NextInt().ToString());
             }
 
             output.WriteLine("NextInt(10)");

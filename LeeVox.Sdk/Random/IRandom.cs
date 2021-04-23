@@ -1,53 +1,16 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using LeeVox.Sdk.Lib;
 
 namespace LeeVox.Sdk
 {
     internal interface IRandom
     {
-        #region core functions
-
-        /// <summary>
-        /// Returns an array of non-negative random <see cref="byte"/> with a specified length.
-        /// </summary>
-        /// <param name="length">Length of the output array.</param>
-        /// <returns>
-        /// An array of <see cref="byte"/>.
-        /// </returns>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="length"/> is less than <c>0</c>.</exception>
-        byte[] NextBytes(int length);
-
-        /// <summary>
-        /// Returns a random <see cref="float"/> that is greater than or equal to <c>0</c>, and less than <c>1</c>.
-        /// </summary>
-        /// <returns>
-        /// A single-precision floating-point number that is greater than or equal to <c>0</c>, and less than <c>1</c>;
-        /// that is, the range of return values ordinarily includes <c>0</c> but not <c>1</c>.
-        /// </returns>
-        float NextFloat();
-
-        /// <summary>
-        /// Returns a random <see cref="double"/> that is greater than or equal to <c>0</c>, and less than <c>1</c>.
-        /// </summary>
-        /// <returns>
-        /// A double-precision floating-point number that is greater than or equal to <c>0</c>, and less than <c>1</c>;
-        /// that is, the range of return values ordinarily includes <c>0</c> but not <c>1</c>.
-        /// </returns>
-        double NextDouble();
-
-        #endregion
-
-        #region default implementations
-
         #region bool
 
         /// <summary>
         /// Returns a random <see cref="bool"/>.
         /// </summary>
-        bool NextBool()
-            => NumberFactory.MakeBoolean(NextUInt());
+        bool NextBool();
 
         #endregion
 
@@ -59,8 +22,7 @@ namespace LeeVox.Sdk
         /// <returns>
         /// A 8-bit unsigned integer that is greater than or equal to <c>0</c> and less than <see cref="byte.MaxValue"/>.
         /// </returns>
-        byte NextByte()
-            => NextByte(0, byte.MaxValue);
+        byte NextByte();
 
         /// <summary>
         /// Returns a non-negative random <see cref="byte"/> that is less than the specified maximum.
@@ -72,8 +34,7 @@ namespace LeeVox.Sdk
         /// <para>However, if <paramref name="maxValue"/> equals <c>0</c>, <c>0</c> is returned.</para>
         /// </returns>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="maxValue"/> is less than <c>0</c>.</exception>
-        byte NextByte(byte maxValue)
-            => NextByte(0, maxValue);
+        byte NextByte(byte maxValue);
 
         /// <summary>
         /// Returns a random <see cref="byte"/> that is within a specified range.
@@ -86,12 +47,33 @@ namespace LeeVox.Sdk
         /// <para>However, if <paramref name="maxValue"/> equals <paramref name="minValue"/>, <paramref name="minValue"/> is returned.</para>
         /// </returns>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="maxValue"/> is less than <paramref name="minValue"/>.</exception>
-        byte NextByte(byte minValue, byte maxValue)
-        {
-            if (maxValue < minValue)
-                throw new ArgumentOutOfRangeException(nameof(maxValue), $"{nameof(maxValue)} must greater than or equal to {minValue}.");
-            return (byte)(minValue + (maxValue - minValue) * NextDouble());
-        }
+        byte NextByte(byte minValue, byte maxValue);
+
+        #endregion
+
+        #region byte array
+
+        /// <summary>
+        /// Returns an array of non-negative random <see cref="byte"/> with a specified length.
+        /// </summary>
+        /// <param name="length">Length of the output array.</param>
+        /// <returns>
+        /// An array of <see cref="byte"/>.
+        /// </returns>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="length"/> is less than <c>0</c>.</exception>
+        byte[] NextBytes(int length);
+
+        /// <summary>
+        /// Fills an array of <see cref="byte"/> with a sequence of random values
+        /// starting at a specified index for a specified length.
+        /// </summary>
+        /// <param name="data">The array to fill with random bytes.</param>
+        /// <param name="offset">The index of the array to start the fill operation.</param>
+        /// <param name="count">The number of bytes to fill.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="data"/> is null.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="offset"/> or <paramref name="count"/> is less than <c>0</c>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="offset"/> plus <paramref name="count"/> exceeds the length of <paramref name="data"/>.</exception>
+        void FillBytes(byte[] data, int offset, int count);
 
         #endregion
 
@@ -103,8 +85,7 @@ namespace LeeVox.Sdk
         /// <returns>
         /// A 8-bit signed integer that is greater than or equal to <c>0</c> and less than <see cref="sbyte.MaxValue"/>.
         /// </returns>
-        sbyte NextSByte()
-            => NextSByte(0, sbyte.MaxValue);
+        sbyte NextSByte();
 
         /// <summary>
         /// Returns a non-negative random <see cref="sbyte"/> that is less than the specified maximum.
@@ -116,8 +97,7 @@ namespace LeeVox.Sdk
         /// <para>However, if <paramref name="maxValue"/> equals <c>0</c>, <c>0</c> is returned.</para>
         /// </returns>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="maxValue"/> is less than <c>0</c>.</exception>
-        sbyte NextSByte(sbyte maxValue)
-            => NextSByte(0, maxValue);
+        sbyte NextSByte(sbyte maxValue);
 
         /// <summary>
         /// Returns a random <see cref="sbyte"/> that is within a specified range.
@@ -130,12 +110,7 @@ namespace LeeVox.Sdk
         /// <para>However, if <paramref name="maxValue"/> equals <paramref name="minValue"/>, <paramref name="minValue"/> is returned.</para>
         /// </returns>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="maxValue"/> is less than <paramref name="minValue"/>.</exception>
-        sbyte NextSByte(sbyte minValue, sbyte maxValue)
-        {
-            if (maxValue < minValue)
-                throw new ArgumentOutOfRangeException(nameof(maxValue), $"{nameof(maxValue)} must greater than or equal to {minValue}.");
-            return (sbyte)(minValue + (maxValue - minValue) * NextDouble());
-        }
+        sbyte NextSByte(sbyte minValue, sbyte maxValue);
 
         #endregion
 
@@ -147,8 +122,7 @@ namespace LeeVox.Sdk
         /// <returns>
         /// A 16-bit signed integer that is greater than or equal to <c>0</c> and less than <see cref="short.MaxValue"/>.
         /// </returns>
-        short NextShort()
-            => NextShort(0, short.MaxValue);
+        short NextShort();
 
         /// <summary>
         /// Returns a non-negative random <see cref="short"/> that is less than the specified maximum.
@@ -160,8 +134,7 @@ namespace LeeVox.Sdk
         /// <para>However, if <paramref name="maxValue"/> equals <c>0</c>, <c>0</c> is returned.</para>
         /// </returns>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="maxValue"/> is less than <c>0</c>.</exception>
-        short NextShort(short maxValue)
-            => NextShort(0, maxValue);
+        short NextShort(short maxValue);
 
         /// <summary>
         /// Returns a random <see cref="short"/> that is within a specified range.
@@ -174,12 +147,7 @@ namespace LeeVox.Sdk
         /// <para>However, if <paramref name="maxValue"/> equals <paramref name="minValue"/>, <paramref name="minValue"/> is returned.</para>
         /// </returns>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="maxValue"/> is less than <paramref name="minValue"/>.</exception>
-        short NextShort(short minValue, short maxValue)
-        {
-            if (maxValue < minValue)
-                throw new ArgumentOutOfRangeException(nameof(maxValue), $"{nameof(maxValue)} must greater than or equal to {minValue}.");
-            return (short)(minValue + (maxValue - minValue) * NextDouble());
-        }
+        short NextShort(short minValue, short maxValue);
 
         #endregion
 
@@ -191,8 +159,7 @@ namespace LeeVox.Sdk
         /// <returns>
         /// A 16-bit unsigned integer that is greater than or equal to <c>0</c> and less than <see cref="ushort.MaxValue"/>.
         /// </returns>
-        ushort NextUShort()
-            => NextUShort(0, ushort.MaxValue);
+        ushort NextUShort();
 
         /// <summary>
         /// Returns a non-negative random <see cref="ushort"/> that is less than the specified maximum.
@@ -204,8 +171,7 @@ namespace LeeVox.Sdk
         /// <para>However, if <paramref name="maxValue"/> equals <c>0</c>, <c>0</c> is returned.</para>
         /// </returns>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="maxValue"/> is less than <c>0</c>.</exception>
-        ushort NextUShort(ushort maxValue)
-            => NextUShort(0, maxValue);
+        ushort NextUShort(ushort maxValue);
 
         /// <summary>
         /// Returns a random <see cref="ushort"/> that is within a specified range.
@@ -218,12 +184,7 @@ namespace LeeVox.Sdk
         /// <para>However, if <paramref name="maxValue"/> equals <paramref name="minValue"/>, <paramref name="minValue"/> is returned.</para>
         /// </returns>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="maxValue"/> is less than <paramref name="minValue"/>.</exception>
-        ushort NextUShort(ushort minValue, ushort maxValue)
-        {
-            if (maxValue < minValue)
-                throw new ArgumentOutOfRangeException(nameof(maxValue), $"{nameof(maxValue)} must greater than or equal to {minValue}.");
-            return (ushort)(minValue + (maxValue - minValue) * NextDouble());
-        }
+        ushort NextUShort(ushort minValue, ushort maxValue);
 
         #endregion
 
@@ -235,8 +196,7 @@ namespace LeeVox.Sdk
         /// <returns>
         /// A 32-bit signed integer that is greater than or equal to <c>0</c> and less than <see cref="int.MaxValue"/>.
         /// </returns>
-        int NextInt()
-            => NextInt(0, int.MaxValue);
+        int NextInt();
 
         /// <summary>
         /// Returns a non-negative random <see cref="int"/> that is less than the specified maximum.
@@ -248,8 +208,7 @@ namespace LeeVox.Sdk
         /// <para>However, if <paramref name="maxValue"/> equals <c>0</c>, <c>0</c> is returned.</para>
         /// </returns>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="maxValue"/> is less than <c>0</c>.</exception>
-        int NextInt(int maxValue)
-            => NextInt(0, maxValue);
+        int NextInt(int maxValue);
 
         /// <summary>
         /// Returns a random <see cref="int"/> that is within a specified range.
@@ -262,12 +221,7 @@ namespace LeeVox.Sdk
         /// <para>However, if <paramref name="maxValue"/> equals <paramref name="minValue"/>, <paramref name="minValue"/> is returned.</para>
         /// </returns>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="maxValue"/> is less than <paramref name="minValue"/>.</exception>
-        int NextInt(int minValue, int maxValue)
-        {
-            if (maxValue < minValue)
-                throw new ArgumentOutOfRangeException(nameof(maxValue), $"{nameof(maxValue)} must greater than or equal to {minValue}.");
-            return (int)(minValue + (maxValue - minValue) * NextDouble());
-        }
+        int NextInt(int minValue, int maxValue);
 
         #endregion
 
@@ -279,8 +233,7 @@ namespace LeeVox.Sdk
         /// <returns>
         /// A 32-bit unsigned integer that is greater than or equal to <c>0</c> and less than <see cref="uint.MaxValue"/>.
         /// </returns>
-        uint NextUInt()
-            => NextUInt(0, uint.MaxValue);
+        uint NextUInt();
 
         /// <summary>
         /// Returns a non-negative random <see cref="uint"/> that is less than the specified maximum.
@@ -292,8 +245,7 @@ namespace LeeVox.Sdk
         /// <para>However, if <paramref name="maxValue"/> equals <c>0</c>, <c>0</c> is returned.</para>
         /// </returns>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="maxValue"/> is less than <c>0</c>.</exception>
-        uint NextUInt(uint maxValue)
-            => NextUInt(0, maxValue);
+        uint NextUInt(uint maxValue);
 
         /// <summary>
         /// Returns a random <see cref="uint"/> that is within a specified range.
@@ -306,12 +258,7 @@ namespace LeeVox.Sdk
         /// <para>However, if <paramref name="maxValue"/> equals <paramref name="minValue"/>, <paramref name="minValue"/> is returned.</para>
         /// </returns>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="maxValue"/> is less than <paramref name="minValue"/>.</exception>
-        uint NextUInt(uint minValue, uint maxValue)
-        {
-            if (maxValue < minValue)
-                throw new ArgumentOutOfRangeException(nameof(maxValue), $"{nameof(maxValue)} must greater than or equal to {minValue}.");
-            return (uint)(minValue + (maxValue - minValue) * NextDouble());
-        }
+        uint NextUInt(uint minValue, uint maxValue);
 
         #endregion
 
@@ -323,8 +270,7 @@ namespace LeeVox.Sdk
         /// <returns>
         /// A 64-bit signed integer that is greater than or equal to <c>0</c> and less than <see cref="long.MaxValue"/>.
         /// </returns>
-        long NextLong()
-            => NextLong(0, long.MaxValue);
+        long NextLong();
 
         /// <summary>
         /// Returns a non-negative random <see cref="long"/> that is less than the specified maximum.
@@ -336,8 +282,7 @@ namespace LeeVox.Sdk
         /// <para>However, if <paramref name="maxValue"/> equals <c>0</c>, <c>0</c> is returned.</para>
         /// </returns>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="maxValue"/> is less than <c>0</c>.</exception>
-        long NextLong(long maxValue)
-            => NextLong(0, maxValue);
+        long NextLong(long maxValue);
 
         /// <summary>
         /// Returns a random <see cref="long"/> that is within a specified range.
@@ -350,12 +295,7 @@ namespace LeeVox.Sdk
         /// <para>However, if <paramref name="maxValue"/> equals <paramref name="minValue"/>, <paramref name="minValue"/> is returned.</para>
         /// </returns>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="maxValue"/> is less than <paramref name="minValue"/>.</exception>
-        long NextLong(long minValue, long maxValue)
-        {
-            if (maxValue < minValue)
-                throw new ArgumentOutOfRangeException(nameof(maxValue), $"{nameof(maxValue)} must greater than or equal to {minValue}.");
-            return (long)(minValue + (maxValue - minValue) * NextDouble());
-        }
+        long NextLong(long minValue, long maxValue);
 
         #endregion
 
@@ -367,8 +307,7 @@ namespace LeeVox.Sdk
         /// <returns>
         /// A 64-bit unsigned integer that is greater than or equal to <c>0</c> and less than <see cref="ulong.MaxValue"/>.
         /// </returns>
-        ulong NextULong()
-            => NextULong(0, ulong.MaxValue);
+        ulong NextULong();
 
         /// <summary>
         /// Returns a non-negative random <see cref="ulong"/> that is less than the specified maximum.
@@ -380,8 +319,7 @@ namespace LeeVox.Sdk
         /// <para>However, if <paramref name="maxValue"/> equals <c>0</c>, <c>0</c> is returned.</para>
         /// </returns>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="maxValue"/> is less than <c>0</c>.</exception>
-        ulong NextULong(ulong maxValue)
-            => NextULong(0, maxValue);
+        ulong NextULong(ulong maxValue);
 
         /// <summary>
         /// Returns a random <see cref="ulong"/> that is within a specified range.
@@ -394,16 +332,20 @@ namespace LeeVox.Sdk
         /// <para>However, if <paramref name="maxValue"/> equals <paramref name="minValue"/>, <paramref name="minValue"/> is returned.</para>
         /// </returns>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="maxValue"/> is less than <paramref name="minValue"/>.</exception>
-        ulong NextULong(ulong minValue, ulong maxValue)
-        {
-            if (maxValue < minValue)
-                throw new ArgumentOutOfRangeException(nameof(maxValue), $"{nameof(maxValue)} must greater than or equal to {minValue}.");
-            return (ulong)(minValue + (maxValue - minValue) * NextDouble());
-        }
+        ulong NextULong(ulong minValue, ulong maxValue);
 
         #endregion
 
         #region float
+
+        /// <summary>
+        /// Returns a random <see cref="float"/> that is greater than or equal to <c>0</c>, and less than <c>1</c>.
+        /// </summary>
+        /// <returns>
+        /// A single-precision floating-point number that is greater than or equal to <c>0</c>, and less than <c>1</c>;
+        /// that is, the range of return values ordinarily includes <c>0</c> but not <c>1</c>.
+        /// </returns>
+        float NextFloat();
 
         /// <summary>
         /// Returns a random <see cref="float"/> that is within a specified range.
@@ -416,16 +358,20 @@ namespace LeeVox.Sdk
         /// <para>However, if <paramref name="maxValue"/> equals <paramref name="minValue"/>, <paramref name="minValue"/> is returned.</para>
         /// </returns>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="maxValue"/> is less than <paramref name="minValue"/>.</exception>
-        float NextFloat(float minValue, float maxValue)
-        {
-            if (maxValue < minValue)
-                throw new ArgumentOutOfRangeException(nameof(maxValue), $"{nameof(maxValue)} must greater than or equal to {minValue}.");
-            return (float)(minValue + (maxValue - minValue) * NextFloat());
-        }
+        float NextFloat(float minValue, float maxValue);
 
         #endregion
 
         #region double
+
+        /// <summary>
+        /// Returns a random <see cref="double"/> that is greater than or equal to <c>0</c>, and less than <c>1</c>.
+        /// </summary>
+        /// <returns>
+        /// A double-precision floating-point number that is greater than or equal to <c>0</c>, and less than <c>1</c>;
+        /// that is, the range of return values ordinarily includes <c>0</c> but not <c>1</c>.
+        /// </returns>
+        double NextDouble();
 
         /// <summary>
         /// Returns a random <see cref="double"/> that is within a specified range.
@@ -438,12 +384,7 @@ namespace LeeVox.Sdk
         /// <para>However, if <paramref name="maxValue"/> equals <paramref name="minValue"/>, <paramref name="minValue"/> is returned.</para>
         /// </returns>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="maxValue"/> is less than <paramref name="minValue"/>.</exception>
-        double NextDouble(double minValue, double maxValue)
-        {
-            if (maxValue < minValue)
-                throw new ArgumentOutOfRangeException(nameof(maxValue), $"{nameof(maxValue)} must greater than or equal to {minValue}.");
-            return (double)(minValue + (maxValue - minValue) * NextDouble());
-        }
+        double NextDouble(double minValue, double maxValue);
 
         #endregion
 
@@ -456,8 +397,7 @@ namespace LeeVox.Sdk
         /// A decimal floating-point number that is greater than or equal to <c>0</c>, and less than <c>1</c>;
         /// that is, the range of return values ordinarily includes <c>0</c> but not <c>1</c>.
         /// </returns>
-        decimal NextDecimal()
-            => new decimal(NextDouble());
+        decimal NextDecimal();
 
         /// <summary>
         /// Returns a random <see cref="decimal"/> that is within a specified range.
@@ -470,12 +410,7 @@ namespace LeeVox.Sdk
         /// <para>However, if <paramref name="maxValue"/> equals <paramref name="minValue"/>, <paramref name="minValue"/> is returned.</para>
         /// </returns>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="maxValue"/> is less than <paramref name="minValue"/>.</exception>
-        decimal NextDecimal(decimal minValue, decimal maxValue)
-        {
-            if (maxValue < minValue)
-                throw new ArgumentOutOfRangeException(nameof(maxValue), $"{nameof(maxValue)} must greater than or equal to {minValue}.");
-            return minValue + (maxValue - minValue) * (decimal)NextDouble();
-        }
+        decimal NextDecimal(decimal minValue, decimal maxValue);
 
         #endregion
 
@@ -487,8 +422,7 @@ namespace LeeVox.Sdk
         /// <returns>
         /// A <see cref="DateTime"/> that is greater than or equal to <see cref="DateTime.MinValue"/> and less than <see cref="DateTime.MaxValue"/>.
         /// </returns>
-        DateTime NextDateTime()
-            => NextDateTime(DateTime.MinValue, DateTime.MaxValue);
+        DateTime NextDateTime();
 
         /// <summary>
         /// Returns a random <see cref="DateTime"/> that is within a specified range.
@@ -501,12 +435,7 @@ namespace LeeVox.Sdk
         /// <para>However, if <paramref name="maxValue"/> equals <paramref name="minValue"/>, <paramref name="minValue"/> is returned.</para>
         /// </returns>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="maxValue"/> is less than <paramref name="minValue"/>.</exception>
-        DateTime NextDateTime(DateTime minValue, DateTime maxValue)
-        {
-            if (maxValue < minValue)
-                throw new ArgumentOutOfRangeException(nameof(maxValue), $"{nameof(maxValue)} must greater than or equal to {minValue}.");
-            return minValue.AddTicks(NextLong(0, (maxValue - minValue).Ticks));
-        }
+        DateTime NextDateTime(DateTime minValue, DateTime maxValue);
 
         #endregion
 
@@ -518,8 +447,7 @@ namespace LeeVox.Sdk
         /// <returns>
         /// A character that is greater than or equal to <see cref="char.MinValue"/> and less than <see cref="char.MaxValue"/>.
         /// </returns>
-        char NextChar()
-            => NextChar(char.MinValue, char.MaxValue);
+        char NextChar();
 
         /// <summary>
         /// Returns a random character that is within a specified range.
@@ -532,12 +460,7 @@ namespace LeeVox.Sdk
         /// <para>However, if <paramref name="maxValue"/> equals <paramref name="minValue"/>, <paramref name="minValue"/> is returned.</para>
         /// </returns>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="maxValue"/> is less than <paramref name="minValue"/>.</exception>
-        char NextChar(char minValue, char maxValue)
-        {
-            if (maxValue < minValue)
-                throw new ArgumentOutOfRangeException(nameof(maxValue), $"{nameof(maxValue)} must greater than or equal to {minValue}.");
-            return (char)(minValue + (maxValue - minValue) * NextDouble());
-        }
+        char NextChar(char minValue, char maxValue);
 
         #endregion
 
@@ -552,8 +475,7 @@ namespace LeeVox.Sdk
         /// <para>See more: <see href="https://en.wikipedia.org/wiki/ASCII#Printable_characters"/></para>
         /// </returns>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="length"/> is less than <c>0</c>.</exception>
-        string NextString(int length)
-            => NextString(length, Const.ASCII_CHARS);
+        string NextString(int length);
 
         /// <summary>
         /// Returns a random string with a specified length and the specified characters collection.
@@ -565,8 +487,7 @@ namespace LeeVox.Sdk
         /// </returns>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="length"/> is less than <c>0</c>.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="chars"/> is <c>null</c> or empty.</exception>
-        string NextString(int length, string chars)
-            => NextString(length, chars?.ToCharArray());
+        string NextString(int length, string chars);
 
         /// <summary>
         /// Returns a random string with a specified length and the specified characters collection.
@@ -578,8 +499,7 @@ namespace LeeVox.Sdk
         /// </returns>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="length"/> is less than <c>0</c>.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="chars"/> is <c>null</c> or empty.</exception>
-        string NextString(int length, IEnumerable<char> chars)
-            => NextString(length, chars?.ToArray());
+        string NextString(int length, IEnumerable<char> chars);
 
         /// <summary>
         /// Returns a random string with a specified length and the specified characters collection.
@@ -591,23 +511,7 @@ namespace LeeVox.Sdk
         /// </returns>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="length"/> is less than <c>0</c>.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="chars"/> is <c>null</c> or empty.</exception>
-        string NextString(int length, params char[] chars)
-        {
-            if (length < 0)
-                throw new ArgumentOutOfRangeException(nameof(length), $"{nameof(length)} must greater than 0.");
-            if (chars is null || chars.Length <= 0)
-                throw new ArgumentNullException(nameof(chars), $"{nameof(chars)} must have at least 1 element.");
-
-            var result = new char[length];
-            for (var i = 0; i < length; i++)
-            {
-                result[i] = chars[NextInt(0, chars.Length)];
-            }
-
-            return new String(result);
-        }
-
-        #endregion
+        string NextString(int length, params char[] chars);
 
         #endregion
     }
