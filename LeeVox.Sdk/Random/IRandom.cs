@@ -442,10 +442,11 @@ namespace LeeVox.Sdk
         #region char
 
         /// <summary>
-        /// Returns a random character.
+        /// Returns a random ASCII printable character.
         /// </summary>
         /// <returns>
-        /// A character that is greater than or equal to <see cref="char.MinValue"/> and less than <see cref="char.MaxValue"/>.
+        /// An ASCII printable character that is greater than or equal to <c>32</c> and less than <c>127</c>.
+        /// <para>See more: <see href="https://en.wikipedia.org/wiki/ASCII#Printable_characters"/></para>
         /// </returns>
         char NextChar();
 

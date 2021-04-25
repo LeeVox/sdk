@@ -18,7 +18,9 @@ namespace LeeVox.Sdk.Lib
         private ulong state2;
         private ulong state3;
 
+        private bool cachedShortSource;
         private bool cachedIntSource;
+        private uint shortSource;
         private ulong intSource;
 
         internal XoShiRo256StarStar(params ulong[] seed)
@@ -42,6 +44,21 @@ namespace LeeVox.Sdk.Lib
             state3 = seed3;
         }
 
+        internal ushort NextUShort()
+        {
+            if (cachedShortSource)
+            {
+                cachedShortSource = false;
+                return NumberFactory.ExtractLow(shortSource);
+            }
+            else
+            {
+                shortSource = NextUInt();
+                cachedShortSource = true;
+                return NumberFactory.ExtractHigh(shortSource);
+            }
+        }
+
         internal uint NextUInt()
         {
             if (cachedIntSource)
@@ -55,6 +72,16 @@ namespace LeeVox.Sdk.Lib
                 cachedIntSource = true;
                 return NumberFactory.ExtractHigh(intSource);
             }
+        }
+
+        internal uint[] NextUIntArray(int length)
+        {
+            if (length < 0)
+                throw new ArgumentOutOfRangeException(nameof(length), "Length must be greater than or equal to 0.");
+            uint[] result = new uint[length];
+            for (var i = 0; i < length; i++)
+                result[i] = NextUInt();
+            return result;
         }
 
         internal ulong NextULong()
@@ -74,14 +101,44 @@ namespace LeeVox.Sdk.Lib
             return result;
         }
 
+        internal ulong[] NextULongArray(int length)
+        {
+            if (length < 0)
+                throw new ArgumentOutOfRangeException(nameof(length), "Length must be greater than or equal to 0.");
+            ulong[] result = new ulong[length];
+            for (var i = 0; i < length; i++)
+                result[i] = NextULong();
+            return result;
+        }
+
         internal float NextFloat()
         {
             return NumberFactory.MakeFloat(NextUInt());
         }
 
+        internal float[] NextFloatArray(int length)
+        {
+            if (length < 0)
+                throw new ArgumentOutOfRangeException(nameof(length), "Length must be greater than or equal to 0.");
+            float[] result = new float[length];
+            for (var i = 0; i < length; i++)
+                result[i] = NumberFactory.MakeFloat(NextUInt());
+            return result;
+        }
+
         internal double NextDouble()
         {
             return NumberFactory.MakeDouble(NextULong());
+        }
+
+        internal double[] NextDoubleArray(int length)
+        {
+            if (length < 0)
+                throw new ArgumentOutOfRangeException(nameof(length), "Length must be greater than or equal to 0.");
+            double[] result = new double[length];
+            for (var i = 0; i < length; i++)
+                result[i] = NumberFactory.MakeDouble(NextULong());
+            return result;
         }
 
         internal void FillBytes(byte[] bytes)

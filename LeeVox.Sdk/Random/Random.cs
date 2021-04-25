@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using LeeVox.Sdk.Lib;
 
 namespace LeeVox.Sdk
@@ -86,7 +87,7 @@ namespace LeeVox.Sdk
 
         /// <inheritdoc/>
         public sbyte NextSByte()
-            => NextSByte(0, sbyte.MaxValue);
+            => (sbyte)(NextByte() & Const.BYTE_TO_NON_NEGATIVE_SBYTE_MASK);
 
         /// <inheritdoc/>
         public sbyte NextSByte(sbyte maxValue)
@@ -106,7 +107,7 @@ namespace LeeVox.Sdk
 
         /// <inheritdoc/>
         public short NextShort()
-            => NextShort(0, short.MaxValue);
+            => (short)(NextUShort() & Const.USHORT_TO_NON_NEGATIVE_SHORT_MASK);
 
         /// <inheritdoc/>
         public short NextShort(short maxValue)
@@ -126,7 +127,7 @@ namespace LeeVox.Sdk
 
         /// <inheritdoc/>
         public ushort NextUShort()
-            => NextUShort(0, ushort.MaxValue);
+            => _random.NextUShort();
 
         /// <inheritdoc/>
         public ushort NextUShort(ushort maxValue)
@@ -146,7 +147,7 @@ namespace LeeVox.Sdk
 
         /// <inheritdoc/>
         public int NextInt()
-            => NextInt(0, int.MaxValue);
+            => (int)(NextUInt() & Const.UINT_TO_NON_NEGATIVE_INT_MASK);
 
         /// <inheritdoc/>
         public int NextInt(int maxValue)
@@ -186,7 +187,7 @@ namespace LeeVox.Sdk
 
         /// <inheritdoc/>
         public long NextLong()
-            => NextLong(0, long.MaxValue);
+            => (long)(NextULong() & Const.ULONG_TO_NON_NEGATIVE_LONG_MASK);
 
         /// <inheritdoc/>
         public long NextLong(long maxValue)
@@ -290,7 +291,7 @@ namespace LeeVox.Sdk
 
         /// <inheritdoc/>
         public char NextChar()
-            => NextChar(char.MinValue, char.MaxValue);
+            => NextChar(Const.ASCII_CHAR_MIN, Const.ASCII_CHAR_MAX);
 
         /// <inheritdoc/>
         public char NextChar(char minValue, char maxValue)
@@ -324,13 +325,14 @@ namespace LeeVox.Sdk
             if (chars is null || chars.Length <= 0)
                 throw new ArgumentNullException(nameof(chars), $"{nameof(chars)} must have at least 1 element.");
 
-            var result = new char[length];
+            var doubles = _random.NextDoubleArray(length);
+            var builder = new StringBuilder(length);
             for (var i = 0; i < length; i++)
             {
-                result[i] = chars[NextInt(0, chars.Length)];
+                builder.Append(chars[(int)(doubles[i] * chars.Length)]);
             }
 
-            return new String(result);
+            return builder.ToString();
         }
 
         #endregion

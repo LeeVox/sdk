@@ -9,8 +9,10 @@ namespace LeeVox.Sdk.Lib
 {
     internal static class NumberFactory
     {
-        private const int INT_SIZE = 8;
-        private const int LONG_SIZE = 8;
+        private const int SHORT_SIZE = sizeof(short);
+        private const int INT_SIZE = sizeof(int);
+        private const int LONG_SIZE = sizeof(long);
+        private const ushort SHORT_LOWEST_BYTE_MASK = 0xff;
         private const uint INT_LOWEST_BYTE_MASK = 0xff;
         private const ulong LONG_LOWEST_BYTE_MASK = 0xffL;
 
@@ -24,9 +26,19 @@ namespace LeeVox.Sdk.Lib
         /// </summary>
         private static readonly double DOUBLE_MULTIPLIER = BitConverter.ToDouble(BitConverter.GetBytes(0x3ca0000000000000UL));
 
+        internal static ushort ExtractLow(uint number)
+        {
+            return (ushort)number;
+        }
+
         internal static uint ExtractLow(ulong number)
         {
             return (uint)number;
+        }
+
+        internal static ushort ExtractHigh(uint number)
+        {
+            return (ushort)(number >> 16);
         }
 
         internal static uint ExtractHigh(ulong number)
@@ -44,6 +56,35 @@ namespace LeeVox.Sdk.Lib
         internal static bool MakeBoolean(ulong v)
         {
             return (v >> 63) != 0;
+        }
+
+        #endregion
+
+        #region ushort
+
+        internal static ushort MakeUShort(uint v)
+        {
+            return (ushort)(ExtractHigh(v) ^ ExtractLow(v));
+        }
+
+        internal static ushort MakeUShort(byte[] input)
+        {
+            CheckSize(SHORT_SIZE, input.Length);
+            return GetUShort(input, 0);
+        }
+
+        internal static ushort[] MakeUShortArray(byte[] input)
+        {
+            int size = input.Length;
+            int num = size / SHORT_SIZE;
+            CheckSize(num*SHORT_SIZE, size);
+
+            ushort[] output = new ushort[num];
+            for (var i = 0; i < num; i++)
+            {
+                output[i] = GetUShort(input, i*SHORT_SIZE);
+            }
+            return output;
         }
 
         #endregion
@@ -125,6 +166,20 @@ namespace LeeVox.Sdk.Lib
             return (high | low) * DOUBLE_MULTIPLIER;
         }
 
+        internal static double[] MakeDoubleArray(byte[] input)
+        {
+            int size = input.Length;
+            int num = size / LONG_SIZE;
+            CheckSize(num * LONG_SIZE, size);
+
+            double[] output = new double[num];
+            for (var i = 0; i < num; i++)
+            {
+                output[i] = MakeDouble(GetULong(input, i*LONG_SIZE));
+            }
+            return output;
+        }
+
         #endregion
 
         #region byte array
@@ -167,6 +222,12 @@ namespace LeeVox.Sdk.Lib
 
         #region private functions
 
+        private static void PutUShort(ushort v, byte[] buffer, int index)
+        {
+            buffer[index + 0] = (byte)( v        & SHORT_LOWEST_BYTE_MASK);
+            buffer[index + 1] = (byte)( v >>  8);
+        }
+
         private static void PutUInt(uint v, byte[] buffer, int index)
         {
             buffer[index + 0] = (byte)( v        & INT_LOWEST_BYTE_MASK);
@@ -187,9 +248,17 @@ namespace LeeVox.Sdk.Lib
             buffer[index + 7] = (byte)( v >> 56);
         }
 
+        private static ushort GetUShort(byte[] input, int index)
+        {
+            return (ushort)(
+                (input[index + 0] & SHORT_LOWEST_BYTE_MASK)      |
+                (input[index + 1] & SHORT_LOWEST_BYTE_MASK) << 8
+            );
+        }
+
         private static uint GetUInt(byte[] input, int index)
         {
-             return (input[index + 0] & INT_LOWEST_BYTE_MASK)       |
+            return  (input[index + 0] & INT_LOWEST_BYTE_MASK)       |
                     (input[index + 1] & INT_LOWEST_BYTE_MASK) <<  8 |
                     (input[index + 2] & INT_LOWEST_BYTE_MASK) << 16 |
                     (input[index + 3] & INT_LOWEST_BYTE_MASK) << 24;

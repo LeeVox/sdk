@@ -23,22 +23,28 @@ namespace LeeVox.Sdk.Test
         [Fact]
         public void PrintRandomIntegers()
         {
+            output.WriteLine("NextShort()");
+            for (var i = 0; i < 30; i++)
+            {
+                output.WriteLine(random.NextShort(100).ToString());
+            }
+
             output.WriteLine("NextInt()");
             for (var i = 0; i < 30; i++)
             {
-                output.WriteLine(random.NextInt().ToString());
+                output.WriteLine(random.NextInt(200).ToString());
             }
 
-            output.WriteLine("NextInt(10)");
+            output.WriteLine("NextLong()");
             for (var i = 0; i < 30; i++)
             {
-                output.WriteLine(random.NextInt(10).ToString());
+                output.WriteLine(random.NextLong(300).ToString());
             }
 
-            output.WriteLine("NextInt(-9999, 9999)");
+            output.WriteLine("NextString()");
             for (var i = 0; i < 30; i++)
             {
-                output.WriteLine(random.NextInt(-9999, 9999).ToString());
+                output.WriteLine(random.NextString(60).ToString());
             }
         }
     }
