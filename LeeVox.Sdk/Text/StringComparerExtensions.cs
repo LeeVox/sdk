@@ -8,37 +8,61 @@ namespace LeeVox.Sdk
         /// Gets a <see cref="StringComparer"/> object that performs a case-sensitive ordinal string comparison
         /// and ignores trailing + leading white spaces.
         /// </summary>
-        public static StringComparer Ordinal { get; } = new IgnoreSpacesComparer(StringComparer.Ordinal);
+        public static StringComparer Ordinal
+        {
+            // always create new instance to make it thread-safe
+            get => new IgnoreSpacesComparer(StringComparer.Ordinal);
+        }
 
         /// <summary>
         /// Gets a <see cref="StringComparer"/> object that performs a case-insensitive ordinal string comparison
         /// and ignores trailing + leading white spaces.
         /// </summary>
-        public static StringComparer OrdinalIgnoreCase { get; } = new IgnoreSpacesComparer(StringComparer.OrdinalIgnoreCase);
+        public static StringComparer OrdinalIgnoreCase
+        {
+            // always create new instance to make it thread-safe
+            get => new IgnoreSpacesComparer(StringComparer.OrdinalIgnoreCase);
+        }
 
         /// <summary>
         /// Gets a <see cref="StringComparer"/> object that performs a case-sensitive string comparison
         /// using the word comparison rules of the current culture and ignores trailing + leading whitespaces.
         /// </summary>
-        public static StringComparer CurrentCulture { get; } = new IgnoreSpacesComparer(StringComparer.CurrentCulture);
+        public static StringComparer CurrentCulture
+        {
+            // always create new instance to make it thread-safe
+            get => new IgnoreSpacesComparer(StringComparer.CurrentCulture);
+        }
 
         /// <summary>
         /// Gets a <see cref="StringComparer"/> object that performs a case-insensitive string comparison
         /// using the word comparison rules of the current culture and ignores trailing + leading whitespaces.
         /// </summary>
-        public static StringComparer CurrentCultureIgnoreCase { get; } = new IgnoreSpacesComparer(StringComparer.CurrentCultureIgnoreCase);
+        public static StringComparer CurrentCultureIgnoreCase
+        {
+            // always create new instance to make it thread-safe
+            get => new IgnoreSpacesComparer(StringComparer.CurrentCultureIgnoreCase);
+        }
 
         /// <summary>
         /// Gets a <see cref="StringComparer"/> object that performs a case-sensitive string comparison
         /// using the word comparison rules of the invariant culture and ignores trailing + leading whitespaces.
         /// </summary>
-        public static StringComparer InvariantCulture { get; } = new IgnoreSpacesComparer(StringComparer.InvariantCulture);
+        public static StringComparer InvariantCulture
+        {
+            // always create new instance to make it thread-safe
+            get => new IgnoreSpacesComparer(StringComparer.InvariantCulture);
+        }
 
         /// <summary>
         /// Gets a <see cref="StringComparer"/> object that performs a case-insensitive string comparison
         /// using the word comparison rules of the invariant culture and ignores trailing + leading whitespaces.
         /// </summary>
-        public static StringComparer InvariantCultureIgnoreCase { get; } = new IgnoreSpacesComparer(StringComparer.InvariantCultureIgnoreCase);
+        public static StringComparer InvariantCultureIgnoreCase
+        {
+            // always create new instance to make it thread-safe
+            get => new IgnoreSpacesComparer(StringComparer.InvariantCultureIgnoreCase);
+        }
 
         internal sealed class IgnoreSpacesComparer : StringComparer
         {
