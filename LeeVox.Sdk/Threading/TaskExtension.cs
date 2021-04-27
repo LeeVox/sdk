@@ -7,7 +7,7 @@ namespace LeeVox.Sdk
     public static class TaskExtensions
     {
         /// <summary>
-        /// Waits for the <c>System.Threading.Tasks.Task</c> to complete execution, then returns its result.
+        /// Waits for the <see cref="System.Threading.Tasks.Task"/> to complete execution, then returns its result.
         /// </summary>
         public static TResult WaitAndReturn<TResult>(this Task<TResult> task)
         {
@@ -16,7 +16,7 @@ namespace LeeVox.Sdk
         }
 
         /// <summary>
-        /// Waits for the <c>System.Threading.Tasks.Task</c> to complete execution within a specified
+        /// Waits for the <see cref="System.Threading.Tasks.Task"/> to complete execution within a specified
         /// number of milliseconds, then returns its result.
         /// </summary>
         /// <remarks>
@@ -26,7 +26,7 @@ namespace LeeVox.Sdk
             => WaitAndReturn(task, millisecondsTimeout, default(TResult));
 
         /// <summary>
-        /// Waits for the <c>System.Threading.Tasks.Task</c> to complete execution within a specified
+        /// Waits for the <see cref="System.Threading.Tasks.Task"/> to complete execution within a specified
         /// number of milliseconds, then returns its result.
         /// </summary>
         /// <param name="returnValueIfTimeout">return value if timeout</param>
@@ -36,7 +36,7 @@ namespace LeeVox.Sdk
         }
 
         /// <summary>
-        /// Waits for the <c>System.Threading.Tasks.Task</c> to complete execution within a specified
+        /// Waits for the <see cref="System.Threading.Tasks.Task"/> to complete execution within a specified
         /// time interval, then returns its result.
         /// </summary>
         /// <remarks>
@@ -46,7 +46,7 @@ namespace LeeVox.Sdk
             => WaitAndReturn(task, timeout, default(TResult));
 
         /// <summary>
-        /// Waits for the <c>System.Threading.Tasks.Task</c> to complete execution within a specified
+        /// Waits for the <see cref="System.Threading.Tasks.Task"/> to complete execution within a specified
         /// time interval, then returns its result.
         /// </summary>
         /// <param name="returnValueIfTimeout">return value if timeout</param>
@@ -56,7 +56,7 @@ namespace LeeVox.Sdk
         }
 
         /// <summary>
-        /// Waits for the <c>System.Threading.Tasks.Task</c> to complete execution or until cancellation token
+        /// Waits for the <see cref="System.Threading.Tasks.Task"/> to complete execution or until cancellation token
         /// is canceled, then returns its result.
         /// </summary>
         /// <remarks>
@@ -66,7 +66,7 @@ namespace LeeVox.Sdk
             => WaitAndReturn(task, cancellationToken, default(TResult));
 
         /// <summary>
-        /// Waits for the <c>System.Threading.Tasks.Task</c> to complete execution or until cancellation token
+        /// Waits for the <see cref="System.Threading.Tasks.Task"/> to complete execution or until cancellation token
         /// is canceled, then returns its result.
         /// </summary>
         /// <param name="returnValueIfCanceled">return value if canceled</param>
@@ -84,7 +84,7 @@ namespace LeeVox.Sdk
         }
 
         /// <summary>
-        /// Waits for the <c>System.Threading.Tasks.Task</c> to complete execution within a specified
+        /// Waits for the <see cref="System.Threading.Tasks.Task"/> to complete execution within a specified
         /// number of milliseconds or until cancellation token is canceled, then returns its result.
         /// </summary>
         /// <remarks>
@@ -94,7 +94,7 @@ namespace LeeVox.Sdk
             => WaitAndReturn(task, millisecondsTimeout, cancellationToken, default(TResult));
 
         /// <summary>
-        /// Waits for the <c>System.Threading.Tasks.Task</c> to complete execution within a specified
+        /// Waits for the <see cref="System.Threading.Tasks.Task"/> to complete execution within a specified
         /// number of milliseconds or until cancellation token is canceled, then returns its result.
         /// </summary>
         /// <param name="returnValueIfTimeoutOrCanceled">return value if timeout or canceled</param>

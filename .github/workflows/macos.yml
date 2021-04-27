@@ -15,7 +15,7 @@ jobs:
       fail-fast: false
       matrix:
         os: ['macOS-latest']
-        sdk: ['5.0.100']
+        sdk: ['5.0.x']
         config: ['Debug', 'Release']
         target:
           - 'net5'

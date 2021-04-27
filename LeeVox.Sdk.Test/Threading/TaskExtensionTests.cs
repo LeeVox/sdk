@@ -77,14 +77,14 @@ namespace LeeVox.Sdk.Test
 
             actual = "";
             tokenSource = new CancellationTokenSource();
-            tokenSource.CancelAfter(250);
+            tokenSource.CancelAfter(100);
             expected = default(string);
             actual = NewTask(milliSecondsToWait).WaitAndReturn(tokenSource.Token);
             actual.Should().BeEquivalentTo(expected, $"should return default(string) if canceled.");
 
             actual = "";
             tokenSource = new CancellationTokenSource();
-            tokenSource.CancelAfter(250);
+            tokenSource.CancelAfter(100);
             expected = "canceled";
             actual = NewTask(milliSecondsToWait).WaitAndReturn(tokenSource.Token, expected);
             actual.Should().BeEquivalentTo(expected, $"should return expected value if canceled.");
@@ -124,7 +124,7 @@ namespace LeeVox.Sdk.Test
             actual = "";
             timeout = 888;
             tokenSource = new CancellationTokenSource();
-            tokenSource.CancelAfter(250);
+            tokenSource.CancelAfter(100);
             expected = "canceled";
             actual = NewTask(milliSecondsToWait).WaitAndReturn(timeout, tokenSource.Token, expected);
             actual.Should().BeEquivalentTo(expected, $"should return {expected} if no timeout but canceled.");

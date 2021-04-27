@@ -15,6 +15,8 @@ namespace LeeVox.Sdk.Test
 
             AssertEqual(3_000_000_000U, "\t 3000000000\r \n".ParseTo<uint>(CultureInfo.CurrentCulture));
             AssertEqual((sbyte)-75, "-75".ParseTo<sbyte>());
+            AssertEqual((short)-1234, "-1234".ParseTo<short>());
+            AssertEqual(ushort.MaxValue, "65535".ParseTo<ushort>());
             AssertNull("-12.3".ParseTo<ulong>());
             AssertEqual('z', "-12.3".ParseTo<char>('z'));
             AssertEqual(-12.3F, "-12.3".ParseTo<float>(CultureInfo.CurrentCulture.NumberFormat));
@@ -47,6 +49,33 @@ namespace LeeVox.Sdk.Test
             AssertEqual((byte)1, "AF".ParseToByte(NumberStyles.AllowDecimalPoint, null, (byte)1));
             AssertEqual((byte)21, "21.0".ParseToByte(NumberStyles.AllowDecimalPoint, CultureInfo.CurrentCulture.NumberFormat, (byte)1));
 
+            AssertEqual((sbyte)10, "10".ParseToSByte());
+            AssertEqual((sbyte)12, "\t 12\r \n".ParseToSByte());
+            AssertNull("9999999999999999999999999999999999999999".ParseToSByte());
+            AssertEqual((sbyte)1, "abcdef".ParseToSByte((sbyte)1));
+            AssertEqual((sbyte)15, "15".ParseToSByte((sbyte)1));
+            AssertEqual((sbyte)-81, "AF".ParseToSByte(NumberStyles.AllowHexSpecifier, null));
+            AssertNull("AF".ParseToSByte(NumberStyles.AllowDecimalPoint, null));
+            AssertEqual((sbyte)1, "AF".ParseToSByte(NumberStyles.AllowDecimalPoint, null, (sbyte)1));
+            AssertEqual((sbyte)21, "21.0".ParseToSByte(NumberStyles.AllowDecimalPoint, CultureInfo.CurrentCulture.NumberFormat, (sbyte)1));
+
+            AssertEqual((short)10, "10".ParseToShort());
+            AssertEqual((short)-12, "\t -12\r \n".ParseToShort());
+            AssertNull("9999999999999999999999999999999999999999".ParseToShort());
+            AssertEqual((short)1, "abcdef".ParseToShort(1));
+            AssertEqual((short)-15, "-15".ParseToShort(1));
+            AssertEqual((short)-1234, "1,234-".ParseToShort(NumberStyles.AllowThousands | NumberStyles.AllowTrailingSign, null));
+            AssertNull("AF".ParseToShort(NumberStyles.AllowDecimalPoint, null));
+            AssertEqual((short)1, "AF".ParseToShort(NumberStyles.AllowDecimalPoint, null, 1));
+            AssertEqual((short)1234, "1,234.000".ParseToShort(NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint, CultureInfo.CurrentCulture.NumberFormat, 1));
+
+            AssertEqual((ushort)10, "10".ParseToUShort());
+            AssertNull("9999999999999999999999999999999999999999".ParseToUShort());
+            AssertEqual((ushort)1, "abcdef".ParseToUShort(1));
+            AssertNull("AF".ParseToUShort(NumberStyles.AllowDecimalPoint, null));
+            AssertEqual((ushort)1, "AF".ParseToUShort(NumberStyles.AllowDecimalPoint, null, 1));
+            AssertEqual((ushort)1234, "1,234.000".ParseToUShort(NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint, CultureInfo.CurrentCulture.NumberFormat, 1));
+
             AssertEqual(10, "10".ParseToInt());
             AssertEqual(-12, "\t -12\r \n".ParseToInt());
             AssertNull("9999999999999999999999999999999999999999".ParseToInt());
@@ -57,6 +86,13 @@ namespace LeeVox.Sdk.Test
             AssertEqual(1, "AF".ParseToInt(NumberStyles.AllowDecimalPoint, null, 1));
             AssertEqual(1234, "1,234.000".ParseToInt(NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint, CultureInfo.CurrentCulture.NumberFormat, 1));
 
+            AssertEqual(10U, "10".ParseToUInt());
+            AssertNull("9999999999999999999999999999999999999999".ParseToUInt());
+            AssertEqual(1U, "abcdef".ParseToUInt(1));
+            AssertNull("AF".ParseToUInt(NumberStyles.AllowDecimalPoint, null));
+            AssertEqual(1U, "AF".ParseToUInt(NumberStyles.AllowDecimalPoint, null, 1));
+            AssertEqual(1234U, "1,234.000".ParseToUInt(NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint, CultureInfo.CurrentCulture.NumberFormat, 1));
+
             AssertEqual(10L, "10".ParseToLong());
             AssertEqual(-12L, "\t -12\r \n".ParseToLong());
             AssertNull("9999999999999999999999999999999999999999".ParseToLong());
@@ -66,6 +102,13 @@ namespace LeeVox.Sdk.Test
             AssertNull("AF".ParseToLong(NumberStyles.AllowDecimalPoint, null));
             AssertEqual(1L, "AF".ParseToLong(NumberStyles.AllowDecimalPoint, null, 1L));
             AssertEqual(1234L, "1,234.000".ParseToLong(NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint, CultureInfo.CurrentCulture.NumberFormat, 1L));
+
+            AssertEqual(10UL, "10".ParseToULong());
+            AssertNull("9999999999999999999999999999999999999999".ParseToULong());
+            AssertEqual(1UL, "abcdef".ParseToULong(1L));
+            AssertNull("AF".ParseToULong(NumberStyles.AllowDecimalPoint, null));
+            AssertEqual(1UL, "AF".ParseToULong(NumberStyles.AllowDecimalPoint, null, 1L));
+            AssertEqual(1234UL, "1,234.000".ParseToULong(NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint, CultureInfo.CurrentCulture.NumberFormat, 1L));
 
             AssertTrue(float.Epsilon >= float.MinValue - "-3.402823E+38".ParseToFloat());
             AssertEqual(null, "abc".ParseToFloat());
