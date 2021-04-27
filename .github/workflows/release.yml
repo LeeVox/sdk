@@ -48,7 +48,7 @@ jobs:
           tag_name: v${{ env.BUILD_VERSION }}
           release_name: Version ${{ env.BUILD_VERSION }}
           draft: false
-          pre_release: false
+          prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: publish nuget
