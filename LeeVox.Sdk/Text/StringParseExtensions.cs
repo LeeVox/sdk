@@ -8,7 +8,7 @@ namespace LeeVox.Sdk
         #region generic parsing
 
         /// <summary>
-        /// Try to convert the specified <c>System.String</c> to <c>Nullable<TResult></c> type using <c>Convert.ChangeType</c> function.
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{TResult}"/> type using <see cref="Convert.ChangeType"/> function.
         /// </summary>
         /// <remarks>returns <c>null</c> if the conversion fails.</remarks>
         public static TResult? ParseTo<TResult>(this string text)
@@ -25,7 +25,7 @@ namespace LeeVox.Sdk
         }
 
         /// <summary>
-        /// Try to convert the specified <c>System.String</c> to <c>Nullable<TResult></c> type using <c>Convert.ChangeType</c> function and a <c>FormatProvider</c>.
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{TResult}"/> type using <see cref="Convert.ChangeType"/> function and a <see cref="FormatProvider"/>.
         /// </summary>
         /// <remarks>returns <c>null</c> if the conversion fails.</remarks>
         public static TResult? ParseTo<TResult>(this string text, IFormatProvider provider)
@@ -42,7 +42,7 @@ namespace LeeVox.Sdk
         }
 
         /// <summary>
-        /// Try to convert the specified <c>System.String</c> to <c>Nullable<TResult></c> type using <c>Convert.ChangeType</c> function.
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{TResult}"/> type using <see cref="Convert.ChangeType"/> function.
         /// </summary>
         /// <param name="returnValueIfError">returns value if cannot convert</param>
         public static TResult ParseTo<TResult>(this string text, TResult returnValueIfError)
@@ -59,7 +59,7 @@ namespace LeeVox.Sdk
         }
 
         /// <summary>
-        /// Try to convert the specified <c>System.String</c> to <c>Nullable<TResult></c> type using <c>Convert.ChangeType</c> function and a <c>FormatProvider</c>.
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{TResult}"/> type using <see cref="Convert.ChangeType"/> function and a <see cref="FormatProvider"/>.
         /// </summary>
         /// <param name="returnValueIfError">returns value if cannot convert</param>
         public static TResult ParseTo<TResult>(this string text, IFormatProvider provider, TResult returnValueIfError)
@@ -80,7 +80,7 @@ namespace LeeVox.Sdk
         #region parse to boolean
 
         /// <summary>
-        /// Try to convert the specified <c>System.String</c> to <c>Nullable<Boolean></c> type using <c>TryParse</c> function.
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{Boolean}"/> type using <see cref="bool.TryParse"/> function.
         /// </summary>
         /// <remarks>returns <c>null</c> if the conversion fails.</remarks>
         public static bool? ParseToBoolean(this string text)
@@ -89,7 +89,7 @@ namespace LeeVox.Sdk
         }
 
         /// <summary>
-        /// Try to convert the specified <c>System.String</c> to <c>Nullable<Boolean></c> type using <c>TryParse</c> function.
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{Boolean}"/> type using <see cref="bool.TryParse"/> function.
         /// </summary>
         /// <param name="returnValueIfError">returns value if cannot convert</param>
         public static bool ParseToBoolean(this string text, bool returnValueIfError)
@@ -102,7 +102,7 @@ namespace LeeVox.Sdk
         #region parse to byte
 
         /// <summary>
-        /// Try to convert the specified <c>System.String</c> to <c>Nullable<Byte></c> type using <c>TryParse</c> function.
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{Byte}"/> type using <see cref="byte.TryParse"/> function.
         /// </summary>
         /// <remarks>returns <c>null</c> if the conversion fails.</remarks>
         public static byte? ParseToByte(this string text)
@@ -111,7 +111,7 @@ namespace LeeVox.Sdk
         }
 
         /// <summary>
-        /// Try to convert the specified <c>System.String</c> to <c>Nullable<Byte></c> type using <c>TryParse</c> function.
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{Byte}"/> type using <see cref="byte.TryParse"/> function.
         /// </summary>
         /// <remarks>returns <c>null</c> if the conversion fails.</remarks>
         public static byte? ParseToByte(this string text, NumberStyles styles, IFormatProvider provider)
@@ -120,7 +120,7 @@ namespace LeeVox.Sdk
         }
 
         /// <summary>
-        /// Try to convert the specified <c>System.String</c> to <c>Nullable<Byte></c> type using <c>TryParse</c> function.
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{Byte}"/> type using <see cref="byte.TryParse"/> function.
         /// </summary>
         /// <param name="returnValueIfError">returns value if cannot convert</param>
         public static byte ParseToByte(this string text, byte returnValueIfError)
@@ -129,7 +129,7 @@ namespace LeeVox.Sdk
         }
 
         /// <summary>
-        /// Try to convert the specified <c>System.String</c> to <c>Nullable<Byte></c> type using <c>TryParse</c> function.
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{Byte}"/> type using <see cref="byte.TryParse"/> function.
         /// </summary>
         /// <param name="returnValueIfError">returns value if cannot convert</param>
         public static byte ParseToByte(this string text, NumberStyles styles, IFormatProvider provider, byte returnValueIfError)
@@ -139,10 +139,130 @@ namespace LeeVox.Sdk
 
         #endregion
 
+        #region parse to sbyte
+
+        /// <summary>
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{sbyte}"/> type using <see cref="sbyte.TryParse"/> function.
+        /// </summary>
+        /// <remarks>returns <c>null</c> if the conversion fails.</remarks>
+        public static sbyte? ParseToSByte(this string text)
+        {
+            return sbyte.TryParse(text, out sbyte result) ? result : (sbyte?)null;
+        }
+
+        /// <summary>
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{sbyte}"/> type using <see cref="sbyte.TryParse"/> function.
+        /// </summary>
+        /// <remarks>returns <c>null</c> if the conversion fails.</remarks>
+        public static sbyte? ParseToSByte(this string text, NumberStyles styles, IFormatProvider provider)
+        {
+            return sbyte.TryParse(text, styles, provider, out sbyte result) ? result : (sbyte?)null;
+        }
+
+        /// <summary>
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{sbyte}"/> type using <see cref="sbyte.TryParse"/> function.
+        /// </summary>
+        /// <param name="returnValueIfError">returns value if cannot convert</param>
+        public static sbyte ParseToSByte(this string text, sbyte returnValueIfError)
+        {
+            return sbyte.TryParse(text, out sbyte result) ? result : returnValueIfError;
+        }
+
+        /// <summary>
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{sbyte}"/> type using <see cref="sbyte.TryParse"/> function.
+        /// </summary>
+        /// <param name="returnValueIfError">returns value if cannot convert</param>
+        public static sbyte ParseToSByte(this string text, NumberStyles styles, IFormatProvider provider, sbyte returnValueIfError)
+        {
+            return sbyte.TryParse(text, styles, provider, out sbyte result) ? result : returnValueIfError;
+        }
+
+        #endregion
+
+        #region parse to short
+
+        /// <summary>
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{short}"/> type using <see cref="short.TryParse"/> function.
+        /// </summary>
+        /// <remarks>returns <c>null</c> if the conversion fails.</remarks>
+        public static short? ParseToShort(this string text)
+        {
+            return short.TryParse(text, out short result) ? result : (short?)null;
+        }
+
+        /// <summary>
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{short}"/> type using <see cref="short.TryParse"/> function.
+        /// </summary>
+        /// <remarks>returns <c>null</c> if the conversion fails.</remarks>
+        public static short? ParseToShort(this string text, NumberStyles styles, IFormatProvider provider)
+        {
+            return short.TryParse(text, styles, provider, out short result) ? result : (short?)null;
+        }
+
+        /// <summary>
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{short}"/> type using <see cref="short.TryParse"/> function.
+        /// </summary>
+        /// <param name="returnValueIfError">returns value if cannot convert</param>
+        public static short ParseToShort(this string text, short returnValueIfError)
+        {
+            return short.TryParse(text, out short result) ? result : returnValueIfError;
+        }
+
+        /// <summary>
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{short}"/> type using <see cref="short.TryParse"/> function.
+        /// </summary>
+        /// <param name="returnValueIfError">returns value if cannot convert</param>
+        public static short ParseToShort(this string text, NumberStyles styles, IFormatProvider provider, short returnValueIfError)
+        {
+            return short.TryParse(text, styles, provider, out short result) ? result : returnValueIfError;
+        }
+
+        #endregion
+
+        #region parse to ushort
+
+        /// <summary>
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{ushort}"/> type using <see cref="ushort.TryParse"/> function.
+        /// </summary>
+        /// <remarks>returns <c>null</c> if the conversion fails.</remarks>
+        public static ushort? ParseToUShort(this string text)
+        {
+            return ushort.TryParse(text, out ushort result) ? result : (ushort?)null;
+        }
+
+        /// <summary>
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{ushort}"/> type using <see cref="ushort.TryParse"/> function.
+        /// </summary>
+        /// <remarks>returns <c>null</c> if the conversion fails.</remarks>
+        public static ushort? ParseToUShort(this string text, NumberStyles styles, IFormatProvider provider)
+        {
+            return ushort.TryParse(text, styles, provider, out ushort result) ? result : (ushort?)null;
+        }
+
+        /// <summary>
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{ushort}"/> type using <see cref="ushort.TryParse"/> function.
+        /// </summary>
+        /// <param name="returnValueIfError">returns value if cannot convert</param>
+        public static ushort ParseToUShort(this string text, ushort returnValueIfError)
+        {
+            return ushort.TryParse(text, out ushort result) ? result : returnValueIfError;
+        }
+
+        /// <summary>
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{ushort}"/> type using <see cref="ushort.TryParse"/> function.
+        /// </summary>
+        /// <param name="returnValueIfError">returns value if cannot convert</param>
+        public static ushort ParseToUShort(this string text, NumberStyles styles, IFormatProvider provider, ushort returnValueIfError)
+        {
+            return ushort.TryParse(text, styles, provider, out ushort result) ? result : returnValueIfError;
+        }
+
+        #endregion
+
         #region parse to int
 
         /// <summary>
-        /// Try to convert the specified <c>System.String</c> to <c>Nullable<Integer></c> type using <c>TryParse</c> function.
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{Integer}"/> type using <see cref="int.TryParse"/> function.
         /// </summary>
         /// <remarks>returns <c>null</c> if the conversion fails.</remarks>
         public static int? ParseToInt(this string text)
@@ -151,7 +271,7 @@ namespace LeeVox.Sdk
         }
 
         /// <summary>
-        /// Try to convert the specified <c>System.String</c> to <c>Nullable<Integer></c> type using <c>TryParse</c> function.
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{Integer}"/> type using <see cref="int.TryParse"/> function.
         /// </summary>
         /// <remarks>returns <c>null</c> if the conversion fails.</remarks>
         public static int? ParseToInt(this string text, NumberStyles styles, IFormatProvider provider)
@@ -160,7 +280,7 @@ namespace LeeVox.Sdk
         }
 
         /// <summary>
-        /// Try to convert the specified <c>System.String</c> to <c>Nullable<Integer></c> type using <c>TryParse</c> function.
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{Integer}"/> type using <see cref="int.TryParse"/> function.
         /// </summary>
         /// <param name="returnValueIfError">returns value if cannot convert</param>
         public static int ParseToInt(this string text, int returnValueIfError)
@@ -169,7 +289,7 @@ namespace LeeVox.Sdk
         }
 
         /// <summary>
-        /// Try to convert the specified <c>System.String</c> to <c>Nullable<Integer></c> type using <c>TryParse</c> function.
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{Integer}"/> type using <see cref="int.TryParse"/> function.
         /// </summary>
         /// <param name="returnValueIfError">returns value if cannot convert</param>
         public static int ParseToInt(this string text, NumberStyles styles, IFormatProvider provider, int returnValueIfError)
@@ -182,7 +302,7 @@ namespace LeeVox.Sdk
         #region parse to uint
 
         /// <summary>
-        /// Try to convert the specified <c>System.String</c> to <c>Nullable<UInteger></c> type using <c>TryParse</c> function.
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{uint}"/> type using <see cref="uint.TryParse"/> function.
         /// </summary>
         /// <remarks>returns <c>null</c> if the conversion fails.</remarks>
         public static uint? ParseToUInt(this string text)
@@ -191,7 +311,7 @@ namespace LeeVox.Sdk
         }
 
         /// <summary>
-        /// Try to convert the specified <c>System.String</c> to <c>Nullable<UInteger></c> type using <c>TryParse</c> function.
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{uint}"/> type using <see cref="uint.TryParse"/> function.
         /// </summary>
         /// <remarks>returns <c>null</c> if the conversion fails.</remarks>
         public static uint? ParseToUInt(this string text, NumberStyles styles, IFormatProvider provider)
@@ -200,7 +320,7 @@ namespace LeeVox.Sdk
         }
 
         /// <summary>
-        /// Try to convert the specified <c>System.String</c> to <c>Nullable<UInteger></c> type using <c>TryParse</c> function.
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{uint}"/> type using <see cref="uint.TryParse"/> function.
         /// </summary>
         /// <param name="returnValueIfError">returns value if cannot convert</param>
         public static uint ParseToUInt(this string text, uint returnValueIfError)
@@ -209,7 +329,7 @@ namespace LeeVox.Sdk
         }
 
         /// <summary>
-        /// Try to convert the specified <c>System.String</c> to <c>Nullable<UInteger></c> type using <c>TryParse</c> function.
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{uint}"/> type using <see cref="uint.TryParse"/> function.
         /// </summary>
         /// <param name="returnValueIfError">returns value if cannot convert</param>
         public static uint ParseToUInt(this string text, NumberStyles styles, IFormatProvider provider, uint returnValueIfError)
@@ -222,7 +342,7 @@ namespace LeeVox.Sdk
         #region parse to long
 
         /// <summary>
-        /// Try to convert the specified <c>System.String</c> to <c>Nullable<Long></c> type using <c>TryParse</c> function.
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{Long}"/> type using <see cref="long.TryParse"/> function.
         /// </summary>
         /// <remarks>returns <c>null</c> if the conversion fails.</remarks>
         public static long? ParseToLong(this string text)
@@ -231,7 +351,7 @@ namespace LeeVox.Sdk
         }
 
         /// <summary>
-        /// Try to convert the specified <c>System.String</c> to <c>Nullable<Long></c> type using <c>TryParse</c> function.
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{Long}"/> type using <see cref="long.TryParse"/> function.
         /// </summary>
         /// <remarks>returns <c>null</c> if the conversion fails.</remarks>
         public static long? ParseToLong(this string text, NumberStyles styles, IFormatProvider provider)
@@ -240,7 +360,7 @@ namespace LeeVox.Sdk
         }
 
         /// <summary>
-        /// Try to convert the specified <c>System.String</c> to <c>Nullable<Long></c> type using <c>TryParse</c> function.
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{Long}"/> type using <see cref="long.TryParse"/> function.
         /// </summary>
         /// <param name="returnValueIfError">returns value if cannot convert</param>
         public static long ParseToLong(this string text, long returnValueIfError)
@@ -249,7 +369,7 @@ namespace LeeVox.Sdk
         }
 
         /// <summary>
-        /// Try to convert the specified <c>System.String</c> to <c>Nullable<Long></c> type using <c>TryParse</c> function.
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{Long}"/> type using <see cref="long.TryParse"/> function.
         /// </summary>
         /// <param name="returnValueIfError">returns value if cannot convert</param>
         public static long ParseToLong(this string text, NumberStyles styles, IFormatProvider provider, long returnValueIfError)
@@ -262,7 +382,7 @@ namespace LeeVox.Sdk
         #region parse to ulong
 
         /// <summary>
-        /// Try to convert the specified <c>System.String</c> to <c>Nullable<ULong></c> type using <c>TryParse</c> function.
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{ulong}"/> type using <see cref="ulong.TryParse"/> function.
         /// </summary>
         /// <remarks>returns <c>null</c> if the conversion fails.</remarks>
         public static ulong? ParseToULong(this string text)
@@ -271,7 +391,7 @@ namespace LeeVox.Sdk
         }
 
         /// <summary>
-        /// Try to convert the specified <c>System.String</c> to <c>Nullable<ULong></c> type using <c>TryParse</c> function.
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{ulong}"/> type using <see cref="ulong.TryParse"/> function.
         /// </summary>
         /// <remarks>returns <c>null</c> if the conversion fails.</remarks>
         public static ulong? ParseToULong(this string text, NumberStyles styles, IFormatProvider provider)
@@ -280,7 +400,7 @@ namespace LeeVox.Sdk
         }
 
         /// <summary>
-        /// Try to convert the specified <c>System.String</c> to <c>Nullable<ULong></c> type using <c>TryParse</c> function.
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{ulong}"/> type using <see cref="ulong.TryParse"/> function.
         /// </summary>
         /// <param name="returnValueIfError">returns value if cannot convert</param>
         public static ulong ParseToULong(this string text, ulong returnValueIfError)
@@ -289,7 +409,7 @@ namespace LeeVox.Sdk
         }
 
         /// <summary>
-        /// Try to convert the specified <c>System.String</c> to <c>Nullable<ULong></c> type using <c>TryParse</c> function.
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{ulong}"/> type using <see cref="ulong.TryParse"/> function.
         /// </summary>
         /// <param name="returnValueIfError">returns value if cannot convert</param>
         public static ulong ParseToULong(this string text, NumberStyles styles, IFormatProvider provider, ulong returnValueIfError)
@@ -302,7 +422,7 @@ namespace LeeVox.Sdk
         #region parse to float
 
         /// <summary>
-        /// Try to convert the specified <c>System.String</c> to <c>Nullable<Float></c> type using <c>TryParse</c> function.
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{Float}"/> type using <see cref="float.TryParse"/> function.
         /// </summary>
         /// <remarks>returns <c>null</c> if the conversion fails.</remarks>
         public static float? ParseToFloat(this string text)
@@ -311,7 +431,7 @@ namespace LeeVox.Sdk
         }
 
         /// <summary>
-        /// Try to convert the specified <c>System.String</c> to <c>Nullable<Float></c> type using <c>TryParse</c> function.
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{Float}"/> type using <see cref="float.TryParse"/> function.
         /// </summary>
         /// <remarks>returns <c>null</c> if the conversion fails.</remarks>
         public static float? ParseToFloat(this string text, NumberStyles styles, IFormatProvider provider)
@@ -320,7 +440,7 @@ namespace LeeVox.Sdk
         }
 
         /// <summary>
-        /// Try to convert the specified <c>System.String</c> to <c>Nullable<Float></c> type using <c>TryParse</c> function.
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{Float}"/> type using <see cref="float.TryParse"/> function.
         /// </summary>
         /// <param name="returnValueIfError">returns value if cannot convert</param>
         public static float ParseToFloat(this string text, float returnValueIfError)
@@ -329,7 +449,7 @@ namespace LeeVox.Sdk
         }
 
         /// <summary>
-        /// Try to convert the specified <c>System.String</c> to <c>Nullable<Float></c> type using <c>TryParse</c> function.
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{Float}"/> type using <see cref="float.TryParse"/> function.
         /// </summary>
         /// <param name="returnValueIfError">returns value if cannot convert</param>
         public static float ParseToFloat(this string text, NumberStyles styles, IFormatProvider provider, float returnValueIfError)
@@ -342,7 +462,7 @@ namespace LeeVox.Sdk
         #region parse to double
 
         /// <summary>
-        /// Try to convert the specified <c>System.String</c> to <c>Nullable<Double></c> type using <c>TryParse</c> function.
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{Double}"/> type using <see cref="double.TryParse"/> function.
         /// </summary>
         /// <remarks>returns <c>null</c> if the conversion fails.</remarks>
         public static double? ParseToDouble(this string text)
@@ -351,7 +471,7 @@ namespace LeeVox.Sdk
         }
 
         /// <summary>
-        /// Try to convert the specified <c>System.String</c> to <c>Nullable<Double></c> type using <c>TryParse</c> function.
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{Double}"/> type using <see cref="double.TryParse"/> function.
         /// </summary>
         /// <remarks>returns <c>null</c> if the conversion fails.</remarks>
         public static double? ParseToDouble(this string text, NumberStyles styles, IFormatProvider provider)
@@ -360,7 +480,7 @@ namespace LeeVox.Sdk
         }
 
         /// <summary>
-        /// Try to convert the specified <c>System.String</c> to <c>Nullable<Double></c> type using <c>TryParse</c> function.
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{Double}"/> type using <see cref="double.TryParse"/> function.
         /// </summary>
         /// <param name="returnValueIfError">returns value if cannot convert</param>
         public static double ParseToDouble(this string text, double returnValueIfError)
@@ -369,7 +489,7 @@ namespace LeeVox.Sdk
         }
 
         /// <summary>
-        /// Try to convert the specified <c>System.String</c> to <c>Nullable<Double></c> type using <c>TryParse</c> function.
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{Double}"/> type using <see cref="double.TryParse"/> function.
         /// </summary>
         /// <param name="returnValueIfError">returns value if cannot convert</param>
         public static double ParseToDouble(this string text, NumberStyles styles, IFormatProvider provider, double returnValueIfError)
@@ -382,7 +502,7 @@ namespace LeeVox.Sdk
         #region parse to decimal
 
         /// <summary>
-        /// Try to convert the specified <c>System.String</c> to <c>Nullable<Decimal></c> type using <c>TryParse</c> function.
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{Decimal}"/> type using <see cref="decimal.TryParse"/> function.
         /// </summary>
         /// <remarks>returns <c>null</c> if the conversion fails.</remarks>
         public static decimal? ParseToDecimal(this string text)
@@ -391,7 +511,7 @@ namespace LeeVox.Sdk
         }
 
         /// <summary>
-        /// Try to convert the specified <c>System.String</c> to <c>Nullable<Decimal></c> type using <c>TryParse</c> function.
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{Decimal}"/> type using <see cref="decimal.TryParse"/> function.
         /// </summary>
         /// <remarks>returns <c>null</c> if the conversion fails.</remarks>
         public static decimal? ParseToDecimal(this string text, NumberStyles styles, IFormatProvider provider)
@@ -400,7 +520,7 @@ namespace LeeVox.Sdk
         }
 
         /// <summary>
-        /// Try to convert the specified <c>System.String</c> to <c>Nullable<Decimal></c> type using <c>TryParse</c> function.
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{Decimal}"/> type using <see cref="decimal.TryParse"/> function.
         /// </summary>
         /// <param name="returnValueIfError">returns value if cannot convert</param>
         public static decimal ParseToDecimal(this string text, decimal returnValueIfError)
@@ -409,7 +529,7 @@ namespace LeeVox.Sdk
         }
 
         /// <summary>
-        /// Try to convert the specified <c>System.String</c> to <c>Nullable<Decimal></c> type using <c>TryParse</c> function.
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{Decimal}"/> type using <see cref="decimal.TryParse"/> function.
         /// </summary>
         /// <param name="returnValueIfError">returns value if cannot convert</param>
         public static decimal ParseToDecimal(this string text, NumberStyles styles, IFormatProvider provider, decimal returnValueIfError)
@@ -422,7 +542,7 @@ namespace LeeVox.Sdk
         #region parse to datetime
 
         /// <summary>
-        /// Try to convert the specified <c>System.String</c> to <c>Nullable<DateTime></c> type using <c>TryParse</c> function.
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{DateTime}"/> type using <see cref="DateTime.TryParse"/> function.
         /// </summary>
         /// <remarks>returns <c>null</c> if the conversion fails.</remarks>
         public static DateTime? ParseToDateTime(this string text)
@@ -431,7 +551,7 @@ namespace LeeVox.Sdk
         }
 
         /// <summary>
-        /// Try to convert the specified <c>System.String</c> to <c>Nullable<DateTime></c> type using <c>TryParse</c> function.
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{DateTime}"/> type using <see cref="DateTime.TryParse"/> function.
         /// </summary>
         /// <remarks>returns <c>null</c> if the conversion fails.</remarks>
         public static DateTime? ParseToDateTime(this string text, DateTimeStyles styles, IFormatProvider provider)
@@ -440,7 +560,7 @@ namespace LeeVox.Sdk
         }
 
         /// <summary>
-        /// Try to convert the specified <c>System.String</c> to <c>Nullable<DateTime></c> type using <c>TryParse</c> function.
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{DateTime}"/> type using <see cref="DateTime.TryParse"/> function.
         /// </summary>
         /// <param name="returnValueIfError">returns value if cannot convert</param>
         public static DateTime ParseToDateTime(this string text, DateTime returnValueIfError)
@@ -449,7 +569,7 @@ namespace LeeVox.Sdk
         }
 
         /// <summary>
-        /// Try to convert the specified <c>System.String</c> to <c>Nullable<DateTime></c> type using <c>TryParse</c> function.
+        /// Try to convert the specified <see cref="String"/> to <see cref="Nullable{DateTime}"/> type using <see cref="DateTime.TryParse"/> function.
         /// </summary>
         /// <param name="returnValueIfError">returns value if cannot convert</param>
         public static DateTime ParseToDateTime(this string text, DateTimeStyles styles, IFormatProvider provider, DateTime returnValueIfError)
