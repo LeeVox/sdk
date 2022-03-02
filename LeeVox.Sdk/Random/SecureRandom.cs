@@ -15,13 +15,18 @@ namespace LeeVox.Sdk
     /// </remarks>
     public class SecureRandom : IRandom, IDisposable
     {
-        private RNGCryptoServiceProvider _random;
+        private RandomNumberGenerator _random;
 
         #region constructors
 
         public SecureRandom()
         {
-            _random = new RNGCryptoServiceProvider();
+            _random = RandomNumberGenerator.Create();
+        }
+
+        public SecureRandom(RandomNumberGenerator randomNumberGenerator)
+        {
+            _random = randomNumberGenerator;
         }
 
         #endregion
@@ -49,7 +54,8 @@ namespace LeeVox.Sdk
         {
             if (maxValue < minValue)
                 throw new ArgumentOutOfRangeException(nameof(maxValue), $"{nameof(maxValue)} must greater than or equal to {minValue}.");
-            return (byte)(minValue + (maxValue - minValue) * NextDouble());
+            var nextDouble = NextDouble();
+            return (byte)(minValue + maxValue*nextDouble - minValue*nextDouble);
         }
 
         #endregion
@@ -85,7 +91,8 @@ namespace LeeVox.Sdk
         {
             if (maxValue < minValue)
                 throw new ArgumentOutOfRangeException(nameof(maxValue), $"{nameof(maxValue)} must greater than or equal to {minValue}.");
-            return (sbyte)(minValue + (maxValue - minValue) * NextDouble());
+            var nextDouble = NextDouble();
+            return (sbyte)(minValue + maxValue*nextDouble - minValue*nextDouble);
         }
 
         #endregion
@@ -105,7 +112,8 @@ namespace LeeVox.Sdk
         {
             if (maxValue < minValue)
                 throw new ArgumentOutOfRangeException(nameof(maxValue), $"{nameof(maxValue)} must greater than or equal to {minValue}.");
-            return (short)(minValue + (maxValue - minValue) * NextDouble());
+            var nextDouble = NextDouble();
+            return (short)(minValue + maxValue*nextDouble - minValue*nextDouble);
         }
 
         #endregion
@@ -125,7 +133,8 @@ namespace LeeVox.Sdk
         {
             if (maxValue < minValue)
                 throw new ArgumentOutOfRangeException(nameof(maxValue), $"{nameof(maxValue)} must greater than or equal to {minValue}.");
-            return (ushort)(minValue + (maxValue - minValue) * NextDouble());
+            var nextDouble = NextDouble();
+            return (ushort)(minValue + maxValue*nextDouble - minValue*nextDouble);
         }
 
         #endregion
@@ -145,7 +154,8 @@ namespace LeeVox.Sdk
         {
             if (maxValue < minValue)
                 throw new ArgumentOutOfRangeException(nameof(maxValue), $"{nameof(maxValue)} must greater than or equal to {minValue}.");
-            return (int)(minValue + (maxValue - minValue) * NextDouble());
+            var nextDouble = NextDouble();
+            return (int)(minValue + maxValue*nextDouble - minValue*nextDouble);
         }
 
         #endregion
@@ -165,7 +175,8 @@ namespace LeeVox.Sdk
         {
             if (maxValue < minValue)
                 throw new ArgumentOutOfRangeException(nameof(maxValue), $"{nameof(maxValue)} must greater than or equal to {minValue}.");
-            return (uint)(minValue + (maxValue - minValue) * NextDouble());
+            var nextDouble = NextDouble();
+            return (uint)(minValue + maxValue*nextDouble - minValue*nextDouble);
         }
 
         #endregion
@@ -185,7 +196,8 @@ namespace LeeVox.Sdk
         {
             if (maxValue < minValue)
                 throw new ArgumentOutOfRangeException(nameof(maxValue), $"{nameof(maxValue)} must greater than or equal to {minValue}.");
-            return (long)(minValue + (maxValue - minValue) * NextDouble());
+            var nextDouble = NextDouble();
+            return (long)(minValue + maxValue*nextDouble - minValue*nextDouble);
         }
 
         #endregion
@@ -205,7 +217,8 @@ namespace LeeVox.Sdk
         {
             if (maxValue < minValue)
                 throw new ArgumentOutOfRangeException(nameof(maxValue), $"{nameof(maxValue)} must greater than or equal to {minValue}.");
-            return (ulong)(minValue + (maxValue - minValue) * NextDouble());
+            var nextDouble = NextDouble();
+            return (ulong)(minValue + maxValue*nextDouble - minValue*nextDouble);
         }
 
         #endregion
@@ -221,7 +234,8 @@ namespace LeeVox.Sdk
         {
             if (maxValue < minValue)
                 throw new ArgumentOutOfRangeException(nameof(maxValue), $"{nameof(maxValue)} must greater than or equal to {minValue}.");
-            return (float)(minValue + (maxValue - minValue) * NextFloat());
+            var nextFloat = NextFloat();
+            return (float)(minValue + maxValue*nextFloat - minValue*nextFloat);
         }
 
         #endregion
@@ -237,7 +251,8 @@ namespace LeeVox.Sdk
         {
             if (maxValue < minValue)
                 throw new ArgumentOutOfRangeException(nameof(maxValue), $"{nameof(maxValue)} must greater than or equal to {minValue}.");
-            return (double)(minValue + (maxValue - minValue) * NextDouble());
+            var nextDouble = NextDouble();
+            return (double)(minValue + maxValue*nextDouble - minValue*nextDouble);
         }
 
         #endregion
@@ -253,7 +268,8 @@ namespace LeeVox.Sdk
         {
             if (maxValue < minValue)
                 throw new ArgumentOutOfRangeException(nameof(maxValue), $"{nameof(maxValue)} must greater than or equal to {minValue}.");
-            return minValue + (maxValue - minValue) * (decimal)NextDouble();
+            var nextDouble = (decimal)NextDouble();
+            return minValue + maxValue*nextDouble - minValue*nextDouble;
         }
 
         #endregion
@@ -285,7 +301,8 @@ namespace LeeVox.Sdk
         {
             if (maxValue < minValue)
                 throw new ArgumentOutOfRangeException(nameof(maxValue), $"{nameof(maxValue)} must greater than or equal to {minValue}.");
-            return (char)(minValue + (maxValue - minValue) * NextDouble());
+            var nextDouble = NextDouble();
+            return (char)(minValue + maxValue*nextDouble - minValue*nextDouble);
         }
 
         #endregion
