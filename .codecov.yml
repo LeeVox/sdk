@@ -1,2 +1,10 @@
 ignore:
   - "LeeVox.Sdk/Lib"
+coverage:
+  status:
+    project:
+      default:
+        target: 85%
+    patch:
+      default:
+        target: 85%
