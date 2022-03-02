@@ -1,4 +1,4 @@
 codecov:
   token: 9e7ab9f1-913c-4467-b0e8-acbffd909a69
 ignore:
-  - "LeeVox.Sdk/Lib/**/*"
+  - "LeeVox.Sdk/Lib"

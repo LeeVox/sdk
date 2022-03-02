@@ -7,8 +7,8 @@ namespace LeeVox.Sdk.Test
 {
     public class RandomTests
     {
-        private static IRandom random;
-        private static IRandom secureRandom;
+        private static Random random;
+        private static SecureRandom secureRandom;
 
         public RandomTests()
         {
