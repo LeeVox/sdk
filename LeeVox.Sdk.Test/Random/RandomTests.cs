@@ -131,5 +131,45 @@ namespace LeeVox.Sdk.Test
             }
             set.Count.Should().BeGreaterOrEqualTo((int)(count*threshold), "(test data index: {0})", testDataIndex);
         }
+
+        [Fact]
+        public void ShouldThrowExceptionWhenRangeIsInvalid()
+        {
+            random.Invoking(x => x.NextByte(2, 1)).Should().Throw<ArgumentOutOfRangeException>();
+            random.Invoking(x => x.NextSByte(2, 1)).Should().Throw<ArgumentOutOfRangeException>();
+            random.Invoking(x => x.NextShort(2, 1)).Should().Throw<ArgumentOutOfRangeException>();
+            random.Invoking(x => x.NextUShort(2, 1)).Should().Throw<ArgumentOutOfRangeException>();
+            random.Invoking(x => x.NextInt(2, 1)).Should().Throw<ArgumentOutOfRangeException>();
+            random.Invoking(x => x.NextLong(2, 1)).Should().Throw<ArgumentOutOfRangeException>();
+            random.Invoking(x => x.NextULong(2, 1)).Should().Throw<ArgumentOutOfRangeException>();
+            random.Invoking(x => x.NextFloat(2, 1)).Should().Throw<ArgumentOutOfRangeException>();
+            random.Invoking(x => x.NextDouble(2, 1)).Should().Throw<ArgumentOutOfRangeException>();
+            random.Invoking(x => x.NextDecimal(2, 1)).Should().Throw<ArgumentOutOfRangeException>();
+            random.Invoking(x => x.NextDateTime(DateTime.MaxValue, DateTime.MinValue)).Should().Throw<ArgumentOutOfRangeException>();
+            random.Invoking(x => x.NextChar('2', '1')).Should().Throw<ArgumentOutOfRangeException>();
+
+            secureRandom.Invoking(x => x.NextByte(2, 1)).Should().Throw<ArgumentOutOfRangeException>();
+            secureRandom.Invoking(x => x.NextSByte(2, 1)).Should().Throw<ArgumentOutOfRangeException>();
+            secureRandom.Invoking(x => x.NextShort(2, 1)).Should().Throw<ArgumentOutOfRangeException>();
+            secureRandom.Invoking(x => x.NextUShort(2, 1)).Should().Throw<ArgumentOutOfRangeException>();
+            secureRandom.Invoking(x => x.NextInt(2, 1)).Should().Throw<ArgumentOutOfRangeException>();
+            secureRandom.Invoking(x => x.NextLong(2, 1)).Should().Throw<ArgumentOutOfRangeException>();
+            secureRandom.Invoking(x => x.NextULong(2, 1)).Should().Throw<ArgumentOutOfRangeException>();
+            secureRandom.Invoking(x => x.NextFloat(2, 1)).Should().Throw<ArgumentOutOfRangeException>();
+            secureRandom.Invoking(x => x.NextDouble(2, 1)).Should().Throw<ArgumentOutOfRangeException>();
+            secureRandom.Invoking(x => x.NextDecimal(2, 1)).Should().Throw<ArgumentOutOfRangeException>();
+            secureRandom.Invoking(x => x.NextDateTime(DateTime.MaxValue, DateTime.MinValue)).Should().Throw<ArgumentOutOfRangeException>();
+            secureRandom.Invoking(x => x.NextChar('2', '1')).Should().Throw<ArgumentOutOfRangeException>();
+        }
+
+        [Fact]
+        public void ShouldDispose()
+        {
+            var random = new Random();
+            random.Invoking(r => r.Dispose()).Should().NotThrow();
+
+            var secureRandom = new SecureRandom();
+            secureRandom.Invoking(r => r.Dispose()).Should().NotThrow();
+        }
     }
 }
