@@ -15,10 +15,10 @@ jobs:
       fail-fast: false
       matrix:
         os: ['windows-latest']
-        sdk: ['5.0.x']
+        sdk: ['6.0.x']
         config: ['Release']
         target:
-          - 'net5'
+          - 'net6'
     runs-on: ${{ matrix.os }}
     steps:
       - name: checkout
@@ -48,7 +48,7 @@ jobs:
           tag_name: v${{ env.BUILD_VERSION }}
           release_name: Version ${{ env.BUILD_VERSION }}
           draft: false
-          pre_release: false
+          prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: publish nuget

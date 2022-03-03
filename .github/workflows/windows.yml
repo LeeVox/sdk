@@ -15,10 +15,10 @@ jobs:
       fail-fast: false
       matrix:
         os: ['windows-latest']
-        sdk: ['5.0.x']
-        config: ['Debug', 'Release']
+        sdk: ['6.0.x']
+        config: ['Debug']
         target:
-          - 'net5'
+          - 'net6'
     runs-on: ${{ matrix.os }}
     steps:
       - name: checkout
@@ -41,14 +41,11 @@ jobs:
       - name: test
         run: dotnet test LeeVox.Sdk.Test -f ${{ matrix.target }} -c ${{ matrix.config }} -p:TargetFrameworks=${{ matrix.target }} -p:CollectCoverage=true -p:CoverletOutputFormat=cobertura -p:CoverletOutput=TestResults/Coverage/
       - name: upload code coverage
-        continue-on-error: true
-        run: |
-          chmod +x $CODECOV
-          $CODECOV -B $GITHUB_REF -n "os $OS - sdk $SDK - target $TARGET - config $CONFIG"
-        shell: sh -e {0}
+        uses: codecov/codecov-action@v2
+        with:
+          name: "os $OS - sdk $SDK - target $TARGET - config $CONFIG"
         env:
           OS: ${{ matrix.os }}
           SDK: ${{ matrix.sdk }}
           TARGET: ${{ matrix.target }}
           CONFIG: ${{ matrix.config }}
-          CODECOV: ${{ github.workspace }}/.github/workflows/codecov.sh
